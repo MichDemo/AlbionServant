@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -28,16 +30,18 @@ public class MainApp extends Application {
     public void start(Stage stage) {
         GreetingService service = context.getBean(GreetingService.class);
 
-        Label label = new Label(service.getGreeting());
-        Button button = new Button("Process");
-        button.setOnAction(e -> label.setText(service.process("World")));
-
-        VBox root = new VBox(12, label, button);
+        VBox root = new VBox(12);
         root.setAlignment(Pos.CENTER);
+        root.setBackground(new Background(new BackgroundFill(AppConfig.BACKGROUND_MAIN, null, null)));
 
-        Scene scene = new Scene(root, 480, 240);
-        stage.setTitle("JavaFX + Spring + MongoDB (template)");
+        TopNavigationBar topBar = new TopNavigationBar();
+
+        root.getChildren().add(topBar);
+
+        Scene scene = new Scene(root, 1280, 960);
+        stage.setTitle("AlbionServant App");
         stage.setScene(scene);
+
         stage.show();
     }
 
