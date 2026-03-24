@@ -1,5 +1,11 @@
-C:\Users\micha\Pictures\AlbionServant\src\main\java\com\example\app\MainApp.java
-C:\Users\micha\Pictures\AlbionServant\src\main\java\com\example\app\Launcher.java
-C:\Users\micha\Pictures\AlbionServant\src\main\java\com\example\app\AppConfig.java
-C:\Users\micha\Pictures\AlbionServant\src\main\java\com\example\app\GreetingService.java
-C:\Users\micha\Pictures\AlbionServant\src\main\java\com\example\app\TopNavigationBar.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\Launcher.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\elements\CraftCategory.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\GreetingService.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\CraftData.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\InvestmentData.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\TopNavigationBar.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\AppConfig.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\elements\InvestmentItem.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\CraftPanel.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\MainApp.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\HotInvestmentsPanel.java

@@ -1,5 +1,5 @@
 
-package com.example.app;
+package com.albionservant;
 
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,5 @@
 
-package com.example.app;
+package com.albionservant;
 
 import javafx.scene.paint.Color;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +9,7 @@ public class AppConfig {
 
     public static final Color BACKGROUND_MAIN = Color.rgb(10, 20, 40);
     public static final Color TEXT_PRIMARY = Color.rgb(220, 230, 255);
+    public static final Color TEXT_SECONDARY = Color.rgb(220, 230, 255);
 // Add these to your existing AppConfig class
 
     /** Tab bar background */
@@ -19,6 +20,9 @@ public class AppConfig {
 
     /** Active tab color */
     public static final Color TAB_ACTIVE = Color.rgb(200, 80, 80);
+
+
+    public static final Color BACKGROUND_PANEL = Color.rgb(200, 80, 80);
 
     /** Tab text color */
     public static final Color TAB_TEXT = Color.rgb(235, 235, 240);

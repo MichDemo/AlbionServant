@@ -1,5 +1,11 @@
-com\example\app\GreetingService.class
-com\example\app\MainApp.class
-com\example\app\AppConfig.class
-com\example\app\Launcher.class
-com\example\app\TopNavigationBar.class
+com\albionservant\gui\HotInvestmentsPanel.class
+com\albionservant\gui\TopNavigationBar.class
+com\albionservant\elements\CraftCategory.class
+com\albionservant\data\CraftData.class
+com\albionservant\AppConfig.class
+com\albionservant\data\InvestmentData.class
+com\albionservant\elements\InvestmentItem.class
+com\albionservant\Launcher.class
+com\albionservant\GreetingService.class
+com\albionservant\MainApp.class
+com\albionservant\gui\CraftPanel.class

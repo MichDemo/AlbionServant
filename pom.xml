@@ -67,8 +67,8 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.example.app.Launcher</mainClass>
-                    <launcher>com.example.app.Launcher</launcher>
+                    <mainClass>com.albionservant.Launcher</mainClass>
+                    <launcher>com.albionservant.Launcher</launcher>
                     <stripNativeCommands>false</stripNativeCommands>
                     <jlinkZip>false</jlinkZip>
                     <executable>java</executable>
