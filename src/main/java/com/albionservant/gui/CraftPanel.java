@@ -1,205 +1,216 @@
 package com.albionservant.gui;
 
 import com.albionservant.data.CraftData;
-import com.albionservant.elements.CraftCategory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CraftPanel extends VBox {
 
-    private final TextField searchField = new TextField();
-    private final HBox mainView = new HBox(60);
-    private final BorderPane splitView = new BorderPane();
-
-    private final Deque<CraftCategory> path = new ArrayDeque<>();
+    private final VBox navigationVBox = new VBox(15);
+    private final VBox mainContentVBox = new VBox(15);
+    private final HBox topBar = new HBox(15);
+    private List<String> currentPath = new ArrayList<>();
 
     public CraftPanel() {
+        // Main red panel
         setMaxWidth(1150);
         setAlignment(Pos.CENTER);
-
-        setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240), new CornerRadii(12), null)));
         setPadding(new Insets(25));
-        setSpacing(15);
+        setStyle("""
+            -fx-background-color: #ef4444;
+            -fx-background-radius: 12;
+            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 4);
+            """);
 
-        buildSearchBar();
-        buildMainCategories();
+        // === TOP BAR (breadcrumb + Back button) ===
+        topBar.setAlignment(Pos.CENTER_LEFT);
+        topBar.setPadding(new Insets(0, 0, 15, 0));
 
-        getChildren().add(mainView);
+        // Breadcrumb will be updated in refreshUI
+        Label breadcrumbLabel = new Label();
+        breadcrumbLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
+        HBox.setHgrow(breadcrumbLabel, Priority.ALWAYS);
+
+        Button backButton = new Button("← Back");
+        backButton.setStyle("""
+            -fx-background-color: #4ade80;
+            -fx-text-fill: #111;
+            -fx-font-weight: bold;
+            -fx-font-size: 14px;
+            -fx-padding: 8 20;
+            """);
+        backButton.setOnAction(e -> goBackOneLevel());
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        topBar.getChildren().addAll(breadcrumbLabel, spacer, backButton);
+
+        // Inner layout: left nav + right content
+        HBox innerLayout = new HBox(25);
+        innerLayout.setAlignment(Pos.TOP_LEFT);
+
+        // LEFT NAVIGATION - side-by-side columns
+        navigationVBox.setStyle("""
+            -fx-background-color: #f8f9fa;
+            -fx-padding: 20;
+            -fx-background-radius: 12;
+            -fx-border-color: #e5e7eb;
+            -fx-border-width: 2;
+            -fx-border-radius: 12;
+            """);
+        ScrollPane navScroll = new ScrollPane(navigationVBox);
+        navScroll.setFitToWidth(true);
+        navScroll.setPrefWidth(650);
+        navScroll.setMaxHeight(750);
+
+        // RIGHT MAIN CONTENT
+        mainContentVBox.setPrefWidth(460);
+
+        innerLayout.getChildren().addAll(navScroll, mainContentVBox);
+
+        getChildren().addAll(topBar, innerLayout);
+
+        // Start with Gear selected
+        currentPath = new ArrayList<>(List.of("Gear"));
+        refreshUI();
     }
 
-    private void buildSearchBar() {
-        searchField.setPromptText("Search...");
-        searchField.setPrefHeight(48);
-        searchField.setStyle("-fx-background-radius: 10; -fx-font-size: 16px;");
-        getChildren().add(searchField);
-    }
+    private void refreshUI() {
+        navigationVBox.getChildren().clear();
+        mainContentVBox.getChildren().clear();
 
-    private void buildMainCategories() {
-        mainView.setAlignment(Pos.CENTER);
+        // Update top breadcrumb
+        String breadcrumbText = currentPath.isEmpty() ? "Main Categories" : String.join("  ►  ", currentPath);
+        ((Label) topBar.getChildren().get(0)).setText(breadcrumbText);
 
-        Button gearBtn   = createMainButton("Gear",   "⚒️");
-        Button foodBtn   = createMainButton("Food",   "🍖");
-        Button potionBtn = createMainButton("Potion", "🧪");
+        // Show/hide Back button
+        topBar.getChildren().get(2).setVisible(currentPath.size() > 1);
 
-        gearBtn.setOnAction(e -> startGearFlow());
+        // === LEFT SIDE: SIDE-BY-SIDE COLUMNS ===
+        HBox levelsHBox = new HBox(15);
+        levelsHBox.setAlignment(Pos.TOP_LEFT);
 
-        mainView.getChildren().addAll(gearBtn, foodBtn, potionBtn);
-    }
+        for (int level = 0; level < currentPath.size(); level++) {
+            String selected = currentPath.get(level);
+            String parentKey = (level == 0) ? "ROOT" : currentPath.get(level - 1);
+            List<String> siblings = CraftData.getChildren(parentKey);
 
-    private Button createMainButton(String name, String icon) {
-        Button btn = new Button(icon + "\n\n" + name);
-        btn.setPrefSize(200, 200);
-        btn.setStyle("-fx-background-color: #e04e4e; -fx-text-fill: white; " +
-                "-fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 20;");
-        return btn;
-    }
+            VBox column = new VBox(8);
+            for (String option : siblings) {
+                boolean isSelected = option.equals(selected);
+                Button btn = createButton(option, isSelected, true);
 
-    private void startGearFlow() {
-        path.clear();
-        path.push(CraftData.getGearTree());
+                btn.setPrefWidth(155);
+                btn.setMaxWidth(Double.MAX_VALUE);
 
-        getChildren().remove(mainView);
-        getChildren().add(splitView);
-        refreshSplitView();
-    }
-
-    private void refreshSplitView() {
-        splitView.getChildren().clear();
-        splitView.setMaxWidth(1100);
-
-        // LEFT SIDE - navigation path (grayed items)
-        VBox left = buildLeftPath();
-
-        // RIGHT SIDE
-        VBox right = new VBox(20);
-        right.setPadding(new Insets(30));
-        right.setStyle("-fx-background-color: white; -fx-background-radius: 15;");
-
-        CraftCategory current = path.peek();
-
-        Label header = new Label("Choose " + current.getName() + " type");
-        header.setFont(Font.font("System", FontWeight.BOLD, 22));
-        header.setTextFill(Color.rgb(60, 60, 60));
-        right.getChildren().add(header);
-
-        // === ONLY SHOW SUBCATEGORIES IF THERE ARE CHILDREN ===
-        if (!current.getChildren().isEmpty()) {
-            GridPane grid = buildOptionGrid(current.getChildren());
-            right.getChildren().add(grid);
-        }
-
-        // Back arrow
-        Button backBtn = new Button("←");
-        backBtn.setStyle("-fx-font-size: 32px; -fx-background-color: transparent;");
-        backBtn.setOnAction(e -> goBackOneLevel());
-
-        HBox topRight = new HBox(backBtn);
-        topRight.setAlignment(Pos.TOP_RIGHT);
-
-        splitView.setTop(topRight);
-        splitView.setLeft(left);
-        splitView.setCenter(right);
-    }
-
-    private VBox buildLeftPath() {
-        VBox left = new VBox(12);
-        left.setPadding(new Insets(20));
-        left.setPrefWidth(280);
-        left.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 15;");
-
-        int index = 0;
-        for (CraftCategory cat : path) {
-            boolean isActive = (index == path.size() - 1);
-            Button btn = createPathButton(cat.getIcon() + "  " + cat.getName(), isActive);
-            int finalIndex = index;
-            btn.setOnAction(e -> goBackToLevel(finalIndex));
-            left.getChildren().add(btn);
-            index++;
-        }
-        return left;
-    }
-
-    private Button createPathButton(String text, boolean active) {
-        Button btn = new Button(text);
-        btn.setPrefWidth(240);
-        btn.setStyle(active ?
-                "-fx-background-color: #e04e4e; -fx-text-fill: white; -fx-font-size: 17px; -fx-font-weight: bold;" :
-                "-fx-background-color: #e0e0e0; -fx-text-fill: #555; -fx-font-size: 17px;");
-        return btn;
-    }
-
-    private GridPane buildOptionGrid(List<CraftCategory> options) {
-        GridPane grid = new GridPane();
-        grid.setHgap(25);
-        grid.setVgap(25);
-
-        int col = 0, row = 0;
-        for (CraftCategory opt : options) {
-            VBox box = createOptionBox(opt);
-            box.setOnMouseClicked(e -> selectNextLevel(opt));
-            grid.add(box, col++, row);
-            if (col > 3) {
-                col = 0;
-                row++;
+                final int finalLevel = level;
+                final String finalOption = option;
+                btn.setOnAction(e -> {
+                    if (!isSelected) {
+                        changeSelectionAtLevel(finalLevel, finalOption);
+                    }
+                });
+                column.getChildren().add(btn);
             }
+            levelsHBox.getChildren().add(column);
         }
-        return grid;
-    }
+        navigationVBox.getChildren().add(levelsHBox);
 
-    private VBox createOptionBox(CraftCategory cat) {
-        VBox box = new VBox(10);
-        box.setAlignment(Pos.CENTER);
-        box.setPrefSize(160, 160);
-        box.setStyle("-fx-background-color: #f8f8f8; -fx-background-radius: 15; -fx-padding: 15;");
+        // === RIGHT SIDE ===
+        List<String> currentOptions = currentPath.isEmpty()
+                ? CraftData.getChildren("ROOT")
+                : CraftData.getChildren(currentPath.get(currentPath.size() - 1));
 
-        Label icon = new Label(cat.getIcon());
-        icon.setFont(Font.font(52));
+        if (currentOptions.isEmpty()) {
+            // === EMPTY PANEL AT FINAL SUB-SUB LEVEL ===
+            VBox emptyPanel = new VBox(30);
+            emptyPanel.setAlignment(Pos.CENTER);
+            emptyPanel.setStyle("""
+                -fx-background-color: rgba(255,255,255,0.12);
+                -fx-padding: 60;
+                -fx-background-radius: 12;
+                -fx-border-radius: 12;
+                -fx-border-color: rgba(255,255,255,0.2);
+                """);
 
-        Label name = new Label(cat.getName());
-        name.setFont(Font.font("System", FontWeight.BOLD, 16));
+            Label msg = new Label("No items yet");
+            msg.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
 
-        box.getChildren().addAll(icon, name);
-        return box;
-    }
+            Label subMsg = new Label("Crafting recipes / items will appear here.");
+            subMsg.setStyle("-fx-font-size: 16px; -fx-text-fill: #ffffff;");
 
-    private void selectNextLevel(CraftCategory next) {
-        path.push(next);
-        refreshSplitView();
+            Button returnBtn = new Button("← Return to choice tree");
+            returnBtn.setStyle("""
+                -fx-background-color: #4ade80;
+                -fx-text-fill: #111;
+                -fx-font-weight: bold;
+                -fx-font-size: 16px;
+                -fx-padding: 12 32;
+                """);
+            returnBtn.setOnAction(e -> goBackOneLevel());
+
+            emptyPanel.getChildren().addAll(msg, subMsg, returnBtn);
+            mainContentVBox.getChildren().add(emptyPanel);
+
+        } else {
+            // Normal level with choices
+            Label choose = new Label("Choose one:");
+            choose.setStyle("-fx-font-size: 16px; -fx-text-fill: #ffffff;");
+            mainContentVBox.getChildren().add(choose);
+
+            FlowPane optionsPane = new FlowPane(15, 15);
+            optionsPane.setPrefWrapLength(440);
+
+            for (String option : currentOptions) {
+                Button btn = createButton(option, false, false);
+                btn.setOnAction(e -> {
+                    currentPath.add(option);
+                    refreshUI();
+                });
+                optionsPane.getChildren().add(btn);
+            }
+            mainContentVBox.getChildren().add(optionsPane);
+        }
     }
 
     private void goBackOneLevel() {
-        if (path.size() > 1) {
-            path.pop();
-            refreshSplitView();
+        if (!currentPath.isEmpty()) {
+            currentPath.remove(currentPath.size() - 1);
+            refreshUI();
+        }
+    }
+
+    private void changeSelectionAtLevel(int level, String newSelection) {
+        List<String> newPath = new ArrayList<>(currentPath.subList(0, level));
+        newPath.add(newSelection);
+        currentPath = newPath;
+        refreshUI();
+    }
+
+    private Button createButton(String text, boolean isSelected, boolean isSidePanel) {
+        Button btn = new Button(text);
+        btn.setPrefHeight(58);
+        btn.setMinWidth(145);
+
+        if (isSelected) {
+            btn.setStyle("-fx-background-color: #4ade80; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
+        } else if (isSidePanel) {
+            btn.setStyle("-fx-background-color: #555555; -fx-text-fill: #cccccc; -fx-font-size: 14px;");
         } else {
-            // Back to main 3 buttons
-            getChildren().remove(splitView);
-            getChildren().add(mainView);
-            path.clear();
+            btn.setStyle("-fx-background-color: #22c55e; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
         }
-    }
-
-    private void goBackToLevel(int level) {
-        while (path.size() > level + 1) {
-            path.pop();
-        }
-        refreshSplitView();
-    }
-
-    public void reset() {
-        getChildren().remove(splitView);
-        getChildren().add(mainView);
-        path.clear();
+        return btn;
     }
 }
