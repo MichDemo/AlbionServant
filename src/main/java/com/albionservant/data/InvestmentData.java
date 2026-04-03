@@ -26,7 +26,37 @@ public class InvestmentData {
         this.roi = roi;
     }
 
-    // Optional: nice toString for debugging
+    public String getName() {
+        return name;
+    }
+
+    public int getTier() {
+        return tier;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+    public int getEnchantment() {
+        return enchantment;
+    }
+    public int getDemand() {
+        return demand;
+    }
+    public long getCost() {
+        return cost;
+    }
+    public long getProfit() {
+        return profit;
+    }
+    public double getRoi() {
+        return roi;
+    }
+
     @Override
     public String toString() {
         return name + " (T" + tier + ") - Profit: " + profit + " silver";

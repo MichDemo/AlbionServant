@@ -94,7 +94,6 @@ public class TopNavigationBar extends VBox {
     }
 
     public void setOnCraftClicked(Runnable action) {
-        // craftBtn is the first button in the HBox
         HBox tabs = (HBox) getChildren().get(1);
         Button craftBtn = (Button) tabs.getChildren().get(0);
         craftBtn.setOnAction(e -> action.run());
@@ -102,7 +101,6 @@ public class TopNavigationBar extends VBox {
 
     public void setOnOtherTabClicked(Runnable action) {
         HBox tabs = (HBox) getChildren().get(1);
-        // All buttons except the first one (CRAFT)
         for (int i = 1; i < tabs.getChildren().size(); i++) {
             Button btn = (Button) tabs.getChildren().get(i);
             btn.setOnAction(e -> action.run());

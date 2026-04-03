@@ -4,9 +4,9 @@ import com.albionservant.data.CraftData;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -14,30 +14,23 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CraftPanel extends VBox {
 
-    private final VBox navigationVBox = new VBox(15);
-    private final VBox mainContentVBox = new VBox(15);
-    private final HBox topBar = new HBox(15);
+    private final VBox contentArea = new VBox(15);
+    private final HBox internalTopBar = new HBox(15);   // renamed for clarity
     private List<String> currentPath = new ArrayList<>();
+    private Consumer<Boolean> onDetailModeListener;
 
     public CraftPanel() {
-        // Main red panel
-        setMaxWidth(1150);
         setAlignment(Pos.CENTER);
-        setPadding(new Insets(25));
-        setStyle("""
-            -fx-background-color: #ef4444;
-            -fx-background-radius: 12;
-            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 4);
-            """);
+        setPadding(new Insets(0));
+        setStyle("-fx-background-color: #ef4444;");
 
-        // === TOP BAR (breadcrumb + Back button) ===
-        topBar.setAlignment(Pos.CENTER_LEFT);
-        topBar.setPadding(new Insets(0, 0, 15, 0));
+        internalTopBar.setAlignment(Pos.CENTER_LEFT);
+        internalTopBar.setPadding(new Insets(0, 0, 15, 0));
 
-        // Breadcrumb will be updated in refreshUI
         Label breadcrumbLabel = new Label();
         breadcrumbLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
         HBox.setHgrow(breadcrumbLabel, Priority.ALWAYS);
@@ -55,133 +48,250 @@ public class CraftPanel extends VBox {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        topBar.getChildren().addAll(breadcrumbLabel, spacer, backButton);
+        internalTopBar.getChildren().addAll(breadcrumbLabel, spacer, backButton);
 
-        // Inner layout: left nav + right content
-        HBox innerLayout = new HBox(25);
-        innerLayout.setAlignment(Pos.TOP_LEFT);
 
-        // LEFT NAVIGATION - side-by-side columns
-        navigationVBox.setStyle("""
-            -fx-background-color: #f8f9fa;
-            -fx-padding: 20;
-            -fx-background-radius: 12;
-            -fx-border-color: #e5e7eb;
-            -fx-border-width: 2;
-            -fx-border-radius: 12;
-            """);
-        ScrollPane navScroll = new ScrollPane(navigationVBox);
-        navScroll.setFitToWidth(true);
-        navScroll.setPrefWidth(650);
-        navScroll.setMaxHeight(750);
+        contentArea.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 0;");
 
-        // RIGHT MAIN CONTENT
-        mainContentVBox.setPrefWidth(460);
+        ScrollPane scroll = new ScrollPane(contentArea);
+        scroll.setFitToWidth(true);
+        scroll.setFitToHeight(true);
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scroll.setStyle("-fx-background-color: transparent;");
 
-        innerLayout.getChildren().addAll(navScroll, mainContentVBox);
+        getChildren().addAll(internalTopBar, scroll);
 
-        getChildren().addAll(topBar, innerLayout);
-
-        // Start with Gear selected
-        currentPath = new ArrayList<>(List.of("Gear"));
+        currentPath = new ArrayList<>();
         refreshUI();
     }
 
+    public void setOnDetailModeListener(Consumer<Boolean> listener) {
+        this.onDetailModeListener = listener;
+    }
+
     private void refreshUI() {
-        navigationVBox.getChildren().clear();
-        mainContentVBox.getChildren().clear();
+        contentArea.getChildren().clear();
 
-        // Update top breadcrumb
-        String breadcrumbText = currentPath.isEmpty() ? "Main Categories" : String.join("  ►  ", currentPath);
-        ((Label) topBar.getChildren().get(0)).setText(breadcrumbText);
+        String breadcrumbText = currentPath.isEmpty()
+                ? "Main Categories"
+                : String.join("  ►  ", currentPath);
+        ((Label) internalTopBar.getChildren().get(0)).setText(breadcrumbText);
 
-        // Show/hide Back button
-        topBar.getChildren().get(2).setVisible(currentPath.size() > 1);
+        boolean isLeaf = !currentPath.isEmpty() &&
+                CraftData.getChildren(currentPath.get(currentPath.size() - 1)).isEmpty();
 
-        // === LEFT SIDE: SIDE-BY-SIDE COLUMNS ===
-        HBox levelsHBox = new HBox(15);
+        if (isLeaf) {
+            internalTopBar.setVisible(false);                                      // hide internal bar
+            if (onDetailModeListener != null) onDetailModeListener.accept(true);   // hide main top nav
+            String itemName = currentPath.get(currentPath.size() - 1);
+            contentArea.getChildren().add(new CraftDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel));
+            return;
+        }
+
+        internalTopBar.setVisible(true);
+        if (onDetailModeListener != null) onDetailModeListener.accept(false);
+
+        // === TREE MODE ===
+        HBox levelsHBox = new HBox(20);
         levelsHBox.setAlignment(Pos.TOP_LEFT);
 
-        for (int level = 0; level < currentPath.size(); level++) {
-            String selected = currentPath.get(level);
+        int pathSize = currentPath.size();
+
+        for (int level = 0; level <= pathSize; level++) {
+            boolean isNextColumn = (level == pathSize);
             String parentKey = (level == 0) ? "ROOT" : currentPath.get(level - 1);
-            List<String> siblings = CraftData.getChildren(parentKey);
+            List<String> options = CraftData.getChildren(parentKey);
+            String selected = isNextColumn ? null : currentPath.get(level);
 
             VBox column = new VBox(8);
-            for (String option : siblings) {
-                boolean isSelected = option.equals(selected);
-                Button btn = createButton(option, isSelected, true);
+            column.setStyle("""
+                -fx-padding: 12;
+                -fx-background-color: #f1f3f5;
+                -fx-background-radius: 10;
+                -fx-min-width: 170;
+                """);
+
+            String headerText = isNextColumn
+                    ? (currentPath.isEmpty() ? "Choose your starting category" : currentPath.get(currentPath.size() - 1) + " → next")
+                    : (level == 0 ? "Main Categories" : currentPath.get(level - 1));
+            Label columnHeader = new Label(headerText);
+            columnHeader.setStyle("-fx-font-size: 13px; -fx-text-fill: #666666; -fx-font-weight: bold;");
+            column.getChildren().add(columnHeader);
+
+            for (String option : options) {
+                boolean isSelected = !isNextColumn && option.equals(selected);
+                Button btn = createButton(option, isSelected, !isNextColumn);
 
                 btn.setPrefWidth(155);
                 btn.setMaxWidth(Double.MAX_VALUE);
 
                 final int finalLevel = level;
                 final String finalOption = option;
-                btn.setOnAction(e -> {
-                    if (!isSelected) {
-                        changeSelectionAtLevel(finalLevel, finalOption);
-                    }
-                });
+
+                if (isNextColumn) {
+                    btn.setOnAction(e -> {
+                        currentPath.add(finalOption);
+                        refreshUI();
+                    });
+                } else {
+                    btn.setOnAction(e -> {
+                        if (!isSelected) changeSelectionAtLevel(finalLevel, finalOption);
+                    });
+                }
                 column.getChildren().add(btn);
             }
+
+            if (isNextColumn && options.isEmpty()) {
+                Label emptyMsg = new Label("No further sub-categories");
+                emptyMsg.setStyle("-fx-font-size: 14px; -fx-text-fill: #888888; -fx-padding: 20 0 10 0;");
+                column.getChildren().add(emptyMsg);
+            }
+
             levelsHBox.getChildren().add(column);
         }
-        navigationVBox.getChildren().add(levelsHBox);
+        contentArea.getChildren().add(levelsHBox);
+    }
 
-        // === RIGHT SIDE ===
-        List<String> currentOptions = currentPath.isEmpty()
-                ? CraftData.getChildren("ROOT")
-                : CraftData.getChildren(currentPath.get(currentPath.size() - 1));
+    private static class CraftDetailSubPanel extends VBox {
+        public CraftDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack) {
+            setPadding(new Insets(0));
+            setSpacing(0);
 
-        if (currentOptions.isEmpty()) {
-            // === EMPTY PANEL AT FINAL SUB-SUB LEVEL ===
-            VBox emptyPanel = new VBox(30);
-            emptyPanel.setAlignment(Pos.CENTER);
-            emptyPanel.setStyle("""
-                -fx-background-color: rgba(255,255,255,0.12);
-                -fx-padding: 60;
-                -fx-background-radius: 12;
-                -fx-border-radius: 12;
-                -fx-border-color: rgba(255,255,255,0.2);
-                """);
+            HBox redHeader = new HBox(15);
+            redHeader.setPadding(new Insets(15, 40, 15, 40));
+            redHeader.setStyle("-fx-background-color: #ef4444;");
 
-            Label msg = new Label("No items yet");
-            msg.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
+            Label breadcrumb = new Label(breadcrumbText);
+            breadcrumb.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
 
-            Label subMsg = new Label("Crafting recipes / items will appear here.");
-            subMsg.setStyle("-fx-font-size: 16px; -fx-text-fill: #ffffff;");
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
 
-            Button returnBtn = new Button("← Return to choice tree");
-            returnBtn.setStyle("""
+            Button backBtn = new Button("← Back");
+            backBtn.setStyle("""
                 -fx-background-color: #4ade80;
                 -fx-text-fill: #111;
                 -fx-font-weight: bold;
-                -fx-font-size: 16px;
-                -fx-padding: 12 32;
+                -fx-font-size: 14px;
+                -fx-padding: 8 24;
                 """);
-            returnBtn.setOnAction(e -> goBackOneLevel());
+            backBtn.setOnAction(e -> onBack.run());
 
-            emptyPanel.getChildren().addAll(msg, subMsg, returnBtn);
-            mainContentVBox.getChildren().add(emptyPanel);
+            redHeader.getChildren().addAll(breadcrumb, spacer, backBtn);
 
-        } else {
-            // Normal level with choices
-            Label choose = new Label("Choose one:");
-            choose.setStyle("-fx-font-size: 16px; -fx-text-fill: #ffffff;");
-            mainContentVBox.getChildren().add(choose);
+            VBox whiteContent = new VBox(25);
+            whiteContent.setPadding(new Insets(25, 40, 40, 40));   // minimal top padding
+            whiteContent.setStyle("-fx-background-color: #ffffff;");
 
-            FlowPane optionsPane = new FlowPane(15, 15);
-            optionsPane.setPrefWrapLength(440);
 
-            for (String option : currentOptions) {
-                Button btn = createButton(option, false, false);
-                btn.setOnAction(e -> {
-                    currentPath.add(option);
-                    refreshUI();
-                });
-                optionsPane.getChildren().add(btn);
+            HBox titleRow = new HBox(20);
+            titleRow.setAlignment(Pos.CENTER_LEFT);
+
+            Label itemLabel = new Label(itemName);
+            itemLabel.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #111;");
+
+            Label bonusLabel = new Label("Bonus Crafting City : Martlock");
+            bonusLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #666666;");
+
+            Region titleSpacer = new Region();
+            HBox.setHgrow(titleSpacer, Priority.ALWAYS);
+
+            Button smallArrow = new Button("↩");
+            smallArrow.setStyle("-fx-font-size: 28px; -fx-background-color: transparent; -fx-text-fill: #ef4444;");
+            smallArrow.setOnAction(e -> onBack.run());
+
+            titleRow.getChildren().addAll(itemLabel, bonusLabel, titleSpacer, smallArrow);
+
+
+            HBox iconStats = new HBox(40);
+            iconStats.setAlignment(Pos.TOP_LEFT);
+
+            HBox icons = new HBox(15);
+            Label shield = new Label("🛡️");
+            shield.setStyle("-fx-font-size: 120px; -fx-text-fill: #333;");
+            Label square = new Label("⬛");
+            square.setStyle("-fx-font-size: 120px; -fx-text-fill: #222;");
+            Label blackSquare = new Label("⬛");
+            blackSquare.setStyle("-fx-font-size: 120px; -fx-text-fill: #111;");
+            icons.getChildren().addAll(shield, square, blackSquare);
+
+            VBox stats = new VBox(12);
+            stats.getChildren().addAll(
+                    createStatRow("Quantity:", "200"),
+                    createStatRow("Station Fee:", "999"),
+                    createStatRow("Crafting Focus:", "Y/N"),
+                    createStatRow("Bonus Craft:", "HO"),
+                    createStatRow("HO Zone:", "2 HO Quality : 5"),
+                    createStatRow("Demand AVG:", "24h")
+            );
+
+            iconStats.getChildren().addAll(icons, stats);
+
+            VBox matsBox = new VBox(12);
+            Label matsTitle = new Label("Required mats");
+            matsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111;");
+
+            HBox matsRow = new HBox(15);
+            matsRow.setAlignment(Pos.CENTER_LEFT);
+
+            Label metal = new Label("Metal Bars : XYZ");
+            metal.setStyle("-fx-font-size: 16px; -fx-text-fill: #111;");
+
+            Label buyFrom = new Label("Buy Mats From :");
+            ComboBox<String> buyCombo = new ComboBox<>();
+            buyCombo.getItems().addAll("Thetford", "Martlock", "Bridgewatch", "Lymhurst");
+            buyCombo.setValue("Thetford");
+
+            Label sellIn = new Label("Sell Items In :");
+            ComboBox<String> sellCombo = new ComboBox<>();
+            sellCombo.getItems().addAll("Thetford", "Martlock", "Bridgewatch", "Black Market");
+            sellCombo.setValue("Thetford");
+
+            matsRow.getChildren().addAll(metal, buyFrom, buyCombo, sellIn, sellCombo);
+            matsBox.getChildren().addAll(matsTitle, matsRow);
+
+            VBox tableBox = new VBox(4);
+            tableBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 8;");
+
+            HBox headerRow = new HBox(12);
+            String[] headers = {"Tiers", "API", "Manual", "Demand", "Costs", "Focus Costs", "Books", "Fame", "SPF", "Profit", "ROI"};
+            for (String h : headers) {
+                Label l = new Label(h);
+                l.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 14px; -fx-pref-width: 78;");
+                headerRow.getChildren().add(l);
             }
-            mainContentVBox.getChildren().add(optionsPane);
+            tableBox.getChildren().add(headerRow);
+
+            String[][] data = {
+                    {"4.0", "100", "120", "50", "300", "200", "5", "1000", "10", "500", "25%"},
+                    {"4.1", "105", "125", "55", "310", "210", "6", "1100", "11", "520", "26%"},
+                    {"4.2", "110", "130", "60", "320", "220", "7", "1200", "12", "540", "27%"},
+                    {"4.3", "115", "135", "65", "330", "230", "8", "1300", "13", "560", "28%"},
+                    {"5.0", "150", "180", "80", "400", "300", "10", "1500", "15", "800", "40%"}
+            };
+            for (String[] rowData : data) {
+                HBox row = new HBox(12);
+                for (String val : rowData) {
+                    Label cell = new Label(val);
+                    cell.setStyle("-fx-font-size: 14px; -fx-pref-width: 78;");
+                    row.getChildren().add(cell);
+                }
+                tableBox.getChildren().add(row);
+            }
+
+            whiteContent.getChildren().addAll(titleRow, iconStats, matsBox, tableBox);
+            getChildren().addAll(redHeader, whiteContent);
+        }
+
+        private HBox createStatRow(String label, String value) {
+            HBox row = new HBox(15);
+            Label l = new Label(label);
+            l.setStyle("-fx-font-size: 15px; -fx-text-fill: #555; -fx-pref-width: 160;");
+            Label v = new Label(value);
+            v.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #111;");
+            row.getChildren().addAll(l, v);
+            return row;
         }
     }
 
@@ -207,9 +317,9 @@ public class CraftPanel extends VBox {
         if (isSelected) {
             btn.setStyle("-fx-background-color: #4ade80; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
         } else if (isSidePanel) {
-            btn.setStyle("-fx-background-color: #555555; -fx-text-fill: #cccccc; -fx-font-size: 14px;");
+            btn.setStyle("-fx-background-color: #555555; -fx-text-fill: #aaaaaa; -fx-font-size: 14px; -fx-opacity: 0.85;");
         } else {
-            btn.setStyle("-fx-background-color: #22c55e; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
+            btn.setStyle("-fx-background-color: #86efac; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
         }
         return btn;
     }

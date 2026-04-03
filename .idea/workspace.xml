@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-add : Gui Added&#10;-todo : make it more appealing">
+    <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-fix : now the craft panel is not scuffed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/InvestmentData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/InvestmentData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/HotInvestmentsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/HotInvestmentsPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/InvestmentData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/InvestmentData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/HotInvestmentsPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/HotInvestmentsPanel.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,22 +54,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainApp.executor": "Run",
-    "Maven.javafx-spring-mongo-template [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "junie.onboarding.icon.badge.shown": "true",
-    "settings.editor.selected.configurable": "yingxingguihai.polaris.servers",
-    "to.speed.mode.migration.done": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainApp.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.javafx-spring-mongo-template [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;yingxingguihai.polaris.servers&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="AlbionServant" />
@@ -109,13 +115,22 @@
       <option name="project" value="LOCAL" />
       <updated>1774396202661</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="-fix : now the craft panel is not scuffed">
+      <option name="closed" value="true" />
+      <created>1774427655039</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1774427655039</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="project init" />
     <MESSAGE value="-feat : new color config via AppConfig&#10;-todo : website layout" />
     <MESSAGE value="-add : Gui Added&#10;-todo : make it more appealing" />
-    <option name="LAST_COMMIT_MESSAGE" value="-add : Gui Added&#10;-todo : make it more appealing" />
+    <MESSAGE value="-fix : now the craft panel is not scuffed" />
+    <option name="LAST_COMMIT_MESSAGE" value="-fix : now the craft panel is not scuffed" />
   </component>
 </project>

@@ -16,17 +16,19 @@ public class HotInvestmentsPanel extends VBox {
 
     private final VBox itemsContainer = new VBox(18);
     private final HBox paginationBox = new HBox(15);
+    private Button prevButton;
+    private Button nextButton;
+    private Label pageLabel;
     private int currentPage = 0;
-    private List<InvestmentData> allInvestments;
+    private List<InvestmentData> allInvestments = List.of();
+    private static final int ITEMS_PER_PAGE = 3;
+
+    private static final double MIN_ITEMS_HEIGHT = 420;   // height for exactly 3 rows
 
     public HotInvestmentsPanel() {
-        // Red card
         setBackground(new Background(new BackgroundFill(Color.rgb(224, 78, 78), new CornerRadii(12), null)));
         setPadding(new Insets(25, 30, 25, 30));
         setSpacing(20);
-        setMaxWidth(1180);
-        setMinHeight(580);
-        setPrefHeight(520);
         setAlignment(Pos.TOP_CENTER);
 
         buildHeader();
@@ -37,114 +39,122 @@ public class HotInvestmentsPanel extends VBox {
     }
 
     private void buildHeader() {
-        HBox header = new HBox(15);
-        header.setAlignment(Pos.CENTER_LEFT);
-
-        Label title = new Label("Hot investments! Craft them now!");
-        title.setFont(Font.font("System", FontWeight.BOLD, 23));
+        Label title = new Label("🔥 Hot Investments");
+        title.setFont(Font.font("System", FontWeight.BOLD, 28));
         title.setTextFill(Color.WHITE);
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        Label subtitle = new Label("Best crafting / flipping opportunities right now");
+        subtitle.setFont(Font.font("System", FontWeight.NORMAL, 16));
+        subtitle.setTextFill(Color.rgb(255, 255, 255, 0.85));
 
-        Button adjustBtn = new Button("ADJUST");
-        adjustBtn.setStyle("-fx-background-color: rgba(0,0,0,0.35); " +
-                "-fx-text-fill: white; " +
-                "-fx-font-weight: bold; " +
-                "-fx-padding: 10 30; " +
-                "-fx-background-radius: 8;");
-
-        header.getChildren().addAll(title, spacer, adjustBtn);
-        getChildren().add(header);
+        VBox headerBox = new VBox(5, title, subtitle);
+        headerBox.setAlignment(Pos.CENTER);
+        getChildren().add(0, headerBox);
     }
 
     private void buildItemsContainer() {
-        itemsContainer.setMinHeight(360);
-        itemsContainer.setPrefHeight(360);
+        itemsContainer.setAlignment(Pos.TOP_CENTER);
+        itemsContainer.setMinHeight(MIN_ITEMS_HEIGHT);   // ← THIS PREVENTS SHRINKING
     }
 
     private void buildPaginationControls() {
-        Button prevBtn = new Button("← Previous");
-        Button nextBtn = new Button("Next →");
+        prevButton = new Button("← Previous");
+        prevButton.setStyle("""
+            -fx-background-color: #4ade80;
+            -fx-text-fill: #111;
+            -fx-font-weight: bold;
+            -fx-padding: 10 20;
+            """);
+        prevButton.setOnAction(e -> previousPage());
 
-        prevBtn.setStyle("-fx-background-color: rgba(0,0,0,0.3); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;");
-        nextBtn.setStyle("-fx-background-color: rgba(0,0,0,0.3); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;");
+        nextButton = new Button("Next →");
+        nextButton.setStyle("""
+            -fx-background-color: #4ade80;
+            -fx-text-fill: #111;
+            -fx-font-weight: bold;
+            -fx-padding: 10 20;
+            """);
+        nextButton.setOnAction(e -> nextPage());
 
-        prevBtn.setOnAction(e -> previousPage());
-        nextBtn.setOnAction(e -> nextPage());
+        pageLabel = new Label("1 / 1");
+        pageLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
+        pageLabel.setTextFill(Color.WHITE);
 
         paginationBox.setAlignment(Pos.CENTER);
-        paginationBox.setPadding(new Insets(60, 0, 0, 0));
-        paginationBox.getChildren().addAll(prevBtn, nextBtn);
-        paginationBox.setVisible(false);   // will show only when needed
+        paginationBox.setSpacing(20);
+        paginationBox.getChildren().addAll(prevButton, pageLabel, nextButton);
     }
 
     public void setInvestments(List<InvestmentData> investments) {
-        this.allInvestments = investments;
+        this.allInvestments = investments != null ? investments : List.of();
         currentPage = 0;
         updateDisplay();
+        updateButtonStates();
     }
 
     private void updateDisplay() {
         itemsContainer.getChildren().clear();
 
-        int start = currentPage * 3;
-        int end = Math.min(start + 3, allInvestments.size());
+        if (allInvestments.isEmpty()) {
+            Label empty = new Label("No investments loaded yet.");
+            empty.setTextFill(Color.WHITE);
+            empty.setFont(Font.font("System", FontWeight.BOLD, 18));
+            itemsContainer.getChildren().add(empty);
+            return;
+        }
+
+        int start = currentPage * ITEMS_PER_PAGE;
+        int end = Math.min(start + ITEMS_PER_PAGE, allInvestments.size());
 
         for (int i = start; i < end; i++) {
             HBox row = createInvestmentRow(allInvestments.get(i));
             itemsContainer.getChildren().add(row);
         }
 
-        // Keep height stable
-        while (itemsContainer.getChildren().size() < 3) {
-            Region placeholder = new Region();
-            placeholder.setMinHeight(92);
-            itemsContainer.getChildren().add(placeholder);
-        }
-
-        // Show pagination only if there are more than 3 offers
-        paginationBox.setVisible(allInvestments.size() > 3);
+        // If we have fewer items, the minHeight keeps everything stable
     }
 
     private HBox createInvestmentRow(InvestmentData data) {
-        HBox row = new HBox(40);
+        HBox row = new HBox(20);
         row.setAlignment(Pos.CENTER_LEFT);
+        row.setPadding(new Insets(12, 20, 12, 20));
+        row.setStyle("""
+            -fx-background-color: rgba(255,255,255,0.12);
+            -fx-background-radius: 10;
+            -fx-border-radius: 10;
+            -fx-border-color: rgba(255,255,255,0.2);
+            """);
 
-        VBox left = new VBox(5);
-        Label name = new Label(data.name + " (T" + data.tier + ")");
-        name.setFont(Font.font("System", FontWeight.BOLD, 18));
-        name.setTextFill(Color.WHITE);
+        VBox nameBox = new VBox(2);
+        Label nameLabel = new Label(data.getName());
+        nameLabel.setFont(Font.font("System", FontWeight.BOLD, 17));
+        nameLabel.setTextFill(Color.WHITE);
 
-        Label loc = new Label("Location: " + data.location);
-        loc.setTextFill(Color.rgb(255, 255, 255, 0.9));
+        Label tierLabel = new Label("T" + data.getTier());
+        tierLabel.setFont(Font.font("System", FontWeight.BOLD, 13));
+        tierLabel.setTextFill(Color.rgb(74, 222, 128));
+        nameBox.getChildren().addAll(nameLabel, tierLabel);
 
-        Label price = new Label("Price: " + String.format("%,d", data.price) + " silver");
-        price.setTextFill(Color.rgb(255, 255, 255, 0.9));
+        Label routeLabel = new Label(data.getLocation());
+        routeLabel.setFont(Font.font("System", FontWeight.NORMAL, 15));
+        routeLabel.setTextFill(Color.rgb(255, 255, 255, 0.9));
 
-        left.getChildren().addAll(name, loc, price);
+        Label buyLabel = new Label(String.format("%,d", data.getPrice()));
+        buyLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
+        buyLabel.setTextFill(Color.WHITE);
 
-        VBox right = new VBox(6);
-        right.setAlignment(Pos.CENTER_RIGHT);
+        Label profitLabel = new Label("+" + String.format("%,d", data.getProfit()));
+        profitLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
+        profitLabel.setTextFill(Color.rgb(74, 222, 128));
 
-        right.getChildren().addAll(
-                new Label("Enchantment: " + data.enchantment),
-                new Label("Demand (24h): " + data.demand),
-                new Label("Cost: " + String.format("%,d", data.cost) + " silver"),
-                new Label("PROFIT: " + String.format("%,d", data.profit) + " silver"),
-                new Label("ROI: " + String.format("%.0f", data.roi) + "%")
-        );
+        Label roiLabel = new Label(String.format("%.1f%%", data.getRoi()));
+        roiLabel.setFont(Font.font("System", FontWeight.BOLD, 17));
+        roiLabel.setTextFill(Color.rgb(250, 204, 21));
 
-        // Make profit and ROI green
-        ((Label) right.getChildren().get(3)).setTextFill(Color.rgb(80, 255, 120));
-        ((Label) right.getChildren().get(4)).setTextFill(Color.rgb(80, 255, 120));
-        ((Label) right.getChildren().get(3)).setFont(Font.font("System", FontWeight.BOLD, 16));
-        ((Label) right.getChildren().get(4)).setFont(Font.font("System", FontWeight.BOLD, 16));
+        HBox.setHgrow(nameBox, Priority.ALWAYS);
+        HBox.setHgrow(routeLabel, Priority.ALWAYS);
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        row.getChildren().addAll(left, spacer, right);
+        row.getChildren().addAll(nameBox, routeLabel, buyLabel, profitLabel, roiLabel);
         return row;
     }
 
@@ -152,13 +162,25 @@ public class HotInvestmentsPanel extends VBox {
         if (currentPage > 0) {
             currentPage--;
             updateDisplay();
+            updateButtonStates();
         }
     }
 
     private void nextPage() {
-        if ((currentPage + 1) * 3 < allInvestments.size()) {
+        int totalPages = (int) Math.ceil((double) allInvestments.size() / ITEMS_PER_PAGE);
+        if (currentPage + 1 < totalPages) {
             currentPage++;
             updateDisplay();
+            updateButtonStates();
         }
+    }
+
+    private void updateButtonStates() {
+        int totalPages = (int) Math.ceil((double) allInvestments.size() / ITEMS_PER_PAGE);
+        if (totalPages == 0) totalPages = 1;
+
+        prevButton.setDisable(currentPage == 0);
+        nextButton.setDisable(currentPage >= totalPages - 1);
+        pageLabel.setText((currentPage + 1) + " / " + totalPages);
     }
 }
