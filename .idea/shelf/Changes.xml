@@ -1,0 +1,44 @@
+<changelist name="Changes" date="1775475417381" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/shelved.patch" />
+  <option name="DESCRIPTION" value="Changes" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/data/CraftData.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/data/CraftData.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/CraftData.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/gui/CraftPanel.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/gui/CraftPanel.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/CraftPanel.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/GreetingService.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/GreetingService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/GreetingService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/gui/HotInvestmentsPanel.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/gui/HotInvestmentsPanel.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/HotInvestmentsPanel.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/data/InvestmentData.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/data/InvestmentData.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/InvestmentData.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/elements/InvestmentItem.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/elements/InvestmentItem.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/InvestmentItem.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/MainApp.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/MainApp.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/MainApp.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/albionservant/gui/TopNavigationBar.class" />
+    <option name="AFTER_PATH" value="target/classes/com/albionservant/gui/TopNavigationBar.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Changes/TopNavigationBar.class" />
+  </binary>
+</changelist>

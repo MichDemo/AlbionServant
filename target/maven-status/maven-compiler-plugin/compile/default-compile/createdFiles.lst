@@ -1,11 +1,13 @@
 com\albionservant\gui\HotInvestmentsPanel.class
 com\albionservant\gui\TopNavigationBar.class
-com\albionservant\elements\CraftCategory.class
+com\albionservant\gui\CraftPanel$CraftDetailSubPanel$Material.class
 com\albionservant\data\CraftData.class
 com\albionservant\AppConfig.class
-com\albionservant\data\InvestmentData.class
 com\albionservant\elements\InvestmentItem.class
-com\albionservant\Launcher.class
 com\albionservant\GreetingService.class
 com\albionservant\MainApp.class
 com\albionservant\gui\CraftPanel.class
+com\albionservant\elements\CraftCategory.class
+com\albionservant\gui\CraftPanel$CraftDetailSubPanel.class
+com\albionservant\data\InvestmentData.class
+com\albionservant\Launcher.class
