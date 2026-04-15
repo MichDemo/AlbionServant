@@ -23,22 +23,35 @@ public class HotInvestmentsPanel extends VBox {
     private List<InvestmentData> allInvestments = List.of();
     private static final int ITEMS_PER_PAGE = 3;
 
-    private static final double MIN_ITEMS_HEIGHT = 420;   // height for exactly 3 rows
+    // Each row: ~80px tall (12 top + ~46 content + 12 bottom padding)
+    // 3 rows × 80px + 2 gaps × 18px spacing + 30px container top/bottom padding = 306px
+    // Fixed so the panel never resizes regardless of how many rows are shown
+    private static final double ITEMS_AREA_HEIGHT = 306.0;
 
     public HotInvestmentsPanel() {
         setBackground(new Background(new BackgroundFill(Color.rgb(224, 78, 78), new CornerRadii(12), null)));
-        setPadding(new Insets(25, 30, 25, 30));
-        setSpacing(20);
+        setPadding(new Insets(25, 30, 20, 30));
+        setSpacing(0);
         setAlignment(Pos.TOP_CENTER);
 
-        buildHeader();
-        buildItemsContainer();
-        buildPaginationControls();
+        VBox headerBox = buildHeader();
 
-        getChildren().addAll(itemsContainer, paginationBox);
+        // Items container — fixed size, never shrinks or grows
+        itemsContainer.setAlignment(Pos.TOP_CENTER);
+        itemsContainer.setPadding(new Insets(15, 0, 15, 0));
+        itemsContainer.setFillWidth(true);
+        itemsContainer.setMinHeight(ITEMS_AREA_HEIGHT);
+        itemsContainer.setPrefHeight(ITEMS_AREA_HEIGHT);
+        itemsContainer.setMaxHeight(ITEMS_AREA_HEIGHT);
+
+        // Pagination — always pinned at the bottom
+        buildPaginationControls();
+        paginationBox.setPadding(new Insets(12, 0, 18, 0));
+
+        getChildren().addAll(headerBox, itemsContainer, paginationBox);
     }
 
-    private void buildHeader() {
+    private VBox buildHeader() {
         Label title = new Label("🔥 Hot Investments");
         title.setFont(Font.font("System", FontWeight.BOLD, 28));
         title.setTextFill(Color.WHITE);
@@ -49,12 +62,8 @@ public class HotInvestmentsPanel extends VBox {
 
         VBox headerBox = new VBox(5, title, subtitle);
         headerBox.setAlignment(Pos.CENTER);
-        getChildren().add(0, headerBox);
-    }
-
-    private void buildItemsContainer() {
-        itemsContainer.setAlignment(Pos.TOP_CENTER);
-        itemsContainer.setMinHeight(MIN_ITEMS_HEIGHT);   // ← THIS PREVENTS SHRINKING
+        headerBox.setPadding(new Insets(0, 0, 15, 0));
+        return headerBox;
     }
 
     private void buildPaginationControls() {
@@ -110,8 +119,6 @@ public class HotInvestmentsPanel extends VBox {
             HBox row = createInvestmentRow(allInvestments.get(i));
             itemsContainer.getChildren().add(row);
         }
-
-        // If we have fewer items, the minHeight keeps everything stable
     }
 
     private HBox createInvestmentRow(InvestmentData data) {

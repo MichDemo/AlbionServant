@@ -52,23 +52,30 @@ public class MainApp extends Application {
         InvestmentData item4 = new InvestmentData("Master's Spear", 6, "Bridgewatch → Blackmarket", 672300, 0, 12, 480000, 192300, 40.1);
         hotPanel.setInvestments(List.of(item1, item2, item3, item4));
 
+        // contentArea does NOT fill height — panel stays its natural size, top-aligned
         VBox contentArea = new VBox(hotPanel);
-        VBox.setVgrow(contentArea, Priority.ALWAYS);
+        contentArea.setAlignment(Pos.TOP_CENTER);
+        contentArea.setFillWidth(true);
+        // Do NOT setVgrow here — that was stretching hotPanel to fill the window
+        VBox.setVgrow(contentArea, Priority.NEVER);
 
         root.getChildren().addAll(topBar, contentArea);
-
         root.setBackground(new Background(new BackgroundFill(AppConfig.BACKGROUND_MAIN, null, null)));
-
 
         craftPanel.setOnDetailModeListener(isDetail -> topBar.setVisible(!isDetail));
 
         topBar.setOnCraftClicked(() -> {
             contentArea.getChildren().set(0, craftPanel);
-            topBar.setVisible(true);   // reset when switching tabs
+            // CraftPanel needs to grow to fill available space
+            VBox.setVgrow(contentArea, Priority.ALWAYS);
+            contentArea.setAlignment(Pos.TOP_CENTER);
+            topBar.setVisible(true);
         });
 
         topBar.setOnOtherTabClicked(() -> {
             contentArea.getChildren().set(0, hotPanel);
+            // HotPanel should NOT grow — stays natural height
+            VBox.setVgrow(contentArea, Priority.NEVER);
             topBar.setVisible(true);
         });
 

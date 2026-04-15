@@ -1,6 +1,8 @@
 package com.albionservant.gui;
 
+import com.albionservant.data.ArtifactData;
 import com.albionservant.data.CraftData;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,6 +11,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -60,6 +64,7 @@ public class CraftPanel extends VBox {
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scroll.setStyle("-fx-background-color: transparent;");
+        VBox.setVgrow(scroll, Priority.ALWAYS);
 
         getChildren().addAll(internalTopBar, scroll);
 
@@ -84,6 +89,7 @@ public class CraftPanel extends VBox {
 
         if (isLeaf) {
             internalTopBar.setVisible(false);
+            internalTopBar.setManaged(false);
             if (onDetailModeListener != null) onDetailModeListener.accept(true);
             String itemName = currentPath.get(currentPath.size() - 1);
             contentArea.getChildren().add(new CraftDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel));
@@ -91,11 +97,68 @@ public class CraftPanel extends VBox {
         }
 
         internalTopBar.setVisible(true);
+        internalTopBar.setManaged(true);
         if (onDetailModeListener != null) onDetailModeListener.accept(false);
 
-        // Tree mode
+        // ── ROOT STATE: show 3 big centered buttons, no tree columns ──
+        if (currentPath.isEmpty()) {
+            List<String> rootOptions = CraftData.getChildren("ROOT");
+
+            VBox centerBox = new VBox(20);
+            centerBox.setAlignment(Pos.CENTER);
+            centerBox.setPadding(new Insets(60, 40, 60, 40));
+            centerBox.setStyle("-fx-background-color: #f8f9fa;");
+            VBox.setVgrow(centerBox, Priority.ALWAYS);
+
+            Label prompt = new Label("Choose a category to get started");
+            prompt.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #555555;");
+
+            HBox buttonsRow = new HBox(24);
+            buttonsRow.setAlignment(Pos.CENTER);
+
+            for (String option : rootOptions) {
+                Button btn = new Button(option);
+                btn.setPrefWidth(200);
+                btn.setPrefHeight(70);
+                btn.setStyle("""
+                    -fx-background-color: #ef4444;
+                    -fx-text-fill: #ffffff;
+                    -fx-font-weight: bold;
+                    -fx-font-size: 18px;
+                    -fx-background-radius: 10;
+                    """);
+                btn.setOnMouseEntered(e -> btn.setStyle("""
+                    -fx-background-color: #dc2626;
+                    -fx-text-fill: #ffffff;
+                    -fx-font-weight: bold;
+                    -fx-font-size: 18px;
+                    -fx-background-radius: 10;
+                    -fx-cursor: hand;
+                    """));
+                btn.setOnMouseExited(e -> btn.setStyle("""
+                    -fx-background-color: #ef4444;
+                    -fx-text-fill: #ffffff;
+                    -fx-font-weight: bold;
+                    -fx-font-size: 18px;
+                    -fx-background-radius: 10;
+                    """));
+                final String finalOption = option;
+                btn.setOnAction(e -> {
+                    currentPath.add(finalOption);
+                    refreshUI();
+                });
+                buttonsRow.getChildren().add(btn);
+            }
+
+            centerBox.getChildren().addAll(prompt, buttonsRow);
+            contentArea.getChildren().add(centerBox);
+            return;
+        }
+
+        // ── TREE STATE: multi-column drill-down ──
         HBox levelsHBox = new HBox(20);
         levelsHBox.setAlignment(Pos.TOP_LEFT);
+        levelsHBox.setPadding(new Insets(15));
 
         int pathSize = currentPath.size();
         for (int level = 0; level <= pathSize; level++) {
@@ -146,7 +209,7 @@ public class CraftPanel extends VBox {
         contentArea.getChildren().add(levelsHBox);
     }
 
-    // ====================== FINAL CLEAN TABLE ======================
+    // ====================== DETAIL SUB-PANEL ======================
     private static class CraftDetailSubPanel extends VBox {
 
         private record Material(String name, String icon) {}
@@ -159,10 +222,11 @@ public class CraftPanel extends VBox {
             setPadding(new Insets(0));
             setSpacing(0);
 
-            // FIXED RED HEADER
+            // ── FIXED RED HEADER ──
             HBox redHeader = new HBox(15);
             redHeader.setPadding(new Insets(15, 40, 15, 40));
             redHeader.setStyle("-fx-background-color: #ef4444;");
+            redHeader.setAlignment(Pos.CENTER_LEFT);
 
             Label breadcrumb = new Label(breadcrumbText);
             breadcrumb.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
@@ -182,62 +246,98 @@ public class CraftPanel extends VBox {
 
             redHeader.getChildren().addAll(breadcrumb, spacer, backBtn);
 
-            // SCROLLABLE WHITE CONTENT
+            // ── SCROLLABLE WHITE CONTENT ──
             VBox whiteContent = new VBox(30);
             whiteContent.setPadding(new Insets(30, 40, 40, 40));
             whiteContent.setStyle("-fx-background-color: #ffffff;");
+            whiteContent.setFillWidth(true);
+            whiteContent.setMaxWidth(Double.MAX_VALUE);
 
-            // TOP PART (unchanged)
-            HBox topSection = new HBox(40);
+            // ── TOP SECTION: 3 equal columns, stretches with window ──
+            HBox topSection = new HBox(30);
             topSection.setAlignment(Pos.TOP_LEFT);
+            topSection.setFillHeight(false);
+            topSection.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(topSection, Priority.ALWAYS);
 
+            // ── LEFT COLUMN: search bar + item icons (click = go back) ──
             VBox left = new VBox(12);
-            left.setPrefWidth(320);
+            left.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(left, Priority.ALWAYS);
 
             TextField searchBar = new TextField();
             searchBar.setPromptText("Search tiers or materials...");
             searchBar.setStyle("-fx-font-size: 14px;");
+            searchBar.setMaxWidth(Double.MAX_VALUE);
 
-            Label iconLabel = new Label("🛡️");
-            iconLabel.setStyle("-fx-font-size: 110px; -fx-text-fill: #333;");
-            iconLabel.setOnMouseClicked(e -> onBack.run());
+            HBox iconRow = new HBox(16);
+            iconRow.setAlignment(Pos.CENTER_LEFT);
 
+            Label icon1 = new Label("🛡️");
+            icon1.setStyle("-fx-font-size: 72px; -fx-cursor: hand;");
+            icon1.setOnMouseClicked(e -> onBack.run());
+
+            Label icon2 = new Label("📦");
+            icon2.setStyle("-fx-font-size: 72px; -fx-cursor: hand;");
+            icon2.setOnMouseClicked(e -> onBack.run());
+
+            iconRow.getChildren().addAll(icon1, icon2);
+
+            left.getChildren().addAll(searchBar, iconRow);
+
+            // ── CENTER COLUMN: quantity, station fee, demand type, crafting focus, bonus craft, HO ──
+            VBox center = new VBox(8);
+            center.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(center, Priority.ALWAYS);
+
+            Label quantityLbl = new Label("Quantity:");
+            quantityLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             TextField quantity = new TextField("200");
-            TextField stationFee = new TextField("999");
+            quantity.setStyle("-fx-font-size: 14px;");
+            quantity.setMaxWidth(Double.MAX_VALUE);
 
+            Label stationFeeLbl = new Label("Station Fee:");
+            stationFeeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            TextField stationFee = new TextField("999");
+            stationFee.setStyle("-fx-font-size: 14px;");
+            stationFee.setMaxWidth(Double.MAX_VALUE);
+
+            Label demandTypeLbl = new Label("Demand Type:");
+            demandTypeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> demandType = new ComboBox<>();
             demandType.getItems().addAll("24h", "7d", "4w");
             demandType.setValue("24h");
+            demandType.setMaxWidth(Double.MAX_VALUE);
 
             CheckBox craftingFocus = new CheckBox("Crafting Focus");
+            craftingFocus.setStyle("-fx-font-size: 13px;");
 
-            left.getChildren().addAll(searchBar, iconLabel,
-                    new Label("Quantity:"), quantity,
-                    new Label("Station Fee:"), stationFee,
-                    new Label("Demand Type:"), demandType,
-                    craftingFocus);
-
-            VBox center = new VBox(12);
-            center.setPrefWidth(320);
-
+            Label bonusCraftLbl = new Label("Bonus Craft:");
+            bonusCraftLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> bonusCraft = new ComboBox<>();
             bonusCraft.getItems().addAll("Royal Island", "Royal City", "Royal City + Bonus", "HO");
             bonusCraft.setValue("Royal City");
+            bonusCraft.setMaxWidth(Double.MAX_VALUE);
 
-            VBox hoSection = new VBox(8);
+            VBox hoSection = new VBox(6);
             hoSection.setVisible(false);
             hoSection.setManaged(false);
 
+            Label hoQualityLbl = new Label("Hideout Quality:");
+            hoQualityLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> hoQuality = new ComboBox<>();
             hoQuality.getItems().addAll("Q1", "Q2", "Q3", "Q4", "Q5", "Q6");
             hoQuality.setValue("Q5");
+            hoQuality.setMaxWidth(Double.MAX_VALUE);
 
+            Label hoPowerLbl = new Label("Hideout Power Level:");
+            hoPowerLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<Integer> hoPower = new ComboBox<>();
             hoPower.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9);
             hoPower.setValue(5);
+            hoPower.setMaxWidth(Double.MAX_VALUE);
 
-            hoSection.getChildren().addAll(new Label("Hideout Quality:"), hoQuality,
-                    new Label("Hideout Power Level:"), hoPower);
+            hoSection.getChildren().addAll(hoQualityLbl, hoQuality, hoPowerLbl, hoPower);
 
             bonusCraft.setOnAction(e -> {
                 boolean isHO = "HO".equals(bonusCraft.getValue());
@@ -245,121 +345,276 @@ public class CraftPanel extends VBox {
                 hoSection.setManaged(isHO);
             });
 
-            center.getChildren().addAll(new Label("Bonus Craft:"), bonusCraft, hoSection);
+            center.getChildren().addAll(
+                    quantityLbl, quantity,
+                    stationFeeLbl, stationFee,
+                    demandTypeLbl, demandType,
+                    craftingFocus,
+                    bonusCraftLbl, bonusCraft,
+                    hoSection
+            );
 
-            VBox right = new VBox(12);
-            right.setPrefWidth(340);
+            // ── RIGHT COLUMN: material buy locations + sell location ──
+            VBox right = new VBox(8);
+            right.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(right, Priority.ALWAYS);
 
+            Label buy1Lbl = new Label("Material-Buy1:");
+            buy1Lbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> buy1 = createCityCombo(false);
+            buy1.setMaxWidth(Double.MAX_VALUE);
+
+            Label buy2Lbl = new Label("Material-Buy2:");
+            buy2Lbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> buy2 = createCityCombo(false);
+            buy2.setMaxWidth(Double.MAX_VALUE);
+
+            Label buy3Lbl = new Label("Material-Buy3:");
+            buy3Lbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> buy3 = createCityCombo(true);
+            buy3.setMaxWidth(Double.MAX_VALUE);
+
+            Label buy4Lbl = new Label("Material-Buy4:");
+            buy4Lbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> buy4 = createCityCombo(true);
+            buy4.setMaxWidth(Double.MAX_VALUE);
+
+            Label sellLbl = new Label("Sell-Location:");
+            sellLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> sellLocation = createSellCombo();
+            sellLocation.setMaxWidth(Double.MAX_VALUE);
 
             right.getChildren().addAll(
-                    new Label("Material-Buy1:"), buy1,
-                    new Label("Material-Buy2:"), buy2,
-                    new Label("Material-Buy3:"), buy3,
-                    new Label("Material-Buy4:"), buy4,
-                    new Label("Sell-Location:"), sellLocation);
+                    buy1Lbl, buy1,
+                    buy2Lbl, buy2,
+                    buy3Lbl, buy3,
+                    buy4Lbl, buy4,
+                    sellLbl, sellLocation
+            );
 
             topSection.getChildren().addAll(left, center, right);
+            topSection.setMaxWidth(Double.MAX_VALUE);
+            VBox.setVgrow(topSection, Priority.NEVER);
 
-            // ====================== PERFECTLY ALIGNED TABLE ======================
-            VBox tableBox = new VBox(4);
-            tableBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 8;");
-
-            // Row 1: Tiers + Material names (spanning 2 columns)
-            HBox headerRow1 = new HBox(8);
-            headerRow1.setAlignment(Pos.CENTER_LEFT);
-
-            addHeaderCell(headerRow1, "Tiers", 85);
-
-            for (Material mat : MATERIALS) {
-                Label matHeader = new Label(mat.icon() + " " + mat.name());
-                matHeader.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 13px; -fx-pref-width: 170; -fx-alignment: center;");
-                headerRow1.getChildren().add(matHeader);
-            }
-
-            String[] resultHeaders = {"Demand", "Costs", "Focus Costs", "Books", "Fame", "SPF", "Profit", "ROI"};
-            for (String h : resultHeaders) {
-                addHeaderCell(headerRow1, h, 85);
-            }
-            tableBox.getChildren().add(headerRow1);
-
-            // Row 2: API | Manual under each material
-            HBox headerRow2 = new HBox(8);
-            headerRow2.setAlignment(Pos.CENTER_LEFT);
-
-            // Empty space under Tiers
-            Region empty = new Region();
-            empty.setPrefWidth(85);
-            headerRow2.getChildren().add(empty);
-
-            for (Material ignored : MATERIALS) {
-                addHeaderCell(headerRow2, "API", 85);
-                addHeaderCell(headerRow2, "Manual", 85);
-            }
-            tableBox.getChildren().add(headerRow2);
-
-            // Data rows
-            String[] tiers = {"4.0","4.1","4.2","4.3","4.4","5.0","5.1","5.2","5.3","5.4","6.0","6.1","6.2","6.3","6.4","7.0","7.1","7.2","7.3","7.4","8.0","8.1","8.2","8.3","8.4"};
-            for (String tier : tiers) {
-                HBox row = new HBox(8);
-                row.setAlignment(Pos.CENTER_LEFT);
-
-                addCell(row, tier);
-
-                for (Material ignored : MATERIALS) {
-                    TextField apiField = new TextField("120");
-                    apiField.setEditable(false);
-                    apiField.setStyle("-fx-font-size: 14px; -fx-pref-width: 85; -fx-alignment: center; -fx-background-color: #f0f0f0;");
-
-                    TextField manualField = new TextField("");
-                    manualField.setStyle("-fx-font-size: 14px; -fx-pref-width: 85; -fx-alignment: center;");
-
-                    manualField.textProperty().addListener((obs, old, newVal) -> {
-                        if (newVal != null && !newVal.trim().isEmpty()) {
-                            apiField.setText(newVal);
-                        }
-                    });
-
-                    row.getChildren().addAll(apiField, manualField);
-                }
-
-                addCell(row, "240");
-                addCell(row, "620");
-                addCell(row, "310");
-                addCell(row, "8");
-                addCell(row, "1250");
-                addCell(row, "12");
-                addCell(row, "850");
-                addCell(row, "28%");
-
-                tableBox.getChildren().add(row);
-            }
-
-            // BOTTOM
+            // ── BOTTOM SUMMARY ──
             VBox bottom = new VBox(10);
             bottom.setStyle("-fx-background-color: #f1f3f5; -fx-padding: 20; -fx-background-radius: 8;");
             Label bottomTitle = new Label("Calculation results / summary will appear here");
             bottomTitle.setStyle("-fx-font-size: 16px; -fx-text-fill: #888888;");
             bottom.getChildren().add(bottomTitle);
 
-            whiteContent.getChildren().addAll(topSection, tableBox, bottom);
-            getChildren().addAll(redHeader, whiteContent);
+            whiteContent.getChildren().addAll(topSection, buildTable(itemName), bottom);
+
+            ScrollPane contentScroll = new ScrollPane(whiteContent);
+            contentScroll.setFitToWidth(true);
+            contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            contentScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            contentScroll.setStyle("-fx-background-color: white;");
+            VBox.setVgrow(contentScroll, Priority.ALWAYS);
+
+            getChildren().addAll(redHeader, contentScroll);
         }
 
-        private void addHeaderCell(HBox row, String text, double width) {
-            Label l = new Label(text);
-            l.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 13px; -fx-pref-width: " + width + "; -fx-alignment: center;");
-            row.getChildren().add(l);
+        private VBox buildTable(String itemName) {
+            // Detect artifact type — drives whether material3 (and optionally material4) rows appear
+            ArtifactData.ArtifactType artifactType = ArtifactData.getArtifactType(itemName);
+            boolean hasArtifact = artifactType != null;
+
+            // Standard tiers (all 25 rows including enchanted sub-tiers)
+            String[] allTiers = {
+                    "4.0","4.1","4.2","4.3","4.4",
+                    "5.0","5.1","5.2","5.3","5.4",
+                    "6.0","6.1","6.2","6.3","6.4",
+                    "7.0","7.1","7.2","7.3","7.4",
+                    "8.0","8.1","8.2","8.3","8.4"
+            };
+
+            // Artifact material tiers — MAJOR only, no enchanted sub-tiers
+            String[] artifactTiers = {"4", "5", "6", "7", "8"};
+
+            // Column layout:
+            // col 0       : Tiers
+            // col 1,2     : Material 1 → API | Manual
+            // col 3,4     : Material 2 → API | Manual
+            // col 5..12   : Demand, Costs, Focus Costs, Books, Fame, SPF, Profit, ROI
+            int totalCols = 1 + (MATERIALS.size() * 2) + 8; // 13
+            double colPct = 100.0 / totalCols;
+
+            GridPane grid = new GridPane();
+            grid.setMaxWidth(Double.MAX_VALUE);
+            grid.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 8;");
+            grid.setVgap(4);
+            grid.setHgap(0);
+
+            for (int i = 0; i < totalCols; i++) {
+                ColumnConstraints cc = new ColumnConstraints();
+                cc.setPercentWidth(colPct);
+                cc.setHalignment(HPos.CENTER);
+                cc.setFillWidth(true);
+                grid.getColumnConstraints().add(cc);
+            }
+
+            String[] resultHeaders = {"Demand", "Costs", "Focus Costs", "Books", "Fame", "SPF", "Profit", "ROI"};
+
+            // ── Header row 0: Tiers | MaterialName (colspan 2) | result headers ──
+            grid.add(makeHeaderLabel("Tiers"), 0, 0);
+            int matCol = 1;
+            for (Material mat : MATERIALS) {
+                Label matLbl = makeHeaderLabel(mat.icon() + " " + mat.name());
+                GridPane.setColumnSpan(matLbl, 2);
+                grid.add(matLbl, matCol, 0);
+                matCol += 2;
+            }
+            for (int i = 0; i < resultHeaders.length; i++) {
+                grid.add(makeHeaderLabel(resultHeaders[i]), matCol + i, 0);
+            }
+
+            // ── Header row 1: empty | API | Manual per material | empty result cols ──
+            grid.add(new Label(""), 0, 1);
+            matCol = 1;
+            for (Material ignored : MATERIALS) {
+                grid.add(makeSubHeaderLabel("API"),    matCol,     1);
+                grid.add(makeSubHeaderLabel("Manual"), matCol + 1, 1);
+                matCol += 2;
+            }
+            for (int i = 0; i < resultHeaders.length; i++) {
+                grid.add(new Label(""), matCol + i, 1);
+            }
+
+            // ── Standard material rows (all tiers incl. enchanted sub-tiers) ──
+            String[] resultValues = {"240", "620", "310", "8", "1250", "12", "850", "28%"};
+            int gridRow = 2;
+            for (String tier : allTiers) {
+                grid.add(makeDataLabel(tier), 0, gridRow);
+                matCol = 1;
+                for (Material ignored : MATERIALS) {
+                    TextField apiField = new TextField("120");
+                    apiField.setEditable(false);
+                    apiField.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: #f0f0f0;");
+                    apiField.setMaxWidth(Double.MAX_VALUE);
+
+                    TextField manualField = new TextField("");
+                    manualField.setStyle("-fx-font-size: 12px; -fx-alignment: center;");
+                    manualField.setMaxWidth(Double.MAX_VALUE);
+                    manualField.textProperty().addListener((obs, old, newVal) -> {
+                        if (newVal != null && !newVal.trim().isEmpty()) apiField.setText(newVal);
+                    });
+                    grid.add(apiField,    matCol,     gridRow);
+                    grid.add(manualField, matCol + 1, gridRow);
+                    matCol += 2;
+                }
+                for (int i = 0; i < resultValues.length; i++) {
+                    grid.add(makeDataLabel(resultValues[i]), matCol + i, gridRow);
+                }
+                gridRow++;
+            }
+
+            VBox wrapper = new VBox(4);
+            wrapper.setMaxWidth(Double.MAX_VALUE);
+            wrapper.setFillWidth(true);
+            wrapper.getChildren().add(grid);
+
+            // ── Artifact material rows — only shown for artifact items ──
+            if (hasArtifact) {
+                // Separator label
+                Label artifactSectionLabel = new Label("Artifact Material  —  " + artifactType.displayName
+                        + "  (major tiers only, no enchanted sub-tiers)");
+                artifactSectionLabel.setStyle(
+                        "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" +
+                                "-fx-padding: 12 0 4 0;");
+
+                // Material 3 — Artifact item (e.g. "Rune Artifact")
+                GridPane artifactGrid = buildArtifactGrid(artifactTiers, artifactType.displayName, totalCols, colPct);
+
+                wrapper.getChildren().addAll(artifactSectionLabel, artifactGrid);
+            }
+
+            return wrapper;
         }
 
-        private void addCell(HBox row, String text) {
+        /** Builds the artifact-tier-only grid for material3 (no .1/.2/.3 rows). */
+        private GridPane buildArtifactGrid(String[] tiers, String materialLabel,
+                                           int totalCols, double colPct) {
+            GridPane grid = new GridPane();
+            grid.setMaxWidth(Double.MAX_VALUE);
+            grid.setStyle("-fx-background-color: #fff3f3; -fx-padding: 10; -fx-background-radius: 8;" +
+                    "-fx-border-color: #ef4444; -fx-border-radius: 8; -fx-border-width: 1;");
+            grid.setVgap(4);
+            grid.setHgap(0);
+
+            for (int i = 0; i < totalCols; i++) {
+                ColumnConstraints cc = new ColumnConstraints();
+                cc.setPercentWidth(colPct);
+                cc.setHalignment(HPos.CENTER);
+                cc.setFillWidth(true);
+                grid.getColumnConstraints().add(cc);
+            }
+
+            // Header: "Tier" | artifact label spanning mat columns | blanks for result cols
+            Label tierHeader = makeHeaderLabel("Tier");
+            grid.add(tierHeader, 0, 0);
+
+            Label matHeader = makeHeaderLabel("🔮 " + materialLabel);
+            GridPane.setColumnSpan(matHeader, MATERIALS.size() * 2);
+            grid.add(matHeader, 1, 0);
+
+            // sub-header: API | Manual
+            grid.add(new Label(""), 0, 1);
+            grid.add(makeSubHeaderLabel("API"),    1, 1);
+            grid.add(makeSubHeaderLabel("Manual"), 2, 1);
+
+            // Data rows — MAJOR tiers only
+            int row = 2;
+            for (String tier : tiers) {
+                grid.add(makeDataLabel("T" + tier), 0, row);
+
+                TextField apiField = new TextField("0");
+                apiField.setEditable(false);
+                apiField.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: #ffe4e4;");
+                apiField.setMaxWidth(Double.MAX_VALUE);
+
+                TextField manualField = new TextField("");
+                manualField.setStyle("-fx-font-size: 12px; -fx-alignment: center;");
+                manualField.setMaxWidth(Double.MAX_VALUE);
+                manualField.textProperty().addListener((obs, old, newVal) -> {
+                    if (newVal != null && !newVal.trim().isEmpty()) apiField.setText(newVal);
+                });
+
+                grid.add(apiField,    1, row);
+                grid.add(manualField, 2, row);
+
+                // Fill remaining result columns with blank labels for alignment
+                int matColEnd = 1 + MATERIALS.size() * 2;
+                for (int c = matColEnd; c < totalCols; c++) {
+                    grid.add(new Label(""), c, row);
+                }
+                row++;
+            }
+            return grid;
+        }
+
+        private Label makeHeaderLabel(String text) {
             Label l = new Label(text);
-            l.setStyle("-fx-font-size: 14px; -fx-pref-width: 85; -fx-alignment: center;");
-            row.getChildren().add(l);
+            l.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 13px;");
+            l.setMaxWidth(Double.MAX_VALUE);
+            l.setAlignment(Pos.CENTER);
+            return l;
+        }
+
+        private Label makeSubHeaderLabel(String text) {
+            Label l = new Label(text);
+            l.setStyle("-fx-font-weight: bold; -fx-text-fill: #888888; -fx-font-size: 12px;");
+            l.setMaxWidth(Double.MAX_VALUE);
+            l.setAlignment(Pos.CENTER);
+            return l;
+        }
+
+        private Label makeDataLabel(String text) {
+            Label l = new Label(text);
+            l.setStyle("-fx-font-size: 13px;");
+            l.setMaxWidth(Double.MAX_VALUE);
+            l.setAlignment(Pos.CENTER);
+            return l;
         }
 
         private ComboBox<String> createCityCombo(boolean withMedian) {
