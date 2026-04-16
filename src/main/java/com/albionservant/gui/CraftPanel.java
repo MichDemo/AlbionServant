@@ -2,6 +2,9 @@ package com.albionservant.gui;
 
 import com.albionservant.data.ArtifactData;
 import com.albionservant.data.CraftData;
+import com.albionservant.data.CraftMaterialData;
+import com.albionservant.data.ItemRenderData;
+import com.albionservant.AppConfig;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,13 +12,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -35,20 +43,16 @@ public class CraftPanel extends VBox {
         setStyle("-fx-background-color: #ef4444;");
 
         internalTopBar.setAlignment(Pos.CENTER_LEFT);
-        internalTopBar.setPadding(new Insets(0, 0, 15, 0));
+        internalTopBar.setPadding(new Insets(14, 20, 14, 20));
 
         Label breadcrumbLabel = new Label();
-        breadcrumbLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
+        breadcrumbLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
         HBox.setHgrow(breadcrumbLabel, Priority.ALWAYS);
 
         Button backButton = new Button("← Back");
-        backButton.setStyle("""
-            -fx-background-color: #4ade80;
-            -fx-text-fill: #111;
-            -fx-font-weight: bold;
-            -fx-font-size: 14px;
-            -fx-padding: 8 20;
-            """);
+        backButton.setStyle(AppConfig.BTN_SECONDARY);
+        backButton.setOnMouseEntered(e -> backButton.setStyle(AppConfig.BTN_SECONDARY_HOVER));
+        backButton.setOnMouseExited(e  -> backButton.setStyle(AppConfig.BTN_SECONDARY));
         backButton.setOnAction(e -> goBackOneLevel());
 
         Region spacer = new Region();
@@ -56,7 +60,8 @@ public class CraftPanel extends VBox {
 
         internalTopBar.getChildren().addAll(breadcrumbLabel, spacer, backButton);
 
-        contentArea.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 0;");
+        contentArea.setStyle("-fx-background-color: #f1f5f9;");
+        contentArea.setPadding(new Insets(0));
 
         ScrollPane scroll = new ScrollPane(contentArea);
         scroll.setFitToWidth(true);
@@ -104,14 +109,14 @@ public class CraftPanel extends VBox {
         if (currentPath.isEmpty()) {
             List<String> rootOptions = CraftData.getChildren("ROOT");
 
-            VBox centerBox = new VBox(20);
+            VBox centerBox = new VBox(24);
             centerBox.setAlignment(Pos.CENTER);
-            centerBox.setPadding(new Insets(60, 40, 60, 40));
-            centerBox.setStyle("-fx-background-color: #f8f9fa;");
+            centerBox.setPadding(new Insets(60, 60, 60, 60));
+            centerBox.setStyle("-fx-background-color: #f1f5f9;");
             VBox.setVgrow(centerBox, Priority.ALWAYS);
 
             Label prompt = new Label("Choose a category to get started");
-            prompt.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #555555;");
+            prompt.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #64748b;");
 
             HBox buttonsRow = new HBox(24);
             buttonsRow.setAlignment(Pos.CENTER);
@@ -119,29 +124,10 @@ public class CraftPanel extends VBox {
             for (String option : rootOptions) {
                 Button btn = new Button(option);
                 btn.setPrefWidth(200);
-                btn.setPrefHeight(70);
-                btn.setStyle("""
-                    -fx-background-color: #ef4444;
-                    -fx-text-fill: #ffffff;
-                    -fx-font-weight: bold;
-                    -fx-font-size: 18px;
-                    -fx-background-radius: 10;
-                    """);
-                btn.setOnMouseEntered(e -> btn.setStyle("""
-                    -fx-background-color: #dc2626;
-                    -fx-text-fill: #ffffff;
-                    -fx-font-weight: bold;
-                    -fx-font-size: 18px;
-                    -fx-background-radius: 10;
-                    -fx-cursor: hand;
-                    """));
-                btn.setOnMouseExited(e -> btn.setStyle("""
-                    -fx-background-color: #ef4444;
-                    -fx-text-fill: #ffffff;
-                    -fx-font-weight: bold;
-                    -fx-font-size: 18px;
-                    -fx-background-radius: 10;
-                    """));
+                btn.setPrefHeight(64);
+                btn.setStyle(AppConfig.BTN_ROOT);
+                btn.setOnMouseEntered(e -> btn.setStyle(AppConfig.BTN_ROOT_HOVER));
+                btn.setOnMouseExited(e  -> btn.setStyle(AppConfig.BTN_ROOT));
                 final String finalOption = option;
                 btn.setOnAction(e -> {
                     currentPath.add(finalOption);
@@ -156,9 +142,9 @@ public class CraftPanel extends VBox {
         }
 
         // ── TREE STATE: multi-column drill-down ──
-        HBox levelsHBox = new HBox(20);
+        HBox levelsHBox = new HBox(16);
         levelsHBox.setAlignment(Pos.TOP_LEFT);
-        levelsHBox.setPadding(new Insets(15));
+        levelsHBox.setPadding(new Insets(24, 28, 24, 28));
 
         int pathSize = currentPath.size();
         for (int level = 0; level <= pathSize; level++) {
@@ -167,20 +153,33 @@ public class CraftPanel extends VBox {
             List<String> options = CraftData.getChildren(parentKey);
             String selected = isNextColumn ? null : currentPath.get(level);
 
-            VBox column = new VBox(8);
-            column.setStyle("-fx-padding: 12; -fx-background-color: #f1f3f5; -fx-background-radius: 10; -fx-min-width: 170;");
+            VBox column = new VBox(6);
+            column.setStyle(
+                    "-fx-padding: 14 12 14 12;" +
+                            "-fx-background-color: " + (isNextColumn ? "#ffffff" : "#f1f5f9") + ";" +
+                            "-fx-background-radius: 10;" +
+                            "-fx-min-width: 228;" +
+                            "-fx-border-color: #e2e8f0;" +
+                            "-fx-border-radius: 10;" +
+                            "-fx-border-width: 1;"
+            );
 
             String headerText = isNextColumn
-                    ? (currentPath.isEmpty() ? "Choose your starting category" : currentPath.get(currentPath.size() - 1) + " → next")
+                    ? (currentPath.isEmpty() ? "Choose category" : currentPath.get(currentPath.size() - 1))
                     : (level == 0 ? "Main Categories" : currentPath.get(level - 1));
             Label columnHeader = new Label(headerText);
-            columnHeader.setStyle("-fx-font-size: 13px; -fx-text-fill: #666666; -fx-font-weight: bold;");
+            columnHeader.setStyle(
+                    "-fx-font-size: 12px;" +
+                            "-fx-text-fill: " + (isNextColumn ? "#ef4444" : "#94a3b8") + ";" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 0 0 6 0;"
+            );
             column.getChildren().add(columnHeader);
 
             for (String option : options) {
                 boolean isSelected = !isNextColumn && option.equals(selected);
                 Button btn = createButton(option, isSelected, !isNextColumn);
-                btn.setPrefWidth(155);
+                btn.setPrefWidth(202);
                 btn.setMaxWidth(Double.MAX_VALUE);
 
                 final int finalLevel = level;
@@ -200,8 +199,8 @@ public class CraftPanel extends VBox {
             }
 
             if (isNextColumn && options.isEmpty()) {
-                Label emptyMsg = new Label("No further sub-categories");
-                emptyMsg.setStyle("-fx-font-size: 14px; -fx-text-fill: #888888; -fx-padding: 20 0 10 0;");
+                Label emptyMsg = new Label("No items available");
+                emptyMsg.setStyle("-fx-font-size: 13px; -fx-text-fill: #94a3b8; -fx-padding: 16 0 8 0;");
                 column.getChildren().add(emptyMsg);
             }
             levelsHBox.getChildren().add(column);
@@ -212,13 +211,19 @@ public class CraftPanel extends VBox {
     // ====================== DETAIL SUB-PANEL ======================
     private static class CraftDetailSubPanel extends VBox {
 
-        private record Material(String name, String icon) {}
-        private static final List<Material> MATERIALS = List.of(
-                new Material("Metal Bars", "🛡️"),
-                new Material("Planks", "📦")
-        );
+        private record Material(String name) {}
+
+        // Resolved dynamically per item from CraftingMaterialData
+        private final List<Material> MATERIALS;
 
         public CraftDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack) {
+            // Resolve materials for this specific item
+            CraftMaterialData.Materials mats = CraftMaterialData.getMaterials(itemName);
+            List<Material> resolvedMaterials = new java.util.ArrayList<>();
+            resolvedMaterials.add(new Material(mats.material1()));
+            resolvedMaterials.add(new Material(mats.material2())); // "N/A" if not applicable
+            this.MATERIALS = resolvedMaterials;
+
             setPadding(new Insets(0));
             setSpacing(0);
 
@@ -235,13 +240,9 @@ public class CraftPanel extends VBox {
             HBox.setHgrow(spacer, Priority.ALWAYS);
 
             Button backBtn = new Button("← Back");
-            backBtn.setStyle("""
-                -fx-background-color: #4ade80;
-                -fx-text-fill: #111;
-                -fx-font-weight: bold;
-                -fx-font-size: 14px;
-                -fx-padding: 8 24;
-                """);
+            backBtn.setStyle(AppConfig.BTN_SECONDARY);
+            backBtn.setOnMouseEntered(e -> backBtn.setStyle(AppConfig.BTN_SECONDARY_HOVER));
+            backBtn.setOnMouseExited(e  -> backBtn.setStyle(AppConfig.BTN_SECONDARY));
             backBtn.setOnAction(e -> onBack.run());
 
             redHeader.getChildren().addAll(breadcrumb, spacer, backBtn);
@@ -260,7 +261,7 @@ public class CraftPanel extends VBox {
             topSection.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(topSection, Priority.ALWAYS);
 
-            // ── LEFT COLUMN: search bar + item icons (click = go back) ──
+            // ── LEFT COLUMN: search bar + item icon (click = go back) ──
             VBox left = new VBox(12);
             left.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(left, Priority.ALWAYS);
@@ -270,20 +271,10 @@ public class CraftPanel extends VBox {
             searchBar.setStyle("-fx-font-size: 14px;");
             searchBar.setMaxWidth(Double.MAX_VALUE);
 
-            HBox iconRow = new HBox(16);
-            iconRow.setAlignment(Pos.CENTER_LEFT);
+            // Item icon — loaded async from render.albiononline.com (T8 image)
+            StackPane iconWrapper = buildItemIcon(itemName, onBack);
 
-            Label icon1 = new Label("🛡️");
-            icon1.setStyle("-fx-font-size: 72px; -fx-cursor: hand;");
-            icon1.setOnMouseClicked(e -> onBack.run());
-
-            Label icon2 = new Label("📦");
-            icon2.setStyle("-fx-font-size: 72px; -fx-cursor: hand;");
-            icon2.setOnMouseClicked(e -> onBack.run());
-
-            iconRow.getChildren().addAll(icon1, icon2);
-
-            left.getChildren().addAll(searchBar, iconRow);
+            left.getChildren().addAll(searchBar, iconWrapper);
 
             // ── CENTER COLUMN: quantity, station fee, demand type, crafting focus, bonus craft, HO ──
             VBox center = new VBox(8);
@@ -460,7 +451,8 @@ public class CraftPanel extends VBox {
             grid.add(makeHeaderLabel("Tiers"), 0, 0);
             int matCol = 1;
             for (Material mat : MATERIALS) {
-                Label matLbl = makeHeaderLabel(mat.icon() + " " + mat.name());
+                boolean isNA = CraftMaterialData.NA.equals(mat.name());
+                Label matLbl = isNA ? makeNAHeaderLabel("N/A") : makeHeaderLabel(mat.name());
                 GridPane.setColumnSpan(matLbl, 2);
                 grid.add(matLbl, matCol, 0);
                 matCol += 2;
@@ -472,9 +464,10 @@ public class CraftPanel extends VBox {
             // ── Header row 1: empty | API | Manual per material | empty result cols ──
             grid.add(new Label(""), 0, 1);
             matCol = 1;
-            for (Material ignored : MATERIALS) {
-                grid.add(makeSubHeaderLabel("API"),    matCol,     1);
-                grid.add(makeSubHeaderLabel("Manual"), matCol + 1, 1);
+            for (Material mat : MATERIALS) {
+                boolean isNA = CraftMaterialData.NA.equals(mat.name());
+                grid.add(isNA ? makeNAHeaderLabel("—") : makeSubHeaderLabel("API"),    matCol,     1);
+                grid.add(isNA ? makeNAHeaderLabel("—") : makeSubHeaderLabel("Manual"), matCol + 1, 1);
                 matCol += 2;
             }
             for (int i = 0; i < resultHeaders.length; i++) {
@@ -487,18 +480,26 @@ public class CraftPanel extends VBox {
             for (String tier : allTiers) {
                 grid.add(makeDataLabel(tier), 0, gridRow);
                 matCol = 1;
-                for (Material ignored : MATERIALS) {
-                    TextField apiField = new TextField("120");
+                for (Material mat : MATERIALS) {
+                    boolean isNA = "N/A".equals(mat.name());
+
+                    TextField apiField = new TextField(isNA ? "—" : "120");
                     apiField.setEditable(false);
-                    apiField.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: #f0f0f0;");
+                    apiField.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: "
+                            + (isNA ? "#e8e8e8; -fx-text-fill: #aaaaaa;" : "#f0f0f0;"));
                     apiField.setMaxWidth(Double.MAX_VALUE);
+                    apiField.setDisable(isNA);
 
                     TextField manualField = new TextField("");
-                    manualField.setStyle("-fx-font-size: 12px; -fx-alignment: center;");
+                    manualField.setStyle("-fx-font-size: 12px; -fx-alignment: center;"
+                            + (isNA ? " -fx-background-color: #e8e8e8;" : ""));
                     manualField.setMaxWidth(Double.MAX_VALUE);
-                    manualField.textProperty().addListener((obs, old, newVal) -> {
-                        if (newVal != null && !newVal.trim().isEmpty()) apiField.setText(newVal);
-                    });
+                    manualField.setDisable(isNA);
+                    if (!isNA) {
+                        manualField.textProperty().addListener((obs, old, newVal) -> {
+                            if (newVal != null && !newVal.trim().isEmpty()) apiField.setText(newVal);
+                        });
+                    }
                     grid.add(apiField,    matCol,     gridRow);
                     grid.add(manualField, matCol + 1, gridRow);
                     matCol += 2;
@@ -593,6 +594,84 @@ public class CraftPanel extends VBox {
             return grid;
         }
 
+        /**
+         * Builds an item icon loaded asynchronously from the Albion render API (T8 image).
+         * While loading, shows a spinner. On error, falls back to a placeholder label.
+         * Clicking the icon triggers the onBack action.
+         */
+        private StackPane buildItemIcon(String itemName, Runnable onBack) {
+            int SIZE = 256;
+
+            StackPane wrapper = new StackPane();
+            wrapper.setMaxWidth(SIZE);
+            wrapper.setMinWidth(SIZE);
+            wrapper.setPrefWidth(SIZE);
+            wrapper.setMaxHeight(SIZE);
+            wrapper.setMinHeight(SIZE);
+            wrapper.setPrefHeight(SIZE);
+            wrapper.setStyle(
+                    "-fx-background-color: #f0f0f0;" +
+                            "-fx-background-radius: 8;" +
+                            "-fx-border-color: #dddddd;" +
+                            "-fx-border-radius: 8;" +
+                            "-fx-cursor: hand;"
+            );
+            wrapper.setOnMouseClicked(e -> onBack.run());
+
+            // Loading spinner shown while the image is fetching
+            ProgressIndicator spinner = new ProgressIndicator();
+            spinner.setMaxWidth(48);
+            spinner.setMaxHeight(48);
+
+            // Tooltip for back navigation hint
+            Tooltip tip = new Tooltip("Click to go back");
+            Tooltip.install(wrapper, tip);
+
+            String url = ItemRenderData.getT8ImageUrl(itemName);
+            if (url == null) {
+                Label fallback = new Label("?");
+                fallback.setStyle("-fx-font-size: 48px; -fx-text-fill: #aaaaaa;");
+                wrapper.getChildren().add(fallback);
+                return wrapper;
+            }
+
+            wrapper.getChildren().add(spinner);
+
+            // Load image in background — JavaFX Image supports backgroundLoading
+            Image image = new Image(url, SIZE, SIZE, true, true, true);
+
+            image.progressProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal.doubleValue() >= 1.0) {
+                    javafx.application.Platform.runLater(() -> {
+                        wrapper.getChildren().clear();
+                        if (image.isError()) {
+                            // Fallback: show item name initials if render fails
+                            Label fallback = new Label(itemName.substring(0, Math.min(2, itemName.length())).toUpperCase());
+                            fallback.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
+                            wrapper.getChildren().add(fallback);
+                        } else {
+                            ImageView iv = new ImageView(image);
+                            iv.setFitWidth(SIZE);
+                            iv.setFitHeight(SIZE);
+                            iv.setPreserveRatio(true);
+                            iv.setSmooth(true);
+                            wrapper.getChildren().add(iv);
+                        }
+                    });
+                }
+            });
+
+            return wrapper;
+        }
+
+        private Label makeNAHeaderLabel(String text) {
+            Label l = new Label(text);
+            l.setStyle("-fx-font-weight: bold; -fx-text-fill: #bbbbbb; -fx-font-size: 13px;");
+            l.setMaxWidth(Double.MAX_VALUE);
+            l.setAlignment(Pos.CENTER);
+            return l;
+        }
+
         private Label makeHeaderLabel(String text) {
             Label l = new Label(text);
             l.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 13px;");
@@ -649,16 +728,27 @@ public class CraftPanel extends VBox {
 
     private Button createButton(String text, boolean isSelected, boolean isSidePanel) {
         Button btn = new Button(text);
-        btn.setPrefHeight(58);
-        btn.setMinWidth(145);
+        btn.setPrefHeight(52);
+        btn.setMinWidth(195);
+        btn.setMaxWidth(Double.MAX_VALUE);
 
+        String base;
         if (isSelected) {
-            btn.setStyle("-fx-background-color: #4ade80; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
+            base = AppConfig.BTN_SELECTED;
         } else if (isSidePanel) {
-            btn.setStyle("-fx-background-color: #555555; -fx-text-fill: #aaaaaa; -fx-font-size: 14px; -fx-opacity: 0.85;");
+            base = AppConfig.BTN_TRAVERSED;
         } else {
-            btn.setStyle("-fx-background-color: #86efac; -fx-text-fill: #111; -fx-font-weight: bold; -fx-font-size: 14px;");
+            base = AppConfig.BTN_ACTIVE;
         }
+        btn.setStyle(base);
+
+        if (!isSelected) {
+            final String baseStyle  = base;
+            final String hoverStyle = isSidePanel ? AppConfig.BTN_ACTIVE_HOVER : AppConfig.BTN_ACTIVE_HOVER;
+            btn.setOnMouseEntered(e -> btn.setStyle(hoverStyle));
+            btn.setOnMouseExited(e  -> btn.setStyle(baseStyle));
+        }
+
         return btn;
     }
 }

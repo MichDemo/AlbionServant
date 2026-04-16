@@ -2,6 +2,8 @@ com\albionservant\data\ArtifactData$ArtifactType.class
 com\albionservant\gui\HotInvestmentsPanel.class
 com\albionservant\gui\TopNavigationBar.class
 com\albionservant\gui\CraftPanel$CraftDetailSubPanel$Material.class
+com\albionservant\data\CraftMaterialData.class
+com\albionservant\data\CraftMaterialData$Materials.class
 com\albionservant\data\CraftData.class
 com\albionservant\AppConfig.class
 com\albionservant\elements\InvestmentItem.class
@@ -13,3 +15,4 @@ com\albionservant\data\ArtifactData.class
 com\albionservant\gui\CraftPanel$CraftDetailSubPanel.class
 com\albionservant\data\InvestmentData.class
 com\albionservant\Launcher.class
+com\albionservant\data\ItemRenderData.class

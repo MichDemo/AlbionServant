@@ -1,5 +1,6 @@
 package com.albionservant.gui;
 
+import com.albionservant.AppConfig;
 import com.albionservant.data.InvestmentData;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -68,21 +69,15 @@ public class HotInvestmentsPanel extends VBox {
 
     private void buildPaginationControls() {
         prevButton = new Button("← Previous");
-        prevButton.setStyle("""
-            -fx-background-color: #4ade80;
-            -fx-text-fill: #111;
-            -fx-font-weight: bold;
-            -fx-padding: 10 20;
-            """);
+        prevButton.setStyle(AppConfig.BTN_PRIMARY);
+        prevButton.setOnMouseEntered(e -> prevButton.setStyle(AppConfig.BTN_PRIMARY_HOVER));
+        prevButton.setOnMouseExited(e  -> prevButton.setStyle(AppConfig.BTN_PRIMARY));
         prevButton.setOnAction(e -> previousPage());
 
         nextButton = new Button("Next →");
-        nextButton.setStyle("""
-            -fx-background-color: #4ade80;
-            -fx-text-fill: #111;
-            -fx-font-weight: bold;
-            -fx-padding: 10 20;
-            """);
+        nextButton.setStyle(AppConfig.BTN_PRIMARY);
+        nextButton.setOnMouseEntered(e -> nextButton.setStyle(AppConfig.BTN_PRIMARY_HOVER));
+        nextButton.setOnMouseExited(e  -> nextButton.setStyle(AppConfig.BTN_PRIMARY));
         nextButton.setOnAction(e -> nextPage());
 
         pageLabel = new Label("1 / 1");

@@ -4,24 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-fix : more progress towards the end...">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ArtifactData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Changes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Changes.xml" afterDir="false" />
+    <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-feat : crafting spreadsheet">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftMaterialData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ItemRenderData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/AppConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/HotInvestmentsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/HotInvestmentsPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/GreetingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/GreetingService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/InvestmentData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/InvestmentData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/elements/InvestmentItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/elements/InvestmentItem.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/HotInvestmentsPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/HotInvestmentsPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
@@ -130,7 +123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774427655039</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="-feat : crafting spreadsheet">
+      <option name="closed" value="true" />
+      <created>1776273056214</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1776273056214</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -138,6 +139,7 @@
     <MESSAGE value="-feat : new color config via AppConfig&#10;-todo : website layout" />
     <MESSAGE value="-add : Gui Added&#10;-todo : make it more appealing" />
     <MESSAGE value="-fix : now the craft panel is not scuffed" />
-    <option name="LAST_COMMIT_MESSAGE" value="-fix : now the craft panel is not scuffed" />
+    <MESSAGE value="-feat : crafting spreadsheet" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat : crafting spreadsheet" />
   </component>
 </project>
