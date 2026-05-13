@@ -66,15 +66,12 @@ public class MainApp extends Application {
 
         topBar.setOnCraftClicked(() -> {
             contentArea.getChildren().set(0, craftPanel);
-            // CraftPanel needs to grow to fill available space
             VBox.setVgrow(contentArea, Priority.ALWAYS);
-            contentArea.setAlignment(Pos.TOP_CENTER);
             topBar.setVisible(true);
         });
 
         topBar.setOnOtherTabClicked(() -> {
             contentArea.getChildren().set(0, hotPanel);
-            // HotPanel should NOT grow — stays natural height
             VBox.setVgrow(contentArea, Priority.NEVER);
             topBar.setVisible(true);
         });

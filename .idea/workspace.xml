@@ -5,16 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-feat : crafting spreadsheet">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftMaterialData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ItemRenderData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FoodRecipeData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/PotionRecipeData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/FoodPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RequirementsCalculatorPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ArtifactData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ArtifactData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftMaterialData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftMaterialData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/HotInvestmentsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/HotInvestmentsPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/TopNavigationBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/TopNavigationBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/ArtifactData$ArtifactType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/ArtifactData$ArtifactType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/ArtifactData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/ArtifactData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftMaterialData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftMaterialData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/HotInvestmentsPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/HotInvestmentsPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>

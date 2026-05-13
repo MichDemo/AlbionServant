@@ -13,11 +13,12 @@ import java.util.Map;
 public class ArtifactData {
 
     public enum ArtifactType {
-        RUNE    ("Rune Artifact",      "Requires a Rune artifact (from Rune shards at Artifact Foundry)"),
-        SOUL    ("Soul Artifact",      "Requires a Soul artifact (from Soul shards at Artifact Foundry)"),
-        RELIC   ("Relic Artifact",     "Requires a Relic artifact (from Relic shards at Artifact Foundry)"),
-        AVALON  ("Avalonian Artifact", "Requires an Avalonian artifact (from Avalonian shards)"),
-        CRYSTAL ("Crystal Artifact",   "Requires a Crystal artifact (from Crystal shards)");
+        RUNE         ("Rune Artifact",       "Requires a Rune artifact (from Rune shards at Artifact Foundry)"),
+        SOUL         ("Soul Artifact",       "Requires a Soul artifact (from Soul shards at Artifact Foundry)"),
+        RELIC        ("Relic Artifact",      "Requires a Relic artifact (from Relic shards at Artifact Foundry)"),
+        AVALON       ("Avalonian Artifact",  "Requires an Avalonian artifact (from Avalonian shards)"),
+        CRYSTAL      ("Crystal Artifact",   "Requires a Crystal artifact (from Crystal shards)"),
+        AVALON_ENERGY("Avalonian Energy",    "Requires Avalonian Energy (same recipe as base tool + Avalonian Energy)");
 
         public final String displayName;
         public final String tooltip;
@@ -230,6 +231,16 @@ public class ArtifactData {
         ARTIFACT_MAP.put("Cultist Sandals",    ArtifactType.SOUL);
         ARTIFACT_MAP.put("Fiend Sandals",      ArtifactType.RELIC);
         ARTIFACT_MAP.put("Royal Sandals",      ArtifactType.AVALON);
+
+        // ── TOOLMAKER — Avalonian tools ───────────────────────────────────────
+        // Same base materials as their regular counterpart + Avalonian Energy
+        ARTIFACT_MAP.put("Avalonian Sickle",         ArtifactType.AVALON_ENERGY);
+        ARTIFACT_MAP.put("Avalonian Axe",            ArtifactType.AVALON_ENERGY);
+        ARTIFACT_MAP.put("Avalonian Pickaxe",        ArtifactType.AVALON_ENERGY);
+        ARTIFACT_MAP.put("Avalonian Stone Hammer",   ArtifactType.AVALON_ENERGY);
+        ARTIFACT_MAP.put("Avalonian Skinning Knife", ArtifactType.AVALON_ENERGY);
+        ARTIFACT_MAP.put("Avalonian Fishing Rod",    ArtifactType.AVALON_ENERGY);
+        ARTIFACT_MAP.put("Avalonian Siege Hammer",   ArtifactType.AVALON_ENERGY);
     }
 
     /** Returns the artifact type for the given item, or null if it's a standard item. */

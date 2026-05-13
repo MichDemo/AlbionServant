@@ -311,55 +311,56 @@ public class CraftMaterialData {
 
         // ── TOOLMAKER ────────────────────────────────────────────────────────
 
-        // Gathering Tools — Metal Bars + Planks (metal head + wooden handle)
-        m("Sickle",              "Metal Bars", "Planks");
-        m("Wood Axe",            "Metal Bars", "Planks");
-        m("Pickaxe",             "Metal Bars", "Planks");
-        m("Stone Hammer",        "Metal Bars", "Planks");
-        m("Skinning Knife",      "Metal Bars", "Planks");
-        m("Fishing Rod",         "Planks",     NA);         // wood only — no metal head
-        m("Demolition Hammer",   "Metal Bars", "Planks");
+        // Gathering Tools — metal head + wooden handle = Metal Bars + Planks
+        // Exception: Fishing Rod is wood-only, Siege Hammer is metal-only
+        m("Sickle",                 "Metal Bars", "Planks");
+        m("Wood Axe",               "Metal Bars", "Planks");
+        m("Pickaxe",                "Metal Bars", "Planks");
+        m("Stone Hammer",           "Metal Bars", "Planks");
+        m("Skinning Knife",         "Metal Bars", "Planks");
+        m("Fishing Rod",            "Planks",     NA);
+        m("Siege Hammer (regular)", "Metal Bars", "Planks");
 
-        // Harvester Gear (fiber gatherer) — Cloth only
-        m("Harvester Cap",       "Cloth",   NA);
-        m("Harvester Garb",      "Cloth",   NA);
-        m("Harvester Workboots", "Cloth",   NA);
-        m("Harvester Backpack",  "Cloth",   NA);
+        // Harvester Gear — gathers Fiber → refined to Cloth → gear uses Cloth only
+        m("Harvester Cap",          "Cloth",        NA);
+        m("Harvester Garb",         "Cloth",        NA);
+        m("Harvester Workboots",    "Cloth",        NA);
+        m("Harvester Backpack",     "Cloth",        NA);
 
-        // Lumberjack Gear (wood gatherer) — Leather only
-        m("Lumberjack Cap",       "Leather", NA);
-        m("Lumberjack Garb",      "Leather", NA);
-        m("Lumberjack Workboots", "Leather", NA);
-        m("Lumberjack Backpack",  "Leather", NA);
+        // Lumberjack Gear — gathers Logs → refined to Planks → gear uses Planks only
+        m("Lumberjack Cap",         "Planks",       NA);
+        m("Lumberjack Garb",        "Planks",       NA);
+        m("Lumberjack Workboots",   "Planks",       NA);
+        m("Lumberjack Backpack",    "Planks",       NA);
 
-        // Miner Gear (ore gatherer) — Leather + Metal Bars (reinforced for mining)
-        m("Miner Cap",       "Leather", "Metal Bars");
-        m("Miner Garb",      "Leather", "Metal Bars");
-        m("Miner Workboots", "Leather", "Metal Bars");
-        m("Miner Backpack",  "Leather", NA);
+        // Miner Gear — gathers Ore → refined to Metal Bars → gear uses Metal Bars only
+        m("Miner Cap",              "Metal Bars",   NA);
+        m("Miner Garb",             "Metal Bars",   NA);
+        m("Miner Workboots",        "Metal Bars",   NA);
+        m("Miner Backpack",         "Metal Bars",   NA);
 
-        // Quarrier Gear (stone gatherer) — Leather + Metal Bars
-        m("Quarrier Cap",       "Leather", "Metal Bars");
-        m("Quarrier Garb",      "Leather", "Metal Bars");
-        m("Quarrier Workboots", "Leather", "Metal Bars");
-        m("Quarrier Backpack",  "Leather", NA);
+        // Quarrier Gear — gathers Stone → refined to Stone Blocks → gear uses Metal Bars only
+        m("Quarrier Cap",           "Metal Bars", NA);
+        m("Quarrier Garb",          "Metal Bars", NA);
+        m("Quarrier Workboots",     "Metal Bars", NA);
+        m("Quarrier Backpack",      "Metal Bars", NA);
 
-        // Skinner Gear (hide gatherer) — Leather only
-        m("Skinner Cap",       "Leather", NA);
-        m("Skinner Garb",      "Leather", NA);
-        m("Skinner Workboots", "Leather", NA);
-        m("Skinner Backpack",  "Leather", NA);
+        // Skinner Gear — gathers Hide → refined to Leather → gear uses Leather only
+        m("Skinner Cap",            "Leather",      NA);
+        m("Skinner Garb",           "Leather",      NA);
+        m("Skinner Workboots",      "Leather",      NA);
+        m("Skinner Backpack",       "Leather",      NA);
 
-        // Fisherman Gear — Leather + Cloth (flexible, waterproof-ish gear)
-        m("Fisherman Cap",       "Leather", "Cloth");
-        m("Fisherman Garb",      "Leather", "Cloth");
-        m("Fisherman Workboots", "Leather", "Cloth");
-        m("Fisherman Backpack",  "Leather", NA);
+        // Fisherman Gear — uses Cloth only (same as Harvester, fishing is fibre-adjacent)
+        m("Fisherman Cap",          "Cloth",        NA);
+        m("Fisherman Garb",         "Cloth",        NA);
+        m("Fisherman Workboots",    "Cloth",        NA);
+        m("Fisherman Backpack",     "Cloth",        NA);
 
         // Bags — Cloth + Leather
-        m("Bag",                 "Cloth", "Leather");
-        m("Satchel of Insight",  "Cloth", "Leather");
-        m("Riding Bag",          "Cloth", "Leather");
+        m("Bag",                    "Cloth",  "Leather");
+        m("Satchel of Insight",     "Cloth",  "Leather");
+        m("Riding Bag",             "Cloth",  "Leather");
 
         // Capes — Cloth + Leather
         m("Cape",               "Cloth", "Leather");
@@ -377,6 +378,17 @@ public class CraftMaterialData {
         m("Morgana Cape",       "Cloth", "Leather");
         m("Demon Cape",         "Cloth", "Leather");
         m("Smuggler Cape",      "Cloth", "Leather");
+
+        // ── TOOLMAKER — Avalonian tools ───────────────────────────────────────
+        // Identical base materials to their regular counterpart.
+        // Avalonian Energy appears as material3 — handled via ArtifactData.
+        m("Avalonian Sickle",         "Metal Bars", "Planks");
+        m("Avalonian Axe",            "Metal Bars", "Planks");
+        m("Avalonian Pickaxe",        "Metal Bars", "Planks");
+        m("Avalonian Stone Hammer",   "Metal Bars", "Planks");
+        m("Avalonian Skinning Knife", "Metal Bars", "Planks");
+        m("Avalonian Fishing Rod",    "Planks",     NA);
+        m("Avalonian Siege Hammer",   "Metal Bars", "Planks");
     }
 
     private static void m(String item, String mat1, String mat2) {

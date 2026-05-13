@@ -1,5 +1,7 @@
 package com.albionservant.data;
 
+import com.albionservant.data.FoodRecipeData;
+import com.albionservant.data.PotionRecipeData;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +20,8 @@ public class CraftData {
 
         categoryChildren.put("Gear", List.of("Warrior", "Hunter", "Mage", "Toolmaker"));
 
-        categoryChildren.put("Food",    Collections.emptyList());
-        categoryChildren.put("Potion",  Collections.emptyList());
+        // Food categories and items are resolved dynamically via FoodRecipeData
+        // DO NOT pre-populate here — getChildren() handles Food keys at call time
 
         // ── WARRIOR ──────────────────────────────────────────────────────────
         categoryChildren.put("Warrior", List.of(
@@ -216,21 +218,10 @@ public class CraftData {
 
         // ── TOOLMAKER ────────────────────────────────────────────────────────
         // Each gathering profession is one sub-category bundling:
-        //   tool + cap + garb + workboots + backpack (bag)
-        // Plus standalone: Demolition Hammer, Bags, Capes
-        categoryChildren.put("Toolmaker", List.of(
-                "Harvester",    // Fiber — Sickle
-                "Lumberjack",   // Wood  — Wood Axe
-                "Miner",        // Ore   — Pickaxe
-                "Quarrier",     // Stone — Stone Hammer
-                "Skinner",      // Hide  — Skinning Knife
-                "Fisherman",    // Fish  — Fishing Rod
-                "Demolition Hammer",
-                "Bags",
-                "Capes"
-        ));
+        //   tool + Avalonian tool + cap + garb + workboots + backpack (bag)
+        // Plus standalone: Demolition Hammer, Avalonian Siege Hammer, Bags, Capes
 
-        // Harvester — Fiber gathering (Sickle + gear + bag)
+        // Harvester — Fiber gathering (Sickle + Avalonian Sickle + gear + bag)
         categoryChildren.put("Harvester", List.of(
                 "Sickle",
                 "Avalonian Sickle",
@@ -240,9 +231,9 @@ public class CraftData {
                 "Harvester Backpack"
         ));
 
-        // Lumberjack — Wood gathering (Wood Axe + gear + bag)
+        // Lumberjack — Wood gathering (Wood Axe + Avalonian Axe + gear + bag)
         categoryChildren.put("Lumberjack", List.of(
-                "Axe",
+                "Wood Axe",
                 "Avalonian Axe",
                 "Lumberjack Cap",
                 "Lumberjack Garb",
@@ -250,7 +241,7 @@ public class CraftData {
                 "Lumberjack Backpack"
         ));
 
-        // Miner — Ore gathering (Pickaxe + gear + bag)
+        // Miner — Ore gathering (Pickaxe + Avalonian Pickaxe + gear + bag)
         categoryChildren.put("Miner", List.of(
                 "Pickaxe",
                 "Avalonian Pickaxe",
@@ -260,7 +251,7 @@ public class CraftData {
                 "Miner Backpack"
         ));
 
-        // Quarrier — Stone gathering (Stone Hammer + gear + bag)
+        // Quarrier — Stone gathering (Stone Hammer + Avalonian Stone Hammer + gear + bag)
         categoryChildren.put("Quarrier", List.of(
                 "Stone Hammer",
                 "Avalonian Stone Hammer",
@@ -270,7 +261,7 @@ public class CraftData {
                 "Quarrier Backpack"
         ));
 
-        // Skinner — Hide gathering (Skinning Knife + gear + bag)
+        // Skinner — Hide gathering (Skinning Knife + Avalonian Skinning Knife + gear + bag)
         categoryChildren.put("Skinner", List.of(
                 "Skinning Knife",
                 "Avalonian Skinning Knife",
@@ -280,7 +271,7 @@ public class CraftData {
                 "Skinner Backpack"
         ));
 
-        // Fisherman — Fishing (Fishing Rod + gear + bag)
+        // Fisherman — Fishing (Fishing Rod + Avalonian Fishing Rod + gear + bag)
         categoryChildren.put("Fisherman", List.of(
                 "Fishing Rod",
                 "Avalonian Fishing Rod",
@@ -290,16 +281,32 @@ public class CraftData {
                 "Fisherman Backpack"
         ));
 
-        // Demolition Hammer
-        categoryChildren.put("Demolition Hammer", List.of(
-           "Demolition Hammer",
-           "Avalonian Demolition Hammer"
+        // Demolition Hammer + Avalonian Siege Hammer — standalone leaf nodes
+        // (no children — item IS the leaf)
+        // Avalonian Siege Hammer added as sibling under Toolmaker top level
+        categoryChildren.put("Toolmaker", List.of(
+                "Harvester",
+                "Lumberjack",
+                "Miner",
+                "Quarrier",
+                "Skinner",
+                "Fisherman",
+                "Siege Hammer",
+                "Bags",
+                "Capes"
+        ));
+
+        // Siege Hammer — two variants as direct leaf children (no gear set)
+        categoryChildren.put("Siege Hammer", List.of(
+                "Siege Hammer (regular)",
+                "Avalonian Siege Hammer"
         ));
 
         // Bags (non-gathering bags)
         categoryChildren.put("Bags", List.of(
                 "Bag",
-                "Satchel of Insight"
+                "Satchel of Insight",
+                "Riding Bag"
         ));
 
         // Capes — city capes + faction capes
@@ -338,6 +345,24 @@ public class CraftData {
     }
 
     public static List<String> getChildren(String parentKey) {
+        // Food tree — resolved dynamically
+        if ("Food".equals(parentKey)) {
+            return FoodRecipeData.getTopCategories();
+        }
+        List<String> foodCats = FoodRecipeData.getTopCategories();
+        if (foodCats.contains(parentKey)) {
+            return FoodRecipeData.getCategoryChildren(parentKey);
+        }
+
+        // Potion tree — resolved dynamically
+        if ("Potion".equals(parentKey)) {
+            return PotionRecipeData.getTopCategories();
+        }
+        List<String> potionCats = PotionRecipeData.getTopCategories();
+        if (potionCats.contains(parentKey)) {
+            return PotionRecipeData.getCategoryChildren(parentKey);
+        }
+
         return categoryChildren.getOrDefault(parentKey, Collections.emptyList());
     }
 }
