@@ -4,39 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-feat : pain">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftQuantityData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FocusCostCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/RefineData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RefinePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/SpecsPanel.java" afterDir="false" />
+    <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="-feat : pain 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftMaterialData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/CraftMaterialData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FoodRecipeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FoodRecipeData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ItemRenderData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ItemRenderData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/PotionRecipeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/PotionRecipeData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RequirementsCalculatorPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RequirementsCalculatorPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/TopNavigationBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/TopNavigationBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftMaterialData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/CraftMaterialData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/FoodRecipeData$Recipe.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/FoodRecipeData$Recipe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/FoodRecipeData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/FoodRecipeData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/ItemRenderData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/ItemRenderData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/PotionRecipeData$PotionRecipe.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/PotionRecipeData$PotionRecipe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/PotionRecipeData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/PotionRecipeData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel$LocationMode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel$MaterialLine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel$MaterialLine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1778696166485</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="-feat : pain 2">
+      <option name="closed" value="true" />
+      <created>1783511857262</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1783511857262</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -169,6 +154,7 @@
     <MESSAGE value="-fix : now the craft panel is not scuffed" />
     <MESSAGE value="-feat : crafting spreadsheet" />
     <MESSAGE value="-feat : pain" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat : pain" />
+    <MESSAGE value="-feat : pain 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat : pain 2" />
   </component>
 </project>

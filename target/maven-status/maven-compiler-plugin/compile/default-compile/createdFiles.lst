@@ -15,6 +15,7 @@ com\albionservant\gui\RequirementsCalculatorPanel$MaterialLine.class
 com\albionservant\Launcher.class
 com\albionservant\data\ArtifactData$ArtifactType.class
 com\albionservant\gui\HotInvestmentsPanel.class
+com\albionservant\gui\CraftPanel$FoodDetailSubPanel$ResultRow.class
 com\albionservant\gui\CraftPanel$CraftDetailSubPanel$Material.class
 com\albionservant\data\CraftMaterialData.class
 com\albionservant\gui\SpecsPanel.class
@@ -26,6 +27,7 @@ com\albionservant\data\PotionRecipeData$Ingredient.class
 com\albionservant\gui\RefinePanel.class
 com\albionservant\data\FocusCostCalculator.class
 com\albionservant\elements\CraftCategory.class
+com\albionservant\gui\CraftPanel$FoodDetailSubPanel$PricePair.class
 com\albionservant\data\FoodRecipeData$Recipe.class
 com\albionservant\data\ArtifactData.class
 com\albionservant\gui\CraftPanel$CraftDetailSubPanel.class
