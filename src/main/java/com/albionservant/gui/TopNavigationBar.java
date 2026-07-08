@@ -120,9 +120,28 @@ public class TopNavigationBar extends VBox {
         });
     }
 
+    public void setOnRefineClicked(Runnable action) {
+        HBox tabs = (HBox) getChildren().get(1);
+        Button refineBtn = (Button) tabs.getChildren().get(1);
+        refineBtn.setOnAction(e -> {
+            setActiveButton(refineBtn);
+            action.run();
+        });
+    }
+
+    public void setOnSpecsClicked(Runnable action) {
+        HBox tabs = (HBox) getChildren().get(1);
+        Button specsBtn = (Button) tabs.getChildren().get(2);
+        specsBtn.setOnAction(e -> {
+            setActiveButton(specsBtn);
+            action.run();
+        });
+    }
+
     public void setOnOtherTabClicked(Runnable action) {
         HBox tabs = (HBox) getChildren().get(1);
-        for (int i = 1; i < tabs.getChildren().size(); i++) {
+        // Skip 0=CRAFT, 1=REFINE, 2=SPECS — those have dedicated callbacks
+        for (int i = 3; i < tabs.getChildren().size(); i++) {
             Button btn = (Button) tabs.getChildren().get(i);
             final Button b = btn;
             btn.setOnAction(e -> {

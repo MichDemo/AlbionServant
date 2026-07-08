@@ -28,11 +28,10 @@ public class PotionRecipeData {
      */
     public record PotionRecipe(String name, int tier,
                                List<Ingredient> ingredients,
-                               String trackingIngredient) {
-        /** Convenience: returns true if this potion needs a tracking ingredient */
+                               String trackingIngredient,
+                               int batchSize) {
         public boolean hasTrackingIngredient() { return trackingIngredient != null; }
 
-        /** Resolves the tier-qualified ingredient name, e.g. "Fine Shadowpanther Claws" */
         public String resolvedTrackingIngredient() {
             if (trackingIngredient == null) return null;
             String prefix = switch (tier) {
@@ -77,9 +76,9 @@ public class PotionRecipeData {
                 "Healing Potion",
                 "Major Healing Potion"
         ));
-        r("Minor Healing Potion",  2, i("Arcane Agaric", 8));
-        r("Healing Potion",        4, i("Crenellated Burdock", 24), i("Hen Eggs", 6));
-        r("Major Healing Potion",  6, i("Elusive Foxglove", 72), i("Goose Eggs", 18),
+        r5("Minor Healing Potion",  2, i("Arcane Agaric", 8));
+        r5("Healing Potion",        4, i("Crenellated Burdock", 24), i("Hen Eggs", 6));
+        r5("Major Healing Potion",  6, i("Elusive Foxglove", 72), i("Goose Eggs", 18),
                 i("Potato Schnapps", 18));
 
         // ── ENERGY POTIONS ────────────────────────────────────────────────────
@@ -111,10 +110,10 @@ public class PotionRecipeData {
                 "Resistance Potion",
                 "Major Resistance Potion"
         ));
-        r("Minor Resistance Potion", 3, i("Brightleaf Comfrey", 8));
-        r("Resistance Potion",       5, i("Crenellated Burdock", 12),
+        r5("Minor Resistance Potion", 3, i("Brightleaf Comfrey", 8));
+        r5("Resistance Potion",       5, i("Crenellated Burdock", 12),
                 i("Dragon Teasel", 24), i("Goat's Milk", 6));
-        r("Major Resistance Potion", 7, i("Crenellated Burdock", 36), i("Corn Hooch", 18),
+        r5("Major Resistance Potion", 7, i("Crenellated Burdock", 36), i("Corn Hooch", 18),
                 i("Sheep's Milk", 18), i("Elusive Foxglove", 36),
                 i("Firetouched Mullein", 72));
 
@@ -124,10 +123,10 @@ public class PotionRecipeData {
                 "Sticky Potion",
                 "Major Sticky Potion"
         ));
-        r("Minor Sticky Potion", 3, i("Brightleaf Comfrey", 8));
-        r("Sticky Potion",       5, i("Crenellated Burdock", 12),
+        r5("Minor Sticky Potion", 3, i("Brightleaf Comfrey", 8));
+        r5("Sticky Potion",       5, i("Crenellated Burdock", 12),
                 i("Dragon Teasel", 24), i("Goose Eggs", 6));
-        r("Major Sticky Potion", 7, i("Crenellated Burdock", 36), i("Goose Eggs", 18),
+        r5("Major Sticky Potion", 7, i("Crenellated Burdock", 36), i("Goose Eggs", 18),
                 i("Elusive Foxglove", 36), i("Firetouched Mullein", 72));
 
         // ── POISON POTIONS ────────────────────────────────────────────────────
@@ -149,7 +148,7 @@ public class PotionRecipeData {
                 "Invisibility Potion"
         ));
         // Confirmed from wiki Template:Recipe
-        r("Invisibility Potion",  8, i("Ghoul Yarrow", 72), i("Firetouched Mullein", 36),
+        r5("Invisibility Potion",  8, i("Ghoul Yarrow", 72), i("Firetouched Mullein", 36),
                 i("Dragon Teasel", 36), i("Cow's Milk", 18),
                 i("Pumpkin Moonshine", 18));
 
@@ -275,16 +274,22 @@ public class PotionRecipeData {
         return new Ingredient(name, qty);
     }
 
-    /** Standard potion — no tracking ingredient */
+    /** Standard potion — batch of 10, no tracking ingredient */
     @SafeVarargs
     private static void r(String name, int tier, Ingredient... ingredients) {
-        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), null));
+        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), null, 10));
     }
 
-    /** Tracking potion — requires a tier-matched tracking ingredient */
+    /** Batch-of-5 potion — no tracking ingredient (Healing, Resistance, Sticky, Invisibility) */
+    @SafeVarargs
+    private static void r5(String name, int tier, Ingredient... ingredients) {
+        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), null, 5));
+    }
+
+    /** Tracking potion — batch of 10 */
     @SafeVarargs
     private static void rt(String name, int tier, String trackingIngredient, Ingredient... ingredients) {
-        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), trackingIngredient));
+        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), trackingIngredient, 10));
     }
 
     public static List<String> getTopCategories() {

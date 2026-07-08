@@ -3,6 +3,8 @@ package com.albionservant;
 import com.albionservant.data.InvestmentData;
 import com.albionservant.gui.CraftPanel;
 import com.albionservant.gui.HotInvestmentsPanel;
+import com.albionservant.gui.RefinePanel;
+import com.albionservant.gui.SpecsPanel;
 import com.albionservant.gui.TopNavigationBar;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,34 +40,50 @@ public class MainApp extends Application {
         root.setSpacing(0);
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double width = Math.min(screenBounds.getWidth() * 0.9, 1400);
+        double width  = Math.min(screenBounds.getWidth()  * 0.9, 1400);
         double height = Math.min(screenBounds.getHeight() * 0.9, 920);
 
-        TopNavigationBar topBar = new TopNavigationBar();
-        HotInvestmentsPanel hotPanel = new HotInvestmentsPanel();
-        CraftPanel craftPanel = new CraftPanel();
+        TopNavigationBar    topBar      = new TopNavigationBar();
+        HotInvestmentsPanel hotPanel    = new HotInvestmentsPanel();
+        CraftPanel          craftPanel  = new CraftPanel();
+        RefinePanel         refinePanel = new RefinePanel();
+        SpecsPanel          specsPanel  = new SpecsPanel();
 
         // Sample data
-        InvestmentData item1 = new InvestmentData("Master's Battleaxe", 6, "Martlock → Blackmarket", 450249, 2, 32, 239421, 210250, 87.8);
-        InvestmentData item2 = new InvestmentData("Grandmaster's Bow", 7, "Thetford → Blackmarket", 895000, 1, 18, 620000, 275000, 44.3);
-        InvestmentData item3 = new InvestmentData("Expert's Plate Helmet", 5, "Lymhurst → Blackmarket", 124500, 3, 45, 89000, 35500, 39.9);
-        InvestmentData item4 = new InvestmentData("Master's Spear", 6, "Bridgewatch → Blackmarket", 672300, 0, 12, 480000, 192300, 40.1);
+        InvestmentData item1 = new InvestmentData("Master's Battleaxe",     6, "Martlock → Blackmarket",    450249, 2, 32, 239421, 210250, 87.8);
+        InvestmentData item2 = new InvestmentData("Grandmaster's Bow",       7, "Thetford → Blackmarket",   895000, 1, 18, 620000, 275000, 44.3);
+        InvestmentData item3 = new InvestmentData("Expert's Plate Helmet",   5, "Lymhurst → Blackmarket",   124500, 3, 45, 89000,   35500, 39.9);
+        InvestmentData item4 = new InvestmentData("Master's Spear",          6, "Bridgewatch → Blackmarket", 672300, 0, 12, 480000, 192300, 40.1);
         hotPanel.setInvestments(List.of(item1, item2, item3, item4));
 
-        // contentArea does NOT fill height — panel stays its natural size, top-aligned
         VBox contentArea = new VBox(hotPanel);
         contentArea.setAlignment(Pos.TOP_CENTER);
         contentArea.setFillWidth(true);
-        // Do NOT setVgrow here — that was stretching hotPanel to fill the window
         VBox.setVgrow(contentArea, Priority.NEVER);
 
         root.getChildren().addAll(topBar, contentArea);
         root.setBackground(new Background(new BackgroundFill(AppConfig.BACKGROUND_MAIN, null, null)));
 
-        craftPanel.setOnDetailModeListener(isDetail -> topBar.setVisible(!isDetail));
+        // ── Detail mode listeners — hide top bar when in leaf panels ─────────
+        craftPanel.setOnDetailModeListener(isDetail  -> topBar.setVisible(!isDetail));
+        craftPanel.setSpecsPanel(specsPanel);
+        refinePanel.setOnDetailModeListener(isDetail -> topBar.setVisible(!isDetail));
 
+        // ── Tab routing ──────────────────────────────────────────────────────
         topBar.setOnCraftClicked(() -> {
             contentArea.getChildren().set(0, craftPanel);
+            VBox.setVgrow(contentArea, Priority.ALWAYS);
+            topBar.setVisible(true);
+        });
+
+        topBar.setOnRefineClicked(() -> {
+            contentArea.getChildren().set(0, refinePanel);
+            VBox.setVgrow(contentArea, Priority.ALWAYS);
+            topBar.setVisible(true);
+        });
+
+        topBar.setOnSpecsClicked(() -> {
+            contentArea.getChildren().set(0, specsPanel);
             VBox.setVgrow(contentArea, Priority.ALWAYS);
             topBar.setVisible(true);
         });

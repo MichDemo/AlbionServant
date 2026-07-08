@@ -360,7 +360,6 @@ public class CraftMaterialData {
         // Bags — Cloth + Leather
         m("Bag",                    "Cloth",  "Leather");
         m("Satchel of Insight",     "Cloth",  "Leather");
-        m("Riding Bag",             "Cloth",  "Leather");
 
         // Capes — Cloth + Leather
         m("Cape",               "Cloth", "Leather");

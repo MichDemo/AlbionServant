@@ -33,6 +33,9 @@ public class CraftPanel extends VBox {
     private final HBox internalTopBar = new HBox(15);
     private List<String> currentPath = new ArrayList<>();
     private Consumer<Boolean> onDetailModeListener;
+    private SpecsPanel specsPanel;
+
+    public void setSpecsPanel(SpecsPanel sp) { this.specsPanel = sp; }
 
     public CraftPanel() {
         setAlignment(Pos.CENTER);
@@ -98,13 +101,17 @@ public class CraftPanel extends VBox {
             boolean isPotionItem = currentPath.contains("Potion");
             if (isFoodItem && FoodRecipeData.hasRecipe(itemName)) {
                 contentArea.getChildren().add(
-                        new FoodDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel));
+                        new FoodDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel,
+                                specsPanel,
+                                currentPath.size() >= 2 ? currentPath.get(currentPath.size() - 2) : ""));
             } else if (isPotionItem && PotionRecipeData.hasRecipe(itemName)) {
                 contentArea.getChildren().add(
-                        new PotionDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel));
+                        new PotionDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel,
+                                specsPanel,
+                                currentPath.size() >= 2 ? currentPath.get(currentPath.size() - 2) : ""));
             } else {
                 contentArea.getChildren().add(
-                        new CraftDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel));
+                        new CraftDetailSubPanel(itemName, breadcrumbText, this::goBackOneLevel, specsPanel));
             }
             return;
         }
@@ -221,16 +228,19 @@ public class CraftPanel extends VBox {
 
         private record Material(String name) {}
 
-        // Resolved dynamically per item from CraftingMaterialData
         private final List<Material> MATERIALS;
+        private final SpecsPanel     specsPanel;
+        private final String         itemName;
 
-        public CraftDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack) {
-            // Resolve materials for this specific item
+        public CraftDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack,
+                                   SpecsPanel specsPanel) {
             CraftMaterialData.Materials mats = CraftMaterialData.getMaterials(itemName);
             List<Material> resolvedMaterials = new java.util.ArrayList<>();
             resolvedMaterials.add(new Material(mats.material1()));
-            resolvedMaterials.add(new Material(mats.material2())); // "N/A" if not applicable
-            this.MATERIALS = resolvedMaterials;
+            resolvedMaterials.add(new Material(mats.material2()));
+            this.MATERIALS   = resolvedMaterials;
+            this.specsPanel  = specsPanel;
+            this.itemName    = itemName;
 
             setPadding(new Insets(0));
             setSpacing(0);
@@ -282,7 +292,9 @@ public class CraftPanel extends VBox {
             // Item icon — loaded async from render.albiononline.com (T8 image)
             StackPane iconWrapper = buildItemIcon(itemName, onBack);
 
-            left.getChildren().addAll(searchBar, iconWrapper);
+            RequirementsCalculatorPanel reqPanel = RequirementsCalculatorPanel.forGear(itemName);
+
+            left.getChildren().addAll(searchBar, iconWrapper, reqPanel);
 
             // ── CENTER COLUMN: quantity, station fee, demand type, crafting focus, bonus craft, HO ──
             VBox center = new VBox(8);
@@ -344,12 +356,14 @@ public class CraftPanel extends VBox {
                 hoSection.setManaged(isHO);
             });
 
+
             center.getChildren().addAll(
                     quantityLbl, quantity,
                     stationFeeLbl, stationFee,
                     demandTypeLbl, demandType,
                     craftingFocus,
                     bonusCraftLbl, bonusCraft,
+                    reqPanel.getRrrLabel(),
                     hoSection
             );
 
@@ -402,10 +416,16 @@ public class CraftPanel extends VBox {
             bottomTitle.setStyle("-fx-font-size: 16px; -fx-text-fill: #888888;");
             bottom.getChildren().add(bottomTitle);
 
-            RequirementsCalculatorPanel reqPanel = RequirementsCalculatorPanel.forGear(itemName);
-            reqPanel.setPadding(new Insets(20, 40, 20, 40));
+            whiteContent.getChildren().addAll(topSection, buildTable(itemName, reqPanel, quantity), bottom);
 
-            whiteContent.getChildren().addAll(topSection, buildTable(itemName), bottom, reqPanel);
+            reqPanel.bindControls(quantity, bonusCraft, craftingFocus, hoQuality, hoPower);
+
+            com.albionservant.data.CraftQuantityData.Quantities gearQty =
+                    com.albionservant.data.CraftQuantityData.get(itemName);
+            int gearTotalMats = gearQty.mat1() + gearQty.mat2()
+                    + (com.albionservant.data.ArtifactData.getArtifactType(itemName) != null ? 1 : 0);
+            reqPanel.setFocusContext(4, gearTotalMats,
+                    () -> specsPanel != null ? lookupGearSpec(specsPanel, itemName) : 0);
 
             ScrollPane contentScroll = new ScrollPane(whiteContent);
             contentScroll.setFitToWidth(true);
@@ -417,7 +437,8 @@ public class CraftPanel extends VBox {
             getChildren().addAll(redHeader, contentScroll);
         }
 
-        private VBox buildTable(String itemName) {
+        private VBox buildTable(String itemName, RequirementsCalculatorPanel reqPanel,
+                                TextField quantityField) {
             ArtifactData.ArtifactType artifactType = ArtifactData.getArtifactType(itemName);
             boolean hasArtifact = artifactType != null;
             boolean isAvalonEnergy = hasArtifact && artifactType == ArtifactData.ArtifactType.AVALON_ENERGY;
@@ -483,7 +504,16 @@ public class CraftPanel extends VBox {
                 grid.add(mat3Hdr, mat3StartCol, 0);
             }
             for (int i = 0; i < resultHeaders.length; i++) {
-                grid.add(makeHeaderLabel(resultHeaders[i]), resultStartCol + i, 0);
+                Label hdr = makeHeaderLabel(resultHeaders[i]);
+                if (i == 2) {
+                    // Focus Costs header only — row values are calculated separately
+                    VBox focusHdrBox = new VBox(1, hdr);
+                    focusHdrBox.setAlignment(Pos.CENTER);
+                    focusHdrBox.setMaxWidth(Double.MAX_VALUE);
+                    grid.add(focusHdrBox, resultStartCol + i, 0);
+                } else {
+                    grid.add(hdr, resultStartCol + i, 0);
+                }
             }
 
             // ── Header row 1: empty | API|Manual per mat | API|Manual for mat3 | empty result ──
@@ -506,7 +536,12 @@ public class CraftPanel extends VBox {
             // ── Data rows ──
             // Material3 has one value per major tier, spanning all 5 sub-tier rows vertically.
             // It is placed only on the .0 row of each group and given rowSpan=5.
-            String[] resultValues = {"240", "620", "310", "8", "1250", "12", "850", "28%"};
+            // Pre-compute total materials for focus cost lookup
+            com.albionservant.data.CraftQuantityData.Quantities qty =
+                    com.albionservant.data.CraftQuantityData.get(itemName);
+            int totalMats = qty.mat1() + qty.mat2()
+                    + (com.albionservant.data.ArtifactData.getArtifactType(itemName) != null ? 1 : 0);
+            int specLevel = specsPanel != null ? lookupGearSpec(specsPanel, itemName) : 0;
 
             // Colours for mat3 fields
             String mat3FieldBg = isAvalonEnergy ? "#e0f2fe" : "#ffe4e4";
@@ -514,9 +549,31 @@ public class CraftPanel extends VBox {
             int gridRow = 2;
             for (int t = 0; t < allTiers.length; t++) {
                 String tier = allTiers[t];
-                boolean isMajorTierRow = tier.endsWith(".0"); // first row of each 5-row group
+                boolean isMajorTierRow = tier.endsWith(".0");
 
-                grid.add(makeDataLabel(tier), 0, gridRow);
+                // Tier base colour — subtle, one per major tier group
+                String tierBg = switch (tier.charAt(0)) {
+                    case '4' -> "#f0fdf4";   // T4 — light green
+                    case '5' -> "#f0f9ff";   // T5 — light blue
+                    case '6' -> "#fdf2f8";   // T6 — light pink
+                    case '7' -> "#f5f3ff";   // T7 — light purple
+                    case '8' -> "#fff1f2";   // T8 — light red
+                    default  -> "#ffffff";
+                };
+                // Enchant overlay: .0=none, .1=green, .2=blue, .3=purple, .4=yellow
+                String enchantSuffix = tier.contains(".") ? tier.substring(tier.indexOf('.')) : ".0";
+                String rowBg = switch (enchantSuffix) {
+                    case ".0" -> tierBg;
+                    case ".1" -> blendHex(tierBg, "#bbf7d0");
+                    case ".2" -> blendHex(tierBg, "#bfdbfe");
+                    case ".3" -> blendHex(tierBg, "#e9d5ff");
+                    case ".4" -> blendHex(tierBg, "#fef08a");
+                    default   -> tierBg;
+                };
+
+                Label tierLbl = makeDataLabel(tier);
+                tierLbl.setStyle("-fx-font-size: 13px; -fx-background-color: " + rowBg + ";");
+                grid.add(tierLbl, 0, gridRow);
 
                 // Material 1 & 2 — every row
                 matCol = 1;
@@ -591,9 +648,51 @@ public class CraftPanel extends VBox {
                     grid.add(manualPane, mat3StartCol + 1, gridRow);
                 }
 
-                // Result value columns — every row
+                // Result value columns — Focus Costs × quantity, updates live
+                int tierNum    = Character.getNumericValue(tier.charAt(0));
+                int enchantNum = tier.contains(".") ? Integer.parseInt(tier.substring(tier.indexOf('.') + 1)) : 0;
+
+                String[] resultValues = {
+                        "—", "—", "", "—", "—", "—", "—", "—"
+                };
+
                 for (int i = 0; i < resultValues.length; i++) {
-                    grid.add(makeDataLabel(resultValues[i]), resultStartCol + i, gridRow);
+                    if (i == 2) {
+                        Label focusCell = new Label("—");
+                        focusCell.setStyle("-fx-font-size: 13px; -fx-text-fill: #818cf8;"
+                                + "-fx-font-weight: bold;");
+                        focusCell.setMaxWidth(Double.MAX_VALUE);
+                        focusCell.setAlignment(Pos.CENTER);
+
+                        final int   fTierNum    = tierNum;
+                        final int   fEnchantNum = enchantNum;
+                        final int   fTotalMats  = totalMats;
+
+                        // Helper: compute focus for current spec + qty
+                        Runnable updateFocusCell = () -> {
+                            int    liveSpec = specsPanel != null
+                                    ? lookupGearSpec(specsPanel, itemName) : 0;
+                            long   livePerItem = com.albionservant.data.FocusCostCalculator
+                                    .compute(fTierNum, fEnchantNum, fTotalMats, liveSpec);
+                            try {
+                                long qty1 = Math.max(1, Long.parseLong(
+                                        quantityField.getText().trim()));
+                                focusCell.setText(String.format("%,d", livePerItem * qty1));
+                            } catch (NumberFormatException ignored) {
+                                focusCell.setText(String.format("%,d", livePerItem));
+                            }
+                        };
+
+                        // Initial value
+                        updateFocusCell.run();
+
+                        // Update on quantity change
+                        quantityField.textProperty().addListener(
+                                (obs, ov, nv) -> updateFocusCell.run());
+                        grid.add(focusCell, resultStartCol + i, gridRow);
+                    } else {
+                        grid.add(makeDataLabel(resultValues[i]), resultStartCol + i, gridRow);
+                    }
                 }
                 gridRow++;
             }
@@ -675,6 +774,17 @@ public class CraftPanel extends VBox {
             return wrapper;
         }
 
+        /** Blends two hex colours — averages RGB components for subtle row tinting */
+        private String blendHex(String hex1, String hex2) {
+            int r1 = Integer.parseInt(hex1.substring(1,3), 16);
+            int g1 = Integer.parseInt(hex1.substring(3,5), 16);
+            int b1 = Integer.parseInt(hex1.substring(5,7), 16);
+            int r2 = Integer.parseInt(hex2.substring(1,3), 16);
+            int g2 = Integer.parseInt(hex2.substring(3,5), 16);
+            int b2 = Integer.parseInt(hex2.substring(5,7), 16);
+            return String.format("#%02x%02x%02x", (r1+r2)/2, (g1+g2)/2, (b1+b2)/2);
+        }
+
         private Label makeNAHeaderLabel(String text) {
             Label l = new Label(text);
             l.setStyle("-fx-font-weight: bold; -fx-text-fill: #bbbbbb; -fx-font-size: 13px;");
@@ -730,6 +840,46 @@ public class CraftPanel extends VBox {
         }
     }
 
+    /**
+     * Looks up the player's spec level for a gear item from SpecsPanel.
+     * Walks the Warrior/Hunter/Mage/Toolmaker tree to find the right group.
+     */
+    private static int lookupGearSpec(SpecsPanel sp, String itemName) {
+        String[][] sectionGroups = {
+                {"Warrior", "Swords"}, {"Warrior", "Axes"}, {"Warrior", "Maces"},
+                {"Warrior", "Hammers"}, {"Warrior", "War Gloves"}, {"Warrior", "Crossbows"},
+                {"Warrior", "Shields"}, {"Warrior", "Plate Helmet"}, {"Warrior", "Plate Armor"},
+                {"Warrior", "Plate Boots"},
+                {"Hunter", "Bows"}, {"Hunter", "Daggers"}, {"Hunter", "Spears"},
+                {"Hunter", "Quarterstaves"}, {"Hunter", "Shapeshifter"}, {"Hunter", "Nature Staves"},
+                {"Hunter", "Torches"}, {"Hunter", "Leather Hood"}, {"Hunter", "Leather Jacket"},
+                {"Hunter", "Leather Shoes"},
+                {"Mage", "Fire Staves"}, {"Mage", "Arcane Staves"}, {"Mage", "Frost Staves"},
+                {"Mage", "Holy Staves"}, {"Mage", "Cursed Staves"}, {"Mage", "Tomes"},
+                {"Mage", "Cloth Cowl"}, {"Mage", "Cloth Robe"}, {"Mage", "Cloth Sandals"},
+                {"Toolmaker", "Harvester"}, {"Toolmaker", "Lumberjack"}, {"Toolmaker", "Miner"},
+                {"Toolmaker", "Quarrier"}, {"Toolmaker", "Skinner"}, {"Toolmaker", "Fisherman"},
+                {"Toolmaker", "Siege Equipment"}, {"Toolmaker", "Bags"}, {"Toolmaker", "Capes"}
+        };
+        for (String[] sg : sectionGroups) {
+            int v = sp.getSpecLevel(sg[0], sg[1], itemName);
+            if (v > 0) return v;
+        }
+        return 0;
+    }
+
+    /**
+     * Looks up the player's spec level for a food item from SpecsPanel.
+     * Food specs live under Cooking → Food.
+     */
+    static int lookupFoodSpec(SpecsPanel sp, String categoryName) {
+        return sp.getSpecLevel("Cooking", "Food", categoryName);
+    }
+
+    static int lookupPotionSpec(SpecsPanel sp, String categoryName) {
+        return sp.getSpecLevel("Cooking", "Potions", categoryName);
+    }
+
     private void changeSelectionAtLevel(int level, String newSelection) {
         List<String> newPath = new ArrayList<>(currentPath.subList(0, level));
         newPath.add(newSelection);
@@ -774,7 +924,8 @@ public class CraftPanel extends VBox {
         private static final List<String> CITIES      = FoodRecipeData.CITIES;
         private static final List<String> FISH_SAUCES = FoodRecipeData.FISH_SAUCES;
 
-        public FoodDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack) {
+        public FoodDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack,
+                                  SpecsPanel specsPanel, String category) {
             setPadding(new Insets(0));
             setSpacing(0);
             setMaxWidth(Double.MAX_VALUE);
@@ -793,7 +944,7 @@ public class CraftPanel extends VBox {
 
             FoodRecipeData.Recipe recipe = FoodRecipeData.getRecipe(itemName);
             Label tierLbl = recipe != null
-                    ? new Label("T" + recipe.tier() + "  •  Batch: 10 items")
+                    ? new Label("T" + recipe.tier() + "  •  Batch: " + recipe.batchSize() + " item" + (recipe.batchSize() == 1 ? "" : "s"))
                     : new Label("");
             tierLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: rgba(255,255,255,0.85);");
 
@@ -805,18 +956,162 @@ public class CraftPanel extends VBox {
 
             redHeader.getChildren().addAll(breadcrumb, tierLbl, hSpacer, backBtn);
 
-            // ── Config bar ───────────────────────────────────────────────────
-            HBox configBar = new HBox(28);
-            configBar.setPadding(new Insets(14, 40, 14, 40));
-            configBar.setAlignment(Pos.CENTER_LEFT);
-            configBar.setStyle("-fx-background-color: #f8fafc;");
+            // ── Full 3-column config section (mirrors CraftDetailSubPanel) ──────
+            HBox configSection = new HBox(30);
+            configSection.setPadding(new Insets(20, 40, 20, 40));
+            configSection.setAlignment(Pos.TOP_LEFT);
+            configSection.setFillHeight(false);
+            configSection.setMaxWidth(Double.MAX_VALUE);
+            configSection.setStyle("-fx-background-color: #ffffff;");
 
-            configBar.getChildren().addAll(
-                    labeledField("Quantity", "10"),
-                    labeledField("Station Fee", "0"),
-                    labeledCombo("Sell At", CITIES),
-                    labeledCombo("Bonus Craft", List.of("Royal City", "Royal Island", "HO"))
+            // LEFT: search + icon
+            VBox cfgLeft = new VBox(12);
+            cfgLeft.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(cfgLeft, Priority.ALWAYS);
+            TextField searchBar = new TextField();
+            searchBar.setPromptText("Search ingredients...");
+            searchBar.setStyle("-fx-font-size: 14px;");
+            searchBar.setMaxWidth(Double.MAX_VALUE);
+            // ── Requirements calculator — inside left column below icon ──────
+            RequirementsCalculatorPanel reqPanel = recipe != null
+                    ? RequirementsCalculatorPanel.forFood(recipe)
+                    : new RequirementsCalculatorPanel(List.of(), 10);
+
+            // Load food icon async from render API — shows spinner while loading
+            String foodIconUrl = com.albionservant.data.ItemRenderData.getFoodImageUrl(itemName);
+            int ICON_SIZE = 128;
+            javafx.scene.layout.StackPane iconPane = new javafx.scene.layout.StackPane();
+            iconPane.setPrefSize(ICON_SIZE, ICON_SIZE);
+            iconPane.setMaxSize(ICON_SIZE, ICON_SIZE);
+            iconPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 8; -fx-cursor: hand;");
+            iconPane.setOnMouseClicked(e -> onBack.run());
+
+            ProgressIndicator spinner = new ProgressIndicator();
+            spinner.setMaxWidth(48);
+            spinner.setMaxHeight(48);
+            iconPane.getChildren().add(spinner);
+
+            if (foodIconUrl != null) {
+                javafx.scene.image.Image img = new javafx.scene.image.Image(
+                        foodIconUrl, ICON_SIZE, ICON_SIZE, true, true, true);
+                img.progressProperty().addListener((obs, ov, nv) -> {
+                    if (nv.doubleValue() >= 1.0) {
+                        javafx.application.Platform.runLater(() -> {
+                            iconPane.getChildren().clear();
+                            if (!img.isError()) {
+                                javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(img);
+                                iv.setFitWidth(ICON_SIZE);
+                                iv.setFitHeight(ICON_SIZE);
+                                iv.setPreserveRatio(true);
+                                iconPane.getChildren().add(iv);
+                            }
+                            // on error: leave empty (no emoji fallback)
+                        });
+                    }
+                });
+            }
+            cfgLeft.getChildren().addAll(searchBar, iconPane, reqPanel);
+
+            // CENTER: quantity, station fee, demand type, crafting focus, bonus craft, HO
+            VBox cfgCenter = new VBox(8);
+            cfgCenter.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(cfgCenter, Priority.ALWAYS);
+
+            Label qtyLbl2 = new Label("Quantity:");
+            qtyLbl2.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            TextField qtyField = new TextField("10");
+            qtyField.setStyle("-fx-font-size: 14px;");
+            qtyField.setMaxWidth(Double.MAX_VALUE);
+
+            Label feeLbl = new Label("Station Fee:");
+            feeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            TextField feeField = new TextField("0");
+            feeField.setStyle("-fx-font-size: 14px;");
+            feeField.setMaxWidth(Double.MAX_VALUE);
+
+            Label demandLbl = new Label("Demand Type:");
+            demandLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> demandType = new ComboBox<>();
+            demandType.getItems().addAll("24h", "7d", "4w");
+            demandType.setValue("24h");
+            demandType.setMaxWidth(Double.MAX_VALUE);
+
+            CheckBox focusBox = new CheckBox("Crafting Focus");
+            focusBox.setStyle("-fx-font-size: 13px;");
+
+            Label bonusLbl = new Label("Bonus Craft:");
+            bonusLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> bonusCraft = new ComboBox<>();
+            bonusCraft.getItems().addAll("Royal Island", "Royal City", "Royal City + Bonus", "HO");
+            bonusCraft.setValue("Royal City");
+            bonusCraft.setMaxWidth(Double.MAX_VALUE);
+
+            VBox hoSect = new VBox(6);
+            hoSect.setVisible(false);
+            hoSect.setManaged(false);
+            Label hoQlbl = new Label("Hideout Quality:");
+            hoQlbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> hoQ = new ComboBox<>();
+            hoQ.getItems().addAll("Q1","Q2","Q3","Q4","Q5","Q6");
+            hoQ.setValue("Q5");
+            hoQ.setMaxWidth(Double.MAX_VALUE);
+            Label hoPLbl = new Label("Hideout Power Level:");
+            hoPLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<Integer> hoPL = new ComboBox<>();
+            hoPL.getItems().addAll(1,2,3,4,5,6,7,8,9);
+            hoPL.setValue(5);
+            hoPL.setMaxWidth(Double.MAX_VALUE);
+            hoSect.getChildren().addAll(hoQlbl, hoQ, hoPLbl, hoPL);
+            bonusCraft.setOnAction(e -> {
+                boolean isHO = "HO".equals(bonusCraft.getValue());
+                hoSect.setVisible(isHO);
+                hoSect.setManaged(isHO);
+            });
+
+            cfgCenter.getChildren().addAll(
+                    qtyLbl2, qtyField, feeLbl, feeField,
+                    demandLbl, demandType, focusBox,
+                    bonusLbl, bonusCraft,
+                    reqPanel.getRrrLabel(),
+                    hoSect
             );
+
+            // RIGHT: ingredient buy locations + sell location
+            VBox cfgRight = new VBox(8);
+            cfgRight.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(cfgRight, Priority.ALWAYS);
+
+            String[] buyLabels = {"Ingredient-Buy1:", "Ingredient-Buy2:", "Ingredient-Buy3:", "Ingredient-Buy4:"};
+            boolean[] withMedian = {false, false, true, true};
+            for (int i = 0; i < buyLabels.length; i++) {
+                Label bl = new Label(buyLabels[i]);
+                bl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+                ComboBox<String> bc = new ComboBox<>();
+                bc.getItems().addAll("Bridgewatch","Martlock","Thetford","Fort Sterling","Lymhurst","Caerleon","Brecilien");
+                if (withMedian[i]) bc.getItems().add("Median");
+                bc.setValue("Martlock");
+                bc.setMaxWidth(Double.MAX_VALUE);
+                cfgRight.getChildren().addAll(bl, bc);
+            }
+            Label sellLbl2 = new Label("Sell-Location:");
+            sellLbl2.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> sellLoc = new ComboBox<>();
+            sellLoc.getItems().addAll("Bridgewatch","Martlock","Thetford","Fort Sterling","Lymhurst","Caerleon","Brecilien");
+            sellLoc.setValue("Martlock");
+            sellLoc.setMaxWidth(Double.MAX_VALUE);
+            cfgRight.getChildren().addAll(sellLbl2, sellLoc);
+
+            configSection.getChildren().addAll(cfgLeft, cfgCenter, cfgRight);
+
+            reqPanel.bindControls(qtyField, bonusCraft, focusBox, hoQ, hoPL);
+
+            if (recipe != null) {
+                int foodTotal = recipe.ingredients().stream()
+                        .mapToInt(com.albionservant.data.FoodRecipeData.Ingredient::quantity)
+                        .sum() / recipe.batchSize();
+                reqPanel.setFocusContext(recipe.tier(), foodTotal,
+                        () -> specsPanel != null ? lookupFoodSpec(specsPanel, category) : 0);
+            }
 
             // ── Scrollable content ───────────────────────────────────────────
             VBox content = new VBox(0);
@@ -824,9 +1119,7 @@ public class CraftPanel extends VBox {
             content.setStyle("-fx-background-color: #ffffff;");
 
             if (recipe != null) {
-                RequirementsCalculatorPanel reqPanel =
-                        RequirementsCalculatorPanel.forFood(recipe);
-                content.getChildren().addAll(buildFoodGrid(recipe), reqPanel);
+                content.getChildren().add(buildFoodGrid(recipe));
             }
 
             ScrollPane scroll = new ScrollPane(content);
@@ -836,7 +1129,7 @@ public class CraftPanel extends VBox {
             scroll.setStyle("-fx-background-color: white;");
             VBox.setVgrow(scroll, Priority.ALWAYS);
 
-            getChildren().addAll(redHeader, configBar, scroll);
+            getChildren().addAll(redHeader, configSection, scroll);
         }
 
         // ── Price grid ───────────────────────────────────────────────────────
@@ -1002,7 +1295,8 @@ public class CraftPanel extends VBox {
 
         private static final List<String> CITIES = PotionRecipeData.CITIES;
 
-        public PotionDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack) {
+        public PotionDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack,
+                                    SpecsPanel specsPanel, String category) {
             setPadding(new Insets(0));
             setSpacing(0);
             setFillWidth(true);
@@ -1029,7 +1323,165 @@ public class CraftPanel extends VBox {
 
             redHeader.getChildren().addAll(breadcrumb, spacer, backBtn);
 
-            // ── Scrollable white content ──────────────────────────────────────
+            // ── Full 3-column config section (mirrors CraftDetailSubPanel) ──────
+            HBox configSection = new HBox(30);
+            configSection.setPadding(new Insets(20, 40, 20, 40));
+            configSection.setAlignment(Pos.TOP_LEFT);
+            configSection.setFillHeight(false);
+            configSection.setMaxWidth(Double.MAX_VALUE);
+            configSection.setStyle("-fx-background-color: #ffffff;");
+
+            // LEFT: search + icon
+            VBox cfgLeft = new VBox(12);
+            cfgLeft.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(cfgLeft, Priority.ALWAYS);
+            TextField searchBar = new TextField();
+            searchBar.setPromptText("Search ingredients...");
+            searchBar.setStyle("-fx-font-size: 14px;");
+            searchBar.setMaxWidth(Double.MAX_VALUE);
+            Label iconLbl = new Label("⚗️");
+            iconLbl.setStyle("-fx-font-size: 72px; -fx-cursor: hand;");
+            iconLbl.setOnMouseClicked(e -> onBack.run());
+            // ── Requirements calculator — inside left column below icon ──────
+            RequirementsCalculatorPanel reqPanel = recipe != null
+                    ? RequirementsCalculatorPanel.forPotion(recipe)
+                    : new RequirementsCalculatorPanel(List.of(), 5);
+
+            // Load potion icon async from render API — shows spinner while loading
+            String potionIconUrl = recipe != null
+                    ? com.albionservant.data.ItemRenderData.getPotionImageUrl(itemName)
+                    : null;
+            int ICON_SIZE = 128;
+            javafx.scene.layout.StackPane iconPane = new javafx.scene.layout.StackPane();
+            iconPane.setPrefSize(ICON_SIZE, ICON_SIZE);
+            iconPane.setMaxSize(ICON_SIZE, ICON_SIZE);
+            iconPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 8; -fx-cursor: hand;");
+            iconPane.setOnMouseClicked(e -> onBack.run());
+
+            ProgressIndicator spinner = new ProgressIndicator();
+            spinner.setMaxWidth(48);
+            spinner.setMaxHeight(48);
+            iconPane.getChildren().add(spinner);
+
+            if (potionIconUrl != null) {
+                javafx.scene.image.Image img = new javafx.scene.image.Image(
+                        potionIconUrl, ICON_SIZE, ICON_SIZE, true, true, true);
+                img.progressProperty().addListener((obs, ov, nv) -> {
+                    if (nv.doubleValue() >= 1.0) {
+                        javafx.application.Platform.runLater(() -> {
+                            iconPane.getChildren().clear();
+                            if (!img.isError()) {
+                                javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(img);
+                                iv.setFitWidth(ICON_SIZE);
+                                iv.setFitHeight(ICON_SIZE);
+                                iv.setPreserveRatio(true);
+                                iconPane.getChildren().add(iv);
+                            }
+                        });
+                    }
+                });
+            }
+            cfgLeft.getChildren().addAll(searchBar, iconPane, reqPanel);
+
+            // CENTER: quantity, station fee, demand type, crafting focus, bonus craft, HO
+            VBox cfgCenter = new VBox(8);
+            cfgCenter.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(cfgCenter, Priority.ALWAYS);
+
+            Label qtyLbl2 = new Label("Quantity:");
+            qtyLbl2.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            TextField qtyField = new TextField("5");
+            qtyField.setStyle("-fx-font-size: 14px;");
+            qtyField.setMaxWidth(Double.MAX_VALUE);
+
+            Label feeLbl = new Label("Station Fee:");
+            feeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            TextField feeField = new TextField("0");
+            feeField.setStyle("-fx-font-size: 14px;");
+            feeField.setMaxWidth(Double.MAX_VALUE);
+
+            Label demandLbl = new Label("Demand Type:");
+            demandLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> demandType = new ComboBox<>();
+            demandType.getItems().addAll("24h", "7d", "4w");
+            demandType.setValue("24h");
+            demandType.setMaxWidth(Double.MAX_VALUE);
+
+            CheckBox focusBox = new CheckBox("Crafting Focus");
+            focusBox.setStyle("-fx-font-size: 13px;");
+
+            Label bonusLbl = new Label("Bonus Craft:");
+            bonusLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> bonusCraft = new ComboBox<>();
+            bonusCraft.getItems().addAll("Royal Island", "Royal City", "Royal City + Bonus", "HO");
+            bonusCraft.setValue("Royal City");
+            bonusCraft.setMaxWidth(Double.MAX_VALUE);
+
+            VBox hoSect = new VBox(6);
+            hoSect.setVisible(false);
+            hoSect.setManaged(false);
+            Label hoQlbl = new Label("Hideout Quality:");
+            hoQlbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> hoQ = new ComboBox<>();
+            hoQ.getItems().addAll("Q1","Q2","Q3","Q4","Q5","Q6");
+            hoQ.setValue("Q5");
+            hoQ.setMaxWidth(Double.MAX_VALUE);
+            Label hoPLbl = new Label("Hideout Power Level:");
+            hoPLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<Integer> hoPL = new ComboBox<>();
+            hoPL.getItems().addAll(1,2,3,4,5,6,7,8,9);
+            hoPL.setValue(5);
+            hoPL.setMaxWidth(Double.MAX_VALUE);
+            hoSect.getChildren().addAll(hoQlbl, hoQ, hoPLbl, hoPL);
+            bonusCraft.setOnAction(e -> {
+                boolean isHO = "HO".equals(bonusCraft.getValue());
+                hoSect.setVisible(isHO);
+                hoSect.setManaged(isHO);
+            });
+
+            cfgCenter.getChildren().addAll(
+                    qtyLbl2, qtyField, feeLbl, feeField,
+                    demandLbl, demandType, focusBox,
+                    bonusLbl, bonusCraft,
+                    reqPanel.getRrrLabel(),
+                    hoSect
+            );
+            // RIGHT: ingredient buy locations + sell location
+            VBox cfgRight = new VBox(8);
+            cfgRight.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(cfgRight, Priority.ALWAYS);
+
+            String[] buyLabels = {"Ingredient-Buy1:", "Ingredient-Buy2:", "Ingredient-Buy3:", "Ingredient-Buy4:"};
+            boolean[] withMedian = {false, false, true, true};
+            for (int i = 0; i < buyLabels.length; i++) {
+                Label bl = new Label(buyLabels[i]);
+                bl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+                ComboBox<String> bc = new ComboBox<>();
+                bc.getItems().addAll("Bridgewatch","Martlock","Thetford","Fort Sterling","Lymhurst","Caerleon","Brecilien");
+                if (withMedian[i]) bc.getItems().add("Median");
+                bc.setValue("Martlock");
+                bc.setMaxWidth(Double.MAX_VALUE);
+                cfgRight.getChildren().addAll(bl, bc);
+            }
+            Label sellLbl2 = new Label("Sell-Location:");
+            sellLbl2.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+            ComboBox<String> sellLoc = new ComboBox<>();
+            sellLoc.getItems().addAll("Bridgewatch","Martlock","Thetford","Fort Sterling","Lymhurst","Caerleon","Brecilien");
+            sellLoc.setValue("Martlock");
+            sellLoc.setMaxWidth(Double.MAX_VALUE);
+            cfgRight.getChildren().addAll(sellLbl2, sellLoc);
+
+            configSection.getChildren().addAll(cfgLeft, cfgCenter, cfgRight);
+
+            reqPanel.bindControls(qtyField, bonusCraft, focusBox, hoQ, hoPL);
+
+            if (recipe != null) {
+                int potionTotal = recipe.ingredients().stream()
+                        .mapToInt(com.albionservant.data.PotionRecipeData.Ingredient::quantity)
+                        .sum() / recipe.batchSize();
+                reqPanel.setFocusContext(recipe.tier(), potionTotal,
+                        () -> specsPanel != null ? lookupPotionSpec(specsPanel, category) : 0);
+            }
             VBox whiteContent = new VBox(0);
             whiteContent.setFillWidth(true);
             whiteContent.setStyle("-fx-background-color: #ffffff;");
@@ -1037,17 +1489,12 @@ public class CraftPanel extends VBox {
             if (recipe == null) {
                 whiteContent.getChildren().add(new Label("Recipe not found: " + itemName));
             } else {
-                RequirementsCalculatorPanel reqPanel =
-                        RequirementsCalculatorPanel.forPotion(recipe);
                 whiteContent.getChildren().addAll(
-                        buildConfigBar(recipe),
-                        new Separator(),
                         buildPriceGrid(recipe),
                         new Separator(),
                         buildArcaneExtractSection(recipe),
                         new Separator(),
-                        buildSummarySection(),
-                        reqPanel
+                        buildSummarySection()
                 );
             }
 
@@ -1056,7 +1503,7 @@ public class CraftPanel extends VBox {
             scroll.setStyle("-fx-background-color: white;");
             VBox.setVgrow(scroll, Priority.ALWAYS);
 
-            getChildren().addAll(redHeader, scroll);
+            getChildren().addAll(redHeader, configSection, scroll);
         }
 
         // ── Config bar ────────────────────────────────────────────────────────
@@ -1070,7 +1517,7 @@ public class CraftPanel extends VBox {
             VBox nameBox = new VBox(2);
             Label nameLabel = new Label(recipe.name());
             nameLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
-            Label batchLabel = new Label("Tier " + recipe.tier() + "   •   Batch: 5 potions");
+            Label batchLabel = new Label("Tier " + recipe.tier() + "   •   Batch: " + recipe.batchSize() + " potions");
             batchLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #64748b;");
             nameBox.getChildren().addAll(nameLabel, batchLabel);
             HBox.setHgrow(nameBox, Priority.ALWAYS);
