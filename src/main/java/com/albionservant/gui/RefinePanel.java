@@ -225,7 +225,7 @@ public class RefinePanel extends VBox {
                 cfgLabel("Demand Average:"), cfgField("7"),
                 cfgCheckbox("Use Focus"),
                 cfgLabel("Bonus City:"),     cfgCombo(new String[]{"Island","Royal City","Hideout"}, "Island"),
-                cfgLabel("Daily Bonus:"),    cfgCombo(new String[]{"None","Small (+10%)","Large (+20%)"}, "None"),
+                cfgDailyBonusRow(),
                 cfgCheckbox("No Tax")
         );
 
@@ -600,6 +600,28 @@ public class RefinePanel extends VBox {
         cb.setValue(defaultVal);
         cb.setMaxWidth(Double.MAX_VALUE);
         return cb;
+    }
+
+    
+    private HBox cfgDailyBonusRow() {
+        CheckBox dailyBonus = cfgCheckbox("Daily Bonus");
+
+        ComboBox<String> dailyBonusValue = new ComboBox<>();
+        dailyBonusValue.getItems().addAll("10%", "20%");
+        dailyBonusValue.setValue("10%");
+        dailyBonusValue.setMinWidth(82);
+        dailyBonusValue.setPrefWidth(82);
+        dailyBonusValue.setMaxWidth(82);
+        dailyBonusValue.setDisable(true);
+
+        dailyBonus.selectedProperty().addListener((obs, wasSelected, isSelected) ->
+                dailyBonusValue.setDisable(!isSelected)
+        );
+
+        HBox row = new HBox(8, dailyBonus, dailyBonusValue);
+        row.setAlignment(Pos.CENTER_LEFT);
+
+        return row;
     }
 
     private String[] citiesArray() {

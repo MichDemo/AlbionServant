@@ -3,175 +3,272 @@ package com.albionservant.data;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
  * Constructs Albion Online render API URLs for item icons.
- * API: https://render.albiononline.com/v1/item/{identifier}.png
+ *
+ * Render API:
+ * https://render.albiononline.com/v1/item/{identifier}.png
+ *
+ * The render service accepts item UniqueName IDs. It also accepts localized item
+ * names, but some T8 items have special display names, so UniqueName IDs are
+ * more reliable for those.
  */
 public class ItemRenderData {
 
-    private static final String BASE_URL   = "https://render.albiononline.com/v1/item/";
-    private static final String T8_PREFIX  = "Elder's ";
+    private static final String BASE_URL = "https://render.albiononline.com/v1/item/";
+    private static final String T8_PREFIX = "Elder's ";
 
-    // ── Food icon IDs ─────────────────────────────────────────────────────────
     private static final Map<String, String> FOOD_IDS = new HashMap<>();
-    static {
-        // Soups
-        FOOD_IDS.put("Carrot Soup",                  "T1_MEAL_SOUP");
-        FOOD_IDS.put("Greenmoor Clam Soup",           "T1_MEAL_SOUP_FISH");
-        FOOD_IDS.put("Wheat Soup",                    "T3_MEAL_SOUP");
-        FOOD_IDS.put("Murkwater Clam Soup",           "T3_MEAL_SOUP_FISH");
-        FOOD_IDS.put("Cabbage Soup",                  "T5_MEAL_SOUP");
-        FOOD_IDS.put("Blackbog Clam Soup",            "T5_MEAL_SOUP_FISH");
-        // Salads
-        FOOD_IDS.put("Bean Salad",                    "T2_MEAL_SALAD");
-        FOOD_IDS.put("Shallowshore Squid Salad",      "T2_MEAL_SALAD_FISH");
-        FOOD_IDS.put("Turnip Salad",                  "T4_MEAL_SALAD");
-        FOOD_IDS.put("Midwater Octopus Salad",        "T4_MEAL_SALAD_FISH");
-        FOOD_IDS.put("Potato Salad",                  "T6_MEAL_SALAD");
-        FOOD_IDS.put("Deepwater Kraken Salad",        "T6_MEAL_SALAD_FISH");
-        // Omelettes
-        FOOD_IDS.put("Chicken Omelette",              "T3_MEAL_OMELETTE");
-        FOOD_IDS.put("Lowriver Crab Omelette",        "T3_MEAL_OMELETTE_FISH");
-        FOOD_IDS.put("Avalonian Chicken Omelette",    "T3_MEAL_OMELETTE_AVALON");
-        FOOD_IDS.put("Goose Omelette",                "T5_MEAL_OMELETTE");
-        FOOD_IDS.put("Drybrook Crab Omelette",        "T5_MEAL_OMELETTE_FISH");
-        FOOD_IDS.put("Avalonian Goose Omelette",      "T5_MEAL_OMELETTE_AVALON");
-        FOOD_IDS.put("Pork Omelette",                 "T7_MEAL_OMELETTE");
-        FOOD_IDS.put("Dusthole Crab Omelette",        "T7_MEAL_OMELETTE_FISH");
-        FOOD_IDS.put("Avalonian Pork Omelette",       "T7_MEAL_OMELETTE_AVALON");
-        // Pies
-        FOOD_IDS.put("Chicken Pie",                   "T3_MEAL_PIE");
-        FOOD_IDS.put("Upland Coldeye Pie",            "T3_MEAL_PIE_FISH");
-        FOOD_IDS.put("Goose Pie",                     "T5_MEAL_PIE");
-        FOOD_IDS.put("Mountain Blindeye Pie",         "T5_MEAL_PIE_FISH");
-        FOOD_IDS.put("Pork Pie",                      "T7_MEAL_PIE");
-        FOOD_IDS.put("Frostpeak Deadeye Pie",         "T7_MEAL_PIE_FISH");
-        // Stews
-        FOOD_IDS.put("Goat Stew",                     "T4_MEAL_STEW");
-        FOOD_IDS.put("Greenriver Eel Stew",           "T4_MEAL_STEW_FISH");
-        FOOD_IDS.put("Avalonian Goat Stew",           "T4_MEAL_STEW_AVALON");
-        FOOD_IDS.put("Mutton Stew",                   "T6_MEAL_STEW");
-        FOOD_IDS.put("Redspring Eel Stew",            "T6_MEAL_STEW_FISH");
-        FOOD_IDS.put("Avalonian Mutton Stew",         "T6_MEAL_STEW_AVALON");
-        FOOD_IDS.put("Beef Stew",                     "T8_MEAL_STEW");
-        FOOD_IDS.put("Deadwater Eel Stew",            "T8_MEAL_STEW_FISH");
-        FOOD_IDS.put("Avalonian Beef Stew",           "T8_MEAL_STEW_AVALON");
-        // Roasts
-        FOOD_IDS.put("Roast Chicken",                 "T3_MEAL_ROAST");
-        FOOD_IDS.put("Roasted Whitefog Snapper",      "T3_MEAL_ROAST_FISH");
-        FOOD_IDS.put("Roast Goose",                   "T5_MEAL_ROAST");
-        FOOD_IDS.put("Roasted Clearhaze Snapper",     "T5_MEAL_ROAST_FISH");
-        FOOD_IDS.put("Roast Pork",                    "T7_MEAL_ROAST");
-        FOOD_IDS.put("Roasted Puremist Snapper",      "T7_MEAL_ROAST_FISH");
-        // Sandwiches
-        FOOD_IDS.put("Goat Sandwich",                 "T4_MEAL_SANDWICH");
-        FOOD_IDS.put("Stonestream Lurcher Sandwich",  "T4_MEAL_SANDWICH_FISH");
-        FOOD_IDS.put("Avalonian Goat Sandwich",       "T4_MEAL_SANDWICH_AVALON");
-        FOOD_IDS.put("Mutton Sandwich",               "T6_MEAL_SANDWICH");
-        FOOD_IDS.put("Rushwater Lurcher Sandwich",    "T6_MEAL_SANDWICH_FISH");
-        FOOD_IDS.put("Avalonian Mutton Sandwich",     "T6_MEAL_SANDWICH_AVALON");
-        FOOD_IDS.put("Beef Sandwich",                 "T8_MEAL_SANDWICH");
-        FOOD_IDS.put("Thunderfall Lurcher Sandwich",  "T8_MEAL_SANDWICH_FISH");
-        FOOD_IDS.put("Avalonian Beef Sandwich",       "T8_MEAL_SANDWICH_AVALON");
-        // Fish & Other
-        FOOD_IDS.put("Grilled Fish",                  "T1_MEAL_FISH");
-        FOOD_IDS.put("Seaweed Salad",                 "T1_MEAL_SEAWEED");
-        FOOD_IDS.put("Basic Fish Sauce",              "T1_FISHSAUCE_LEVEL1");
-        FOOD_IDS.put("Fancy Fish Sauce",              "T1_FISHSAUCE_LEVEL2");
-        FOOD_IDS.put("Special Fish Sauce",            "T1_FISHSAUCE_LEVEL3");
-        FOOD_IDS.put("Bread",                         "T4_BREAD");
-        FOOD_IDS.put("Flour",                         "T3_FLOUR");
-    }
-
-    // ── Potion icon IDs ───────────────────────────────────────────────────────
     private static final Map<String, String> POTION_IDS = new HashMap<>();
+    private static final Map<String, String> T8_GEAR_IDS = new HashMap<>();
+
     static {
-        // Uses localized "Elder's/Grandmaster's/etc." names where unique IDs are uncertain.
-        // For items where internal ID is confirmed from ao-bin-dumps, uses ID directly.
-        POTION_IDS.put("Minor Healing Potion",          "T2_POTION_HEAL");
-        POTION_IDS.put("Healing Potion",                "T4_POTION_HEAL");
-        POTION_IDS.put("Major Healing Potion",          "T6_POTION_HEAL");
-        POTION_IDS.put("Minor Energy Potion",           "T2_POTION_ENERGY");
-        POTION_IDS.put("Energy Potion",                 "T4_POTION_ENERGY");
-        POTION_IDS.put("Major Energy Potion",           "T6_POTION_ENERGY");
-        POTION_IDS.put("Minor Gigantify Potion",        "T3_POTION_GIGANTIFY");
-        POTION_IDS.put("Gigantify Potion",              "T5_POTION_GIGANTIFY");
-        POTION_IDS.put("Major Gigantify Potion",        "T7_POTION_GIGANTIFY");
-        POTION_IDS.put("Minor Resistance Potion",       "T3_POTION_RESISTANCE");
-        POTION_IDS.put("Resistance Potion",             "T5_POTION_RESISTANCE");
-        POTION_IDS.put("Major Resistance Potion",       "T7_POTION_RESISTANCE");
-        POTION_IDS.put("Minor Sticky Potion",           "T3_POTION_STICKY");
-        POTION_IDS.put("Sticky Potion",                 "T5_POTION_STICKY");
-        POTION_IDS.put("Major Sticky Potion",           "T7_POTION_STICKY");
-        POTION_IDS.put("Minor Poison Potion",           "T4_POTION_POISON");
-        POTION_IDS.put("Poison Potion",                 "T6_POTION_POISON");
-        POTION_IDS.put("Major Poison Potion",           "T8_POTION_POISON");
-        // Invisibility — single tier, confirmed internal ID from ao-bin-dumps
-        POTION_IDS.put("Invisibility Potion",           "T8_POTION_INVISIBILITY");
-        // Cleansing — CLEANSINGSHIELD is the confirmed internal suffix
-        POTION_IDS.put("Minor Cleansing Potion",        "T3_POTION_CLEANSINGSHIELD");
-        POTION_IDS.put("Cleansing Potion",              "T5_POTION_CLEANSINGSHIELD");
-        POTION_IDS.put("Major Cleansing Potion",        "T7_POTION_CLEANSINGSHIELD");
-        // Calming — MOB_RESET is the confirmed internal suffix
-        POTION_IDS.put("Minor Calming Potion",          "T3_POTION_MOB_RESET");
-        POTION_IDS.put("Calming Potion",                "T5_POTION_MOB_RESET");
-        POTION_IDS.put("Major Calming Potion",          "T8_POTION_MOB_RESET");
-        // Acid
-        POTION_IDS.put("Minor Acid Potion",             "T3_POTION_ACID");
-        POTION_IDS.put("Acid Potion",                   "T5_POTION_ACID");
-        POTION_IDS.put("Major Acid Potion",             "T8_POTION_ACID");
-        // Berserk
-        POTION_IDS.put("Minor Berserk Potion",          "T4_POTION_BERSERK");
-        POTION_IDS.put("Berserk Potion",                "T6_POTION_BERSERK");
-        POTION_IDS.put("Major Berserk Potion",          "T8_POTION_BERSERK");
-        // Hellfire
-        POTION_IDS.put("Minor Hellfire Potion",         "T4_POTION_HELLFIRE");
-        POTION_IDS.put("Hellfire Potion",               "T6_POTION_HELLFIRE");
-        POTION_IDS.put("Major Hellfire Potion",         "T8_POTION_HELLFIRE");
-        // Tornado in a Bottle
-        POTION_IDS.put("Minor Tornado in a Bottle",     "T4_POTION_TORNADO");
-        POTION_IDS.put("Tornado in a Bottle",           "T6_POTION_TORNADO");
-        POTION_IDS.put("Major Tornado in a Bottle",     "T8_POTION_TORNADO");
-        // Gathering
-        POTION_IDS.put("Minor Gathering Potion",        "T3_POTION_GATHERING");
-        POTION_IDS.put("Gathering Potion",              "T5_POTION_GATHERING");
-        POTION_IDS.put("Major Gathering Potion",        "T7_POTION_GATHERING");
-        // Intermediate ingredients
-        POTION_IDS.put("Potato Schnapps",               "T6_POTION_SCHNAPPS");
-        POTION_IDS.put("Corn Hooch",                    "T7_POTION_HOOCH");
-        POTION_IDS.put("Pumpkin Moonshine",             "T8_POTION_MOONSHINE");
+        // ?? T8 gear IDs with problematic localized names ???????????????????
+        putGear("Greataxe", "T8_2H_AXE");
+        putGear("Great Axe", "T8_2H_AXE");
+        putGear("The Hand of Khor", "T8_2H_AXE");
+
+        putGear("Great Fire Staff", "T8_2H_FIRESTAFF");
+        putGear("Great Firestaff", "T8_2H_FIRESTAFF");
+        putGear("Great Fire", "T8_2H_FIRESTAFF");
+        putGear("GFire", "T8_2H_FIRESTAFF");
+        putGear("Vendetta's Wrath", "T8_2H_FIRESTAFF");
+
+        putGear("Tome of Spells", "T8_OFF_BOOK");
+        putGear("Tome", "T8_OFF_BOOK");
+        putGear("Rosalia's Diary", "T8_OFF_BOOK");
+
+        // ?? A few common T8 IDs, useful because UniqueName is always stable ?
+        putGear("Battleaxe", "T8_MAIN_AXE");
+        putGear("Halberd", "T8_2H_HALBERD");
+        putGear("Fire Staff", "T8_MAIN_FIRESTAFF");
+        putGear("Infernal Staff", "T8_2H_INFERNOSTAFF");
+
+        // ?? Food icon IDs ??????????????????????????????????????????????????
+        putFood("Carrot Soup", "T1_MEAL_SOUP");
+        putFood("Greenmoor Clam Soup", "T1_MEAL_SOUP_FISH");
+        putFood("Wheat Soup", "T3_MEAL_SOUP");
+        putFood("Murkwater Clam Soup", "T3_MEAL_SOUP_FISH");
+        putFood("Cabbage Soup", "T5_MEAL_SOUP");
+        putFood("Blackbog Clam Soup", "T5_MEAL_SOUP_FISH");
+
+        putFood("Bean Salad", "T2_MEAL_SALAD");
+        putFood("Shallowshore Squid Salad", "T2_MEAL_SALAD_FISH");
+        putFood("Turnip Salad", "T4_MEAL_SALAD");
+        putFood("Midwater Octopus Salad", "T4_MEAL_SALAD_FISH");
+        putFood("Potato Salad", "T6_MEAL_SALAD");
+        putFood("Deepwater Kraken Salad", "T6_MEAL_SALAD_FISH");
+
+        putFood("Chicken Omelette", "T3_MEAL_OMELETTE");
+        putFood("Lowriver Crab Omelette", "T3_MEAL_OMELETTE_FISH");
+        putFood("Avalonian Chicken Omelette", "T3_MEAL_OMELETTE_AVALON");
+        putFood("Goose Omelette", "T5_MEAL_OMELETTE");
+        putFood("Drybrook Crab Omelette", "T5_MEAL_OMELETTE_FISH");
+        putFood("Avalonian Goose Omelette", "T5_MEAL_OMELETTE_AVALON");
+        putFood("Pork Omelette", "T7_MEAL_OMELETTE");
+        putFood("Dusthole Crab Omelette", "T7_MEAL_OMELETTE_FISH");
+        putFood("Avalonian Pork Omelette", "T7_MEAL_OMELETTE_AVALON");
+
+        putFood("Chicken Pie", "T3_MEAL_PIE");
+        putFood("Upland Coldeye Pie", "T3_MEAL_PIE_FISH");
+        putFood("Goose Pie", "T5_MEAL_PIE");
+        putFood("Mountain Blindeye Pie", "T5_MEAL_PIE_FISH");
+        putFood("Pork Pie", "T7_MEAL_PIE");
+        putFood("Frostpeak Deadeye Pie", "T7_MEAL_PIE_FISH");
+
+        putFood("Goat Stew", "T4_MEAL_STEW");
+        putFood("Greenriver Eel Stew", "T4_MEAL_STEW_FISH");
+        putFood("Avalonian Goat Stew", "T4_MEAL_STEW_AVALON");
+        putFood("Mutton Stew", "T6_MEAL_STEW");
+        putFood("Redspring Eel Stew", "T6_MEAL_STEW_FISH");
+        putFood("Avalonian Mutton Stew", "T6_MEAL_STEW_AVALON");
+        putFood("Beef Stew", "T8_MEAL_STEW");
+        putFood("Deadwater Eel Stew", "T8_MEAL_STEW_FISH");
+        putFood("Avalonian Beef Stew", "T8_MEAL_STEW_AVALON");
+
+        putFood("Roast Chicken", "T3_MEAL_ROAST");
+        putFood("Roasted Whitefog Snapper", "T3_MEAL_ROAST_FISH");
+        putFood("Roast Goose", "T5_MEAL_ROAST");
+        putFood("Roasted Clearhaze Snapper", "T5_MEAL_ROAST_FISH");
+        putFood("Roast Pork", "T7_MEAL_ROAST");
+        putFood("Roasted Puremist Snapper", "T7_MEAL_ROAST_FISH");
+
+        putFood("Goat Sandwich", "T4_MEAL_SANDWICH");
+        putFood("Stonestream Lurcher Sandwich", "T4_MEAL_SANDWICH_FISH");
+        putFood("Avalonian Goat Sandwich", "T4_MEAL_SANDWICH_AVALON");
+        putFood("Mutton Sandwich", "T6_MEAL_SANDWICH");
+        putFood("Rushwater Lurcher Sandwich", "T6_MEAL_SANDWICH_FISH");
+        putFood("Avalonian Mutton Sandwich", "T6_MEAL_SANDWICH_AVALON");
+        putFood("Beef Sandwich", "T8_MEAL_SANDWICH");
+        putFood("Thunderfall Lurcher Sandwich", "T8_MEAL_SANDWICH_FISH");
+        putFood("Avalonian Beef Sandwich", "T8_MEAL_SANDWICH_AVALON");
+
+        putFood("Grilled Fish", "T1_MEAL_FISH");
+        putFood("Seaweed Salad", "T1_MEAL_SEAWEED");
+        putFood("Basic Fish Sauce", "T1_FISHSAUCE_LEVEL1");
+        putFood("Fancy Fish Sauce", "T1_FISHSAUCE_LEVEL2");
+        putFood("Special Fish Sauce", "T1_FISHSAUCE_LEVEL3");
+        putFood("Bread", "T4_BREAD");
+        putFood("Flour", "T3_FLOUR");
+
+        // ?? Potion IDs ?????????????????????????????????????????????????????
+        // Only IDs that are known/stable are hardcoded.
+        // Everything else falls back to localized display name.
+        putPotion("Minor Healing Potion", "T2_POTION_HEAL");
+        putPotion("Healing Potion", "T4_POTION_HEAL");
+        putPotion("Major Healing Potion", "T6_POTION_HEAL");
+
+        putPotion("Minor Energy Potion", "T2_POTION_ENERGY");
+        putPotion("Energy Potion", "T4_POTION_ENERGY");
+        putPotion("Major Energy Potion", "T6_POTION_ENERGY");
+
+        putPotion("Invisibility Potion", "T8_POTION_INVISIBILITY");
+
+        // Corrected IDs.
+        putPotion("Major Poison Potion", "T8_POTION_COOLDOWN");
+        putPotion("Major Hellfire Potion", "T8_POTION_LAVA");
+        putPotion("Major Berserk Potion", "T8_POTION_BERSERK");
+        putPotion("Major Tornado in a Bottle", "T8_POTION_TORNADO");
+
+        // Intermediate alchemy ingredients.
+        putPotion("Potato Schnapps", "T6_POTION_SCHNAPPS");
+        putPotion("Corn Hooch", "T7_POTION_HOOCH");
+        putPotion("Pumpkin Moonshine", "T8_POTION_MOONSHINE");
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
-
-    /** T8 gear icon URL using Elder's prefix */
+    /**
+     * T8 gear icon URL.
+     *
+     * First tries stable UniqueName mapping.
+     * Falls back to "Elder's <display name>" for ordinary T8 items.
+     */
     public static String getT8ImageUrl(String itemDisplayName) {
-        if (itemDisplayName == null || itemDisplayName.isBlank()) return null;
-        String localized = T8_PREFIX + itemDisplayName;
-        return BASE_URL + URLEncoder.encode(localized, StandardCharsets.UTF_8)
-                .replace("+", "%20") + ".png";
+        if (itemDisplayName == null || itemDisplayName.isBlank()) {
+            return null;
+        }
+
+        String cleaned = cleanDisplayName(itemDisplayName);
+
+        if (looksLikeUniqueId(cleaned)) {
+            return getUrlByUniqueId(cleaned);
+        }
+
+        String mapped = T8_GEAR_IDS.get(key(cleaned));
+
+        if (mapped != null) {
+            return getUrlByUniqueId(mapped);
+        }
+
+        return getUrlByLocalizedName(T8_PREFIX + cleaned);
     }
 
-    /** Icon URL by exact internal unique ID */
+    /**
+     * Icon URL by exact internal unique ID.
+     */
     public static String getUrlByUniqueId(String uniqueId) {
-        if (uniqueId == null || uniqueId.isBlank()) return null;
-        return BASE_URL + uniqueId + ".png";
+        if (uniqueId == null || uniqueId.isBlank()) {
+            return null;
+        }
+
+        return BASE_URL + encode(uniqueId) + ".png";
     }
 
-    /** Food item icon URL — uses tier-specific internal IDs */
+    /**
+     * Food item icon URL.
+     */
     public static String getFoodImageUrl(String itemName) {
-        String id = FOOD_IDS.get(itemName);
-        return id != null ? getUrlByUniqueId(id) : null;
+        if (itemName == null || itemName.isBlank()) {
+            return null;
+        }
+
+        String id = FOOD_IDS.get(key(itemName));
+
+        if (id != null) {
+            return getUrlByUniqueId(id);
+        }
+
+        return getUrlByLocalizedName(itemName);
     }
 
-    /** Potion item icon URL — tries internal ID first, falls back to localized name */
+    /**
+     * Potion item icon URL.
+     *
+     * Uses corrected UniqueName IDs for known problematic potions.
+     * Falls back to localized name for everything else.
+     */
     public static String getPotionImageUrl(String itemName) {
-        String id = POTION_IDS.get(itemName);
-        if (id != null) return getUrlByUniqueId(id);
-        // Fallback: use the localized display name directly (render API accepts it)
-        return BASE_URL + URLEncoder.encode(itemName, StandardCharsets.UTF_8)
-                .replace("+", "%20") + ".png";
+        if (itemName == null || itemName.isBlank()) {
+            return null;
+        }
+
+        String cleaned = cleanDisplayName(itemName);
+
+        if (looksLikeUniqueId(cleaned)) {
+            return getUrlByUniqueId(cleaned);
+        }
+
+        String id = POTION_IDS.get(key(cleaned));
+
+        if (id != null) {
+            return getUrlByUniqueId(id);
+        }
+
+        return getUrlByLocalizedName(cleaned);
+    }
+
+    /**
+     * Generic localized-name render URL.
+     */
+    public static String getUrlByLocalizedName(String localizedName) {
+        if (localizedName == null || localizedName.isBlank()) {
+            return null;
+        }
+
+        return BASE_URL + encode(localizedName.trim()) + ".png";
+    }
+
+    private static void putFood(String displayName, String uniqueId) {
+        FOOD_IDS.put(key(displayName), uniqueId);
+    }
+
+    private static void putPotion(String displayName, String uniqueId) {
+        POTION_IDS.put(key(displayName), uniqueId);
+    }
+
+    private static void putGear(String displayName, String uniqueId) {
+        T8_GEAR_IDS.put(key(displayName), uniqueId);
+    }
+
+    private static String key(String value) {
+        return cleanDisplayName(value)
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("\\s+", " ")
+                .trim();
+    }
+
+    private static String cleanDisplayName(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        String cleaned = value.trim();
+
+        cleaned = cleaned.replaceAll("(?i)^T8\\s+", "");
+        cleaned = cleaned.replaceAll("(?i)^Elder's\\s+", "");
+        cleaned = cleaned.replaceAll("\\s+", " ");
+
+        return cleaned.trim();
+    }
+
+    private static boolean looksLikeUniqueId(String value) {
+        return value != null && value.matches("T\\d+_.+");
+    }
+
+    private static String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8)
+                .replace("+", "%20");
     }
 }

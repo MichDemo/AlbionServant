@@ -139,9 +139,7 @@ public class PotionRecipeData {
         r("Poison Potion",       6, i("Dragon Teasel", 12), i("Brightleaf Comfrey", 12),
                 i("Sheep's Milk", 6), i("Elusive Foxglove", 24));
         // Confirmed from wiki Template:Recipe — mejoress descriptions were swapped
-        r("Major Poison Potion", 8, i("Ghoul Yarrow", 72), i("Firetouched Mullein", 24),
-                i("Dragon Teasel", 24), i("Cow's Milk", 18),
-                i("Pumpkin Moonshine", 18));
+        r("Major Poison Potion", 8, i("Ghoul Yarrow", 72), i("Firetouched Mullein", 36), i("Dragon Teasel", 36), i("Cow's Milk", 18), i("Pumpkin Moonshine", 18));
 
         // ── INVISIBILITY POTIONS ──────────────────────────────────────────────
         CATEGORY_CHILDREN.put("Invisibility Potions", List.of(
@@ -270,6 +268,54 @@ public class PotionRecipeData {
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
+    
+    /**
+     * Arcane Extract quantity needed per craft for enchanted potions.
+     *
+     * Standard batch-5 potions:
+     * T2-T3 => 5 extract, T4-T5 => 15 extract, T6-T8 => 45 extract.
+     *
+     * Tracking batch-10 potions:
+     * T3-T4 => 10 extract, T5-T6 => 30 extract, T7-T8 => 90 extract.
+     */
+    public static int getArcaneExtractQuantityPerBatch(PotionRecipe recipe) {
+        if (recipe == null) {
+            return 0;
+        }
+
+        int tier = recipe.tier();
+
+        if (recipe.hasTrackingIngredient()) {
+            if (tier <= 4) {
+                return 10;
+            }
+
+            if (tier <= 6) {
+                return 30;
+            }
+
+            return 90;
+        }
+
+        if (tier <= 3) {
+            return 5;
+        }
+
+        if (tier <= 5) {
+            return 15;
+        }
+
+        return 45;
+    }
+
+    public static double getArcaneExtractQuantityPerItem(PotionRecipe recipe) {
+        if (recipe == null) {
+            return 0.0;
+        }
+
+        return getArcaneExtractQuantityPerBatch(recipe) / (double) Math.max(1, recipe.batchSize());
+    }
+
     private static Ingredient i(String name, int qty) {
         return new Ingredient(name, qty);
     }
@@ -277,7 +323,7 @@ public class PotionRecipeData {
     /** Standard potion — batch of 10, no tracking ingredient */
     @SafeVarargs
     private static void r(String name, int tier, Ingredient... ingredients) {
-        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), null, 10));
+        RECIPES.put(name, new PotionRecipe(name, tier, List.of(ingredients), null, 5));
     }
 
     /** Batch-of-5 potion — no tracking ingredient (Healing, Resistance, Sticky, Invisibility) */

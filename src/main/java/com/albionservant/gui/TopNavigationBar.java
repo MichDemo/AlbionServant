@@ -11,10 +11,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class TopNavigationBar extends VBox {
+    private static final double TOP_BAR_HEIGHT = 96.0;
+    private static final double TAB_BUTTON_HEIGHT = 26.0;
+
 
     private Button activeButton = null;
 
     public TopNavigationBar() {
+        setMinHeight(TOP_BAR_HEIGHT);
+        setPrefHeight(TOP_BAR_HEIGHT);
+        setMaxHeight(TOP_BAR_HEIGHT);
+
         setBackground(new Background(new BackgroundFill(AppConfig.BACKGROUND_TAB_BAR, null, null)));
         setPadding(new Insets(12, 20, 12, 20));
         setSpacing(8);
@@ -33,6 +40,9 @@ public class TopNavigationBar extends VBox {
 
     private void buildTabButtons() {
         HBox tabsContainer = new HBox(10);
+        tabsContainer.setMinHeight(TAB_BUTTON_HEIGHT);
+        tabsContainer.setPrefHeight(TAB_BUTTON_HEIGHT);
+        tabsContainer.setMaxHeight(TAB_BUTTON_HEIGHT);
         tabsContainer.setAlignment(Pos.CENTER);
         tabsContainer.setPadding(new Insets(0, 4, 0, 4));
 
@@ -57,7 +67,9 @@ public class TopNavigationBar extends VBox {
 
     private Button createTabButton(String text) {
         Button btn = new Button(text);
-        btn.setPrefHeight(44);
+        btn.setMinHeight(TAB_BUTTON_HEIGHT);
+        btn.setPrefHeight(TAB_BUTTON_HEIGHT);
+        btn.setMaxHeight(TAB_BUTTON_HEIGHT);
         btn.setMaxWidth(Double.MAX_VALUE);
         btn.setFont(Font.font("System", FontWeight.BOLD, 14));
         btn.setTextFill(AppConfig.TAB_TEXT);

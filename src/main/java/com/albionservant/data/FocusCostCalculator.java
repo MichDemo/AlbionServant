@@ -5,26 +5,14 @@ package com.albionservant.data;
  */
 public class FocusCostCalculator {
 
-    /**
-     * Efficiency bonus per spec level for the main item specialization.
-     */
     private static final double MAIN_SPEC_BONUS = 2.8;
 
-    /**
-     * Applies spec-level reduction to a base focus cost.
-     */
     public static long withSpec(double baseFocus, int specLevel) {
         int safeSpec = Math.max(0, Math.min(100, specLevel));
         double exponent = (safeSpec * MAIN_SPEC_BONUS) / 100.0;
         return (long) Math.ceil(baseFocus * Math.pow(0.5, exponent));
     }
 
-    /**
-     * Computes the base focus cost before spec reduction.
-     *
-     * Formula:
-     * Focus = 10 * totalMaterials * 1.75^(tier - 1 + enchantLevel)
-     */
     public static double baseFocusCost(int tier, int enchantLevel, double totalMaterials) {
         int safeTier = Math.max(1, tier);
         int safeEnchant = Math.max(0, Math.min(4, enchantLevel));
@@ -53,9 +41,6 @@ public class FocusCostCalculator {
         return compute(tier, 0, totalMaterials, specLevel);
     }
 
-    /**
-     * Focus cost for a gear item.
-     */
     public static long forGear(String itemName, int tier, int specLevel) {
         CraftQuantityData.Quantities q = CraftQuantityData.get(itemName);
 
@@ -68,20 +53,6 @@ public class FocusCostCalculator {
         return compute(tier, 0, total, specLevel);
     }
 
-    /**
-     * Focus cost for food, per finished food item.
-     *
-     * enchantLevel:
-     * 0 = .0 food
-     * 1 = .1 food, Basic Fish Sauce
-     * 2 = .2 food, Fancy Fish Sauce
-     * 3 = .3 food, Special Fish Sauce
-     *
-     * The recipe ingredient quantities are stored per batch, so this method
-     * converts them to materials per finished item using recipe.batchSize().
-     *
-     * For enchanted food, this assumes one fish sauce per finished food item.
-     */
     public static long forFood(FoodRecipeData.Recipe recipe, int enchantLevel, int specLevel) {
         if (recipe == null) {
             return 0L;
@@ -89,39 +60,37 @@ public class FocusCostCalculator {
 
         int batchSize = Math.max(1, recipe.batchSize());
 
-        int totalPerBatch = recipe.ingredients().stream()
-                .mapToInt(FoodRecipeData.Ingredient::quantity)
-                .sum();
+        int totalPerBatch = 0;
+        for (Object ingObj : recipe.ingredients()) {
+            FoodRecipeData.Ingredient ingredient = (FoodRecipeData.Ingredient) ingObj;
+            totalPerBatch += ingredient.quantity();
+        }
 
         double materialsPerItem = totalPerBatch / (double) batchSize;
 
         if (enchantLevel > 0) {
-            materialsPerItem += 1.0;
+            materialsPerItem += FoodRecipeData.getFishSauceQuantityPerItem(recipe);
         }
 
         return compute(recipe.tier(), enchantLevel, materialsPerItem, specLevel);
     }
 
-    /**
-     * Backwards-compatible overload for old code.
-     */
     public static long forFood(FoodRecipeData.Recipe recipe, int specLevel) {
         return forFood(recipe, 0, specLevel);
     }
 
-    /**
-     * Focus cost for a potion, per finished potion item.
-     */
-    public static long forPotion(PotionRecipeData.PotionRecipe recipe, int specLevel) {
+    public static long forPotion(PotionRecipeData.PotionRecipe recipe, int enchantLevel, int specLevel) {
         if (recipe == null) {
             return 0L;
         }
 
         int batchSize = Math.max(1, recipe.batchSize());
 
-        int totalPerBatch = recipe.ingredients().stream()
-                .mapToInt(PotionRecipeData.Ingredient::quantity)
-                .sum();
+        int totalPerBatch = 0;
+        for (Object ingObj : recipe.ingredients()) {
+            PotionRecipeData.Ingredient ingredient = (PotionRecipeData.Ingredient) ingObj;
+            totalPerBatch += ingredient.quantity();
+        }
 
         if (recipe.hasTrackingIngredient()) {
             totalPerBatch += 1;
@@ -129,12 +98,17 @@ public class FocusCostCalculator {
 
         double materialsPerItem = totalPerBatch / (double) batchSize;
 
-        return compute(recipe.tier(), 0, materialsPerItem, specLevel);
+        if (enchantLevel > 0) {
+            materialsPerItem += PotionRecipeData.getArcaneExtractQuantityPerItem(recipe);
+        }
+
+        return compute(recipe.tier(), enchantLevel, materialsPerItem, specLevel);
     }
 
-    /**
-     * Returns a human-readable summary of the focus breakdown for display.
-     */
+    public static long forPotion(PotionRecipeData.PotionRecipe recipe, int specLevel) {
+        return forPotion(recipe, 0, specLevel);
+    }
+
     public static String summary(int tier, int totalMaterials, int specLevel) {
         double base = baseFocusCost(tier, totalMaterials);
         long reduced = withSpec(base, specLevel);

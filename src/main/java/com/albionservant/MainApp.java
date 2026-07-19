@@ -45,9 +45,10 @@ public class MainApp extends Application {
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         double width = Math.min(screenBounds.getWidth() * 0.9, 1400);
-        double height = Math.min(screenBounds.getHeight() * 0.9, 920);
+        double height = screenBounds.getHeight() * 0.95;
 
         TopNavigationBar topBar = new TopNavigationBar();
+        VBox.setVgrow(topBar, Priority.NEVER);
         HotInvestmentsPanel hotPanel = new HotInvestmentsPanel();
         CraftPanel craftPanel = new CraftPanel();
         RefinePanel refinePanel = new RefinePanel();
@@ -107,22 +108,24 @@ public class MainApp extends Application {
         VBox contentArea = new VBox(hotPanel);
         contentArea.setAlignment(Pos.TOP_CENTER);
         contentArea.setFillWidth(true);
-        VBox.setVgrow(contentArea, Priority.NEVER);
+        VBox.setVgrow(contentArea, Priority.ALWAYS);
 
         root.getChildren().addAll(topBar, contentArea);
         root.setBackground(new Background(new BackgroundFill(AppConfig.BACKGROUND_MAIN, null, null)));
 
         // ── Detail mode listeners — hide top bar when in leaf panels ─────────
         craftPanel.setOnDetailModeListener(isDetail -> {
-            topBar.setVisible(!isDetail);
-            topBar.setManaged(!isDetail);
+            topBar.setVisible(true);
+            topBar.setManaged(true);
+            VBox.setVgrow(contentArea, Priority.ALWAYS);
         });
 
         craftPanel.setSpecsPanel(specsPanel);
 
         refinePanel.setOnDetailModeListener(isDetail -> {
-            topBar.setVisible(!isDetail);
-            topBar.setManaged(!isDetail);
+            topBar.setVisible(true);
+            topBar.setManaged(true);
+            VBox.setVgrow(contentArea, Priority.ALWAYS);
         });
 
         // ── Tab routing ──────────────────────────────────────────────────────
@@ -146,7 +149,7 @@ public class MainApp extends Application {
 
         topBar.setOnOtherTabClicked(() -> {
             contentArea.getChildren().set(0, hotPanel);
-            VBox.setVgrow(contentArea, Priority.NEVER);
+            VBox.setVgrow(contentArea, Priority.ALWAYS);
             topBar.setVisible(true);
         });
 
@@ -168,6 +171,7 @@ public class MainApp extends Application {
         stage.setMinHeight(700);
         stage.setResizable(true);
         stage.show();
+        stage.setMaximized(true);
     }
 
     /**

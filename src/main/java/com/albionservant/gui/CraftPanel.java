@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class CraftPanel extends VBox {
-    private static final double FORM_CONTROL_WIDTH = 470.0;
+    private static final double FORM_CONTROL_WIDTH = 190.0;
 
     private static void lockComboBoxWidth(ComboBox<?> comboBox) {
         comboBox.setMinWidth(FORM_CONTROL_WIDTH);
@@ -281,7 +281,7 @@ public class CraftPanel extends VBox {
             whiteContent.setMaxWidth(Double.MAX_VALUE);
 
             // ── TOP SECTION: 3 equal columns, stretches with window ──
-            HBox topSection = new HBox(30);
+            HBox topSection = new HBox(26);
             topSection.setAlignment(Pos.TOP_LEFT);
             topSection.setFillHeight(false);
             topSection.setMaxWidth(Double.MAX_VALUE);
@@ -289,37 +289,50 @@ public class CraftPanel extends VBox {
 
             // ── LEFT COLUMN: search bar + item icon (click = go back) ──
             VBox left = new VBox(12);
-            left.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(left, Priority.ALWAYS);
+            left.setMinWidth(270);
+            left.setPrefWidth(270);
+            left.setMaxWidth(270);
+            HBox.setHgrow(left, Priority.NEVER);
 
             TextField searchBar = new TextField();
             searchBar.setPromptText("Search tiers or materials...");
             searchBar.setStyle("-fx-font-size: 14px;");
-            searchBar.setMaxWidth(Double.MAX_VALUE);
+            searchBar.setMinWidth(270);
+            searchBar.setPrefWidth(270);
+            searchBar.setMaxWidth(270);
 
             // Item icon — loaded async from render.albiononline.com (T8 image)
             StackPane iconWrapper = buildItemIcon(itemName, onBack);
 
             RequirementsCalculatorPanel reqPanel = RequirementsCalculatorPanel.forGear(itemName);
+            reqPanel.setMinWidth(300);
+            reqPanel.setPrefWidth(320);
+            reqPanel.setMaxWidth(360);
 
-            left.getChildren().addAll(searchBar, iconWrapper, reqPanel);
+            left.getChildren().addAll(searchBar, iconWrapper);
 
             // ── CENTER COLUMN: quantity, station fee, demand type, crafting focus, bonus craft, HO ──
             VBox center = new VBox(8);
-            center.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(center, Priority.ALWAYS);
+            center.setMinWidth(230);
+            center.setPrefWidth(260);
+            center.setMaxWidth(320);
+            HBox.setHgrow(center, Priority.SOMETIMES);
 
             Label quantityLbl = new Label("Quantity:");
             quantityLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             TextField quantity = new TextField("200");
             quantity.setStyle("-fx-font-size: 14px;");
-            quantity.setMaxWidth(Double.MAX_VALUE);
+            quantity.setMinWidth(190);
+            quantity.setPrefWidth(190);
+            quantity.setMaxWidth(190);
 
             Label stationFeeLbl = new Label("Station Fee:");
             stationFeeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             TextField stationFee = new TextField("999");
             stationFee.setStyle("-fx-font-size: 14px;");
-            stationFee.setMaxWidth(Double.MAX_VALUE);
+            stationFee.setMinWidth(190);
+            stationFee.setPrefWidth(190);
+            stationFee.setMaxWidth(190);
 
             Label demandTypeLbl = new Label("Demand Type:");
             demandTypeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
@@ -331,7 +344,25 @@ public class CraftPanel extends VBox {
             CheckBox craftingFocus = new CheckBox("Crafting Focus");
             craftingFocus.setStyle("-fx-font-size: 13px;");
 
-            Label bonusCraftLbl = new Label("Bonus Craft:");
+            
+        CheckBox dailyBonus = new CheckBox("Daily Bonus");
+        dailyBonus.setStyle("-fx-font-size: 13px;");
+
+        ComboBox<String> dailyBonusValue = new ComboBox<>();
+        dailyBonusValue.getItems().addAll("10%", "20%");
+        dailyBonusValue.setValue("10%");
+        dailyBonusValue.setMinWidth(82);
+        dailyBonusValue.setPrefWidth(82);
+        dailyBonusValue.setMaxWidth(82);
+        dailyBonusValue.setDisable(true);
+
+        dailyBonus.selectedProperty().addListener((obs, wasSelected, isSelected) ->
+                dailyBonusValue.setDisable(!isSelected)
+        );
+
+        HBox dailyBonusRow = new HBox(8, dailyBonus, dailyBonusValue);
+        dailyBonusRow.setAlignment(Pos.CENTER_LEFT);
+Label bonusCraftLbl = new Label("Bonus Craft:");
             bonusCraftLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> bonusCraft = new ComboBox<>();
             bonusCraft.getItems().addAll("Royal Island", "Royal City", "Royal City + Bonus", "HO");
@@ -370,6 +401,7 @@ public class CraftPanel extends VBox {
                     stationFeeLbl, stationFee,
                     demandTypeLbl, demandType,
                     craftingFocus,
+                dailyBonusRow,
                     bonusCraftLbl, bonusCraft,
                     reqPanel.getRrrLabel(),
                     hoSection
@@ -377,8 +409,10 @@ public class CraftPanel extends VBox {
 
             // ── RIGHT COLUMN: material buy locations + sell location ──
             VBox right = new VBox(8);
-            right.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(right, Priority.ALWAYS);
+            right.setMinWidth(320);
+            right.setPrefWidth(360);
+            right.setMaxWidth(420);
+            HBox.setHgrow(right, Priority.NEVER);
 
             Label buy1Lbl = new Label("Material-Buy1:");
             buy1Lbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
@@ -406,14 +440,28 @@ public class CraftPanel extends VBox {
             lockComboBoxWidth(sellLocation);
 
             right.getChildren().addAll(
-                    buy1Lbl, buy1,
-                    buy2Lbl, buy2,
-                    buy3Lbl, buy3,
-                    buy4Lbl, buy4,
-                    sellLbl, sellLocation
+                    buy1Lbl,
+                    buy1,
+                    buy2Lbl,
+                    buy2,
+                    buy3Lbl,
+                    buy3,
+                    buy4Lbl,
+                    buy4,
+                    sellLbl,
+                    sellLocation
             );
 
-            topSection.getChildren().addAll(left, center, right);
+            
+            VBox reqColumn = new VBox(8);
+            reqColumn.setMinWidth(300);
+            reqColumn.setPrefWidth(330);
+            reqColumn.setMaxWidth(360);
+            reqColumn.setAlignment(Pos.TOP_LEFT);
+            HBox.setHgrow(reqColumn, Priority.NEVER);
+            reqColumn.getChildren().add(reqPanel);
+
+topSection.getChildren().addAll(left, center, right, reqColumn);
             topSection.setMaxWidth(Double.MAX_VALUE);
             VBox.setVgrow(topSection, Priority.NEVER);
 
@@ -426,7 +474,7 @@ public class CraftPanel extends VBox {
 
             whiteContent.getChildren().addAll(topSection, buildTable(itemName, reqPanel, quantity), bottom);
 
-            reqPanel.bindControls(quantity, bonusCraft, craftingFocus, hoQuality, hoPower);
+            reqPanel.bindControls(quantity, bonusCraft, craftingFocus, dailyBonus, dailyBonusValue, hoQuality, hoPower);
 
             com.albionservant.data.CraftQuantityData.Quantities gearQty =
                     com.albionservant.data.CraftQuantityData.get(itemName);
@@ -930,7 +978,7 @@ public class CraftPanel extends VBox {
     private static class FoodDetailSubPanel extends VBox {
     private static final List<String> CITIES = FoodRecipeData.CITIES;
     private static final List<String> FISH_SAUCES = FoodRecipeData.FISH_SAUCES;
-    private static final double FOOD_CONTROL_WIDTH = 360.0;
+    private static final double FOOD_CONTROL_WIDTH = 190.0;
 
     private record PricePair(TextField api, TextField manual) {}
     private record ResultRow(
@@ -970,6 +1018,9 @@ public class CraftPanel extends VBox {
         HBox.setHgrow(hSpacer, Priority.ALWAYS);
 
         Button backBtn = new Button("<- Back");
+        backBtn.setMinWidth(82);
+        backBtn.setPrefWidth(82);
+        backBtn.setMaxWidth(82);
         backBtn.setStyle(AppConfig.BTN_PRIMARY);
         backBtn.setOnMouseEntered(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY_HOVER));
         backBtn.setOnMouseExited(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY));
@@ -1018,14 +1069,18 @@ public class CraftPanel extends VBox {
 
         TextField quantity = new TextField("200");
         quantity.setStyle("-fx-font-size: 14px;");
-        quantity.setMaxWidth(Double.MAX_VALUE);
+        quantity.setMinWidth(120);
+        quantity.setPrefWidth(120);
+        quantity.setMaxWidth(120);
 
         Label stationFeeLbl = new Label("Station Fee:");
         stationFeeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
 
         TextField stationFee = new TextField("999");
         stationFee.setStyle("-fx-font-size: 14px;");
-        stationFee.setMaxWidth(Double.MAX_VALUE);
+        stationFee.setMinWidth(120);
+        stationFee.setPrefWidth(120);
+        stationFee.setMaxWidth(120);
 
         Label demandTypeLbl = new Label("Demand Type:");
         demandTypeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
@@ -1036,7 +1091,25 @@ public class CraftPanel extends VBox {
         lockFoodCombo(demandType);
 
         CheckBox craftingFocus = new CheckBox("Crafting Focus");
-        craftingFocus.setStyle("-fx-font-size: 13px;");
+        
+        CheckBox dailyBonus = new CheckBox("Daily Bonus");
+        dailyBonus.setStyle("-fx-font-size: 13px;");
+
+        ComboBox<String> dailyBonusValue = new ComboBox<>();
+        dailyBonusValue.getItems().addAll("10%", "20%");
+        dailyBonusValue.setValue("10%");
+        dailyBonusValue.setMinWidth(82);
+        dailyBonusValue.setPrefWidth(82);
+        dailyBonusValue.setMaxWidth(82);
+        dailyBonusValue.setDisable(true);
+
+        dailyBonus.selectedProperty().addListener((obs, wasSelected, isSelected) ->
+                dailyBonusValue.setDisable(!isSelected)
+        );
+
+        HBox dailyBonusRow = new HBox(8, dailyBonus, dailyBonusValue);
+        dailyBonusRow.setAlignment(Pos.CENTER_LEFT);
+craftingFocus.setStyle("-fx-font-size: 13px;");
 
         Label bonusCraftLbl = new Label("Bonus Craft:");
         bonusCraftLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
@@ -1079,6 +1152,7 @@ public class CraftPanel extends VBox {
                 stationFeeLbl, stationFee,
                 demandTypeLbl, demandType,
                 craftingFocus,
+                dailyBonusRow,
                 bonusCraftLbl, bonusCraft,
                 reqPanel.getRrrLabel(),
                 hoSection
@@ -1115,12 +1189,42 @@ public class CraftPanel extends VBox {
         List<ResultRow> resultRows = new ArrayList<>();
 
         VBox ingredientPriceTable = buildFoodPriceTable(recipe, ingredientPrices, saucePrices, sellPrices);
-        VBox resultTable = buildFoodResultTable(recipe, quantity, specsPanel, category, ingredientPrices, saucePrices, sellPrices, resultRows);
+        VBox resultTable = buildFoodResultTable(
+                recipe,
+                quantity,
+                specsPanel,
+                category,
+                ingredientPrices,
+                saucePrices,
+                sellPrices,
+                resultRows
+        );
 
-        Runnable updateResults = () -> updateFoodResults(recipe, quantity, specsPanel, category,
-                ingredientPrices, saucePrices, sellPrices, resultRows);
+        Runnable updateResults = () -> updateFoodResults(
+                recipe,
+                quantity,
+                specsPanel,
+                category,
+                bonusCraft,
+                craftingFocus,
+                dailyBonus,
+                dailyBonusValue,
+                hoQuality,
+                hoPower,
+                ingredientPrices,
+                saucePrices,
+                sellPrices,
+                resultRows
+        );
 
         quantity.textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+
+        craftingFocus.selectedProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        bonusCraft.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        dailyBonus.selectedProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        dailyBonusValue.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        hoQuality.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        hoPower.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
 
         for (List<PricePair> materialPairs : ingredientPrices) {
             for (PricePair pair : materialPairs) {
@@ -1143,7 +1247,7 @@ public class CraftPanel extends VBox {
 
         whiteContent.getChildren().addAll(configSection, ingredientPriceTable, resultTable);
 
-        reqPanel.bindControls(quantity, bonusCraft, craftingFocus, hoQuality, hoPower);
+        reqPanel.bindControls(quantity, bonusCraft, craftingFocus, dailyBonus, dailyBonusValue, hoQuality, hoPower);
 
         int totalPerBatch = recipe.ingredients().stream()
                 .mapToInt(Ingredient::quantity)
@@ -1213,7 +1317,7 @@ public class CraftPanel extends VBox {
         }
 
         for (String sauce : FISH_SAUCES) {
-            Label header = makeFoodHeader(sauce);
+            Label header = makeFoodHeader(sauce + " x" + FoodRecipeData.getFishSauceQuantityPerBatch(recipe));
             GridPane.setColumnSpan(header, 2);
             grid.add(header, col, 0);
             col += 2;
@@ -1356,6 +1460,12 @@ public class CraftPanel extends VBox {
             TextField quantityField,
             SpecsPanel specsPanel,
             String category,
+            ComboBox<String> bonusCraft,
+            CheckBox craftingFocus,
+            CheckBox dailyBonus,
+            ComboBox<String> dailyBonusValue,
+            ComboBox<String> hoQuality,
+            ComboBox<Integer> hoPower,
             List<List<PricePair>> ingredientPrices,
             List<List<PricePair>> saucePrices,
             List<PricePair> sellPrices,
@@ -1364,6 +1474,18 @@ public class CraftPanel extends VBox {
         long quantity = parseLong(quantityField.getText(), 1);
         int spec = specsPanel != null ? CraftPanel.lookupFoodSpec(specsPanel, category) : 0;
         int batchSize = Math.max(1, recipe.batchSize());
+
+        double lpb = computeFoodDailyLpb(
+                bonusCraft,
+                craftingFocus,
+                dailyBonus,
+                dailyBonusValue,
+                hoQuality,
+                hoPower
+        );
+
+        double rrr = lpb / (100.0 + lpb);
+        double netCostMultiplier = 1.0 - rrr;
 
         double ingredientCostPerItem = 0.0;
 
@@ -1383,11 +1505,11 @@ public class CraftPanel extends VBox {
                 int sauceIndex = row.enchant() - 1;
 
                 if (sauceIndex >= 0 && sauceIndex < saucePrices.size()) {
-                    costPerItem += bestBuyPrice(saucePrices.get(sauceIndex));
+                    costPerItem += bestBuyPrice(saucePrices.get(sauceIndex)) * FoodRecipeData.getFishSauceQuantityPerItem(recipe);
                 }
             }
 
-            double totalCost = costPerItem * quantity;
+            double totalCost = costPerItem * netCostMultiplier * quantity;
             double totalGain = bestSell * quantity;
             double totalProfit = totalGain - totalCost;
 
@@ -1413,6 +1535,86 @@ public class CraftPanel extends VBox {
                 row.profit().setStyle(darkCellStyle());
             }
         }
+    }
+
+
+    private double computeFoodDailyLpb(
+            ComboBox<String> bonusCraft,
+            CheckBox craftingFocus,
+            CheckBox dailyBonus,
+            ComboBox<String> dailyBonusValue,
+            ComboBox<String> hoQuality,
+            ComboBox<Integer> hoPower
+    ) {
+        double lpb;
+
+        String loc = bonusCraft != null && bonusCraft.getValue() != null
+                ? bonusCraft.getValue()
+                : "Royal City";
+
+        switch (loc) {
+            case "Royal Island" -> lpb = 0.0;
+            case "Royal City" -> lpb = 18.0;
+            case "Royal City + Bonus" -> lpb = 33.0;
+            case "HO" -> {
+                int zq = parseFoodHoQuality(hoQuality);
+                int pl = parseFoodHoPower(hoPower);
+
+                lpb = 18.0
+                        + (pl - 1)
+                        + (2.0 + zq) * 5.0
+                        + (pl - 1) * 2.0;
+            }
+            default -> lpb = 18.0;
+        }
+
+        if (craftingFocus != null && craftingFocus.isSelected()) {
+            lpb += 59.0;
+        }
+
+        if (dailyBonus != null && dailyBonus.isSelected()) {
+            lpb += parseFoodDailyBonus(dailyBonusValue);
+        }
+
+        return lpb;
+    }
+
+    private double parseFoodDailyBonus(ComboBox<String> dailyBonusValue) {
+        if (dailyBonusValue == null || dailyBonusValue.getValue() == null) {
+            return 10.0;
+        }
+
+        String digits = dailyBonusValue.getValue().replaceAll("[^0-9]", "");
+
+        if (digits.isEmpty()) {
+            return 10.0;
+        }
+
+        try {
+            return Double.parseDouble(digits);
+        } catch (NumberFormatException ignored) {
+            return 10.0;
+        }
+    }
+
+    private int parseFoodHoQuality(ComboBox<String> hoQuality) {
+        if (hoQuality == null || hoQuality.getValue() == null) {
+            return 1;
+        }
+
+        try {
+            return Integer.parseInt(hoQuality.getValue().replace("Q", "").trim());
+        } catch (NumberFormatException ignored) {
+            return 1;
+        }
+    }
+
+    private int parseFoodHoPower(ComboBox<Integer> hoPower) {
+        if (hoPower == null || hoPower.getValue() == null) {
+            return 1;
+        }
+
+        return hoPower.getValue();
     }
 
     private StackPane buildFoodIcon(String itemName, Runnable onBack) {
@@ -1654,495 +1856,899 @@ public class CraftPanel extends VBox {
     // =========================================================================
 
     private static class PotionDetailSubPanel extends VBox {
+    private static final List<String> CITIES = PotionRecipeData.CITIES;
+    private static final List<String> ARCANE_EXTRACTS = PotionRecipeData.ARCANE_EXTRACTS;
+    private static final double POTION_CONTROL_WIDTH = 190.0;
 
-        private static final List<String> CITIES = PotionRecipeData.CITIES;
+    private record PricePair(TextField api, TextField manual) {}
+    private record ResultRow(
+            int enchant,
+            TextField demand,
+            Label profit,
+            Label spf,
+            Label gain,
+            Label cost,
+            Label focus
+    ) {}
 
-        public PotionDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack,
-                                    SpecsPanel specsPanel, String category) {
-            setPadding(new Insets(0));
-            setSpacing(0);
-            setFillWidth(true);
+    public PotionDetailSubPanel(String itemName, String breadcrumbText, Runnable onBack,
+                                SpecsPanel specsPanel, String category) {
+        setPadding(new Insets(0));
+        setSpacing(0);
+        setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(this, Priority.ALWAYS);
 
-            PotionRecipeData.PotionRecipe recipe = PotionRecipeData.getRecipe(itemName);
+        PotionRecipeData.PotionRecipe recipe = PotionRecipeData.getRecipe(itemName);
 
-            // ── Red header ────────────────────────────────────────────────────
-            HBox redHeader = new HBox(15);
-            redHeader.setPadding(new Insets(15, 40, 15, 40));
-            redHeader.setStyle("-fx-background-color: #ef4444;");
-            redHeader.setAlignment(Pos.CENTER_LEFT);
+        HBox redHeader = new HBox(15);
+        redHeader.setPadding(new Insets(14, 40, 14, 40));
+        redHeader.setStyle("-fx-background-color: #ef4444;");
+        redHeader.setAlignment(Pos.CENTER_LEFT);
 
-            Label breadcrumb = new Label(breadcrumbText);
-            breadcrumb.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
+        Label breadcrumb = new Label(breadcrumbText);
+        breadcrumb.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
 
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
+        Label tierLbl = recipe != null
+                ? new Label("T" + recipe.tier() + " | Batch: " + recipe.batchSize() + " item" + (recipe.batchSize() == 1 ? "" : "s"))
+                : new Label("");
 
-            Button backBtn = new Button("← Back");
-            backBtn.setStyle(AppConfig.BTN_PRIMARY);
-            backBtn.setOnMouseEntered(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY_HOVER));
-            backBtn.setOnMouseExited(e  -> backBtn.setStyle(AppConfig.BTN_PRIMARY));
-            backBtn.setOnAction(e -> onBack.run());
+        tierLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: rgba(255,255,255,0.85);");
 
-            redHeader.getChildren().addAll(breadcrumb, spacer, backBtn);
+        Region hSpacer = new Region();
+        HBox.setHgrow(hSpacer, Priority.ALWAYS);
 
-            // ── Full 3-column config section (mirrors CraftDetailSubPanel) ──────
-            HBox configSection = new HBox(30);
-            configSection.setPadding(new Insets(20, 40, 20, 40));
-            configSection.setAlignment(Pos.TOP_LEFT);
-            configSection.setFillHeight(false);
-            configSection.setMaxWidth(Double.MAX_VALUE);
-            configSection.setStyle("-fx-background-color: #ffffff;");
+        Button backBtn = new Button("<- Back");
+        backBtn.setMinWidth(82);
+        backBtn.setPrefWidth(82);
+        backBtn.setMaxWidth(82);
+        backBtn.setStyle(AppConfig.BTN_PRIMARY);
+        backBtn.setOnMouseEntered(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY_HOVER));
+        backBtn.setOnMouseExited(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY));
+        backBtn.setOnAction(e -> onBack.run());
 
-            // LEFT: search + icon
-            VBox cfgLeft = new VBox(12);
-            cfgLeft.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(cfgLeft, Priority.ALWAYS);
-            TextField searchBar = new TextField();
-            searchBar.setPromptText("Search ingredients...");
-            searchBar.setStyle("-fx-font-size: 14px;");
-            searchBar.setMaxWidth(Double.MAX_VALUE);
-            Label iconLbl = new Label("⚗️");
-            iconLbl.setStyle("-fx-font-size: 72px; -fx-cursor: hand;");
-            iconLbl.setOnMouseClicked(e -> onBack.run());
-            // ── Requirements calculator — inside left column below icon ──────
-            RequirementsCalculatorPanel reqPanel = recipe != null
-                    ? RequirementsCalculatorPanel.forPotion(recipe)
-                    : new RequirementsCalculatorPanel(List.of(), 5);
+        redHeader.getChildren().addAll(breadcrumb, tierLbl, hSpacer, backBtn);
 
-            // Load potion icon async from render API — shows spinner while loading
-            String potionIconUrl = recipe != null
-                    ? com.albionservant.data.ItemRenderData.getPotionImageUrl(itemName)
-                    : null;
-            int ICON_SIZE = 128;
-            javafx.scene.layout.StackPane iconPane = new javafx.scene.layout.StackPane();
-            iconPane.setPrefSize(ICON_SIZE, ICON_SIZE);
-            iconPane.setMaxSize(ICON_SIZE, ICON_SIZE);
-            iconPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 8; -fx-cursor: hand;");
-            iconPane.setOnMouseClicked(e -> onBack.run());
+        if (recipe == null) {
+            Label missing = new Label("Missing potion recipe: " + itemName);
+            missing.setStyle("-fx-font-size: 16px; -fx-text-fill: #ef4444; -fx-padding: 24;");
+            getChildren().addAll(redHeader, missing);
+            return;
+        }
 
-            ProgressIndicator spinner = new ProgressIndicator();
-            spinner.setMaxWidth(48);
-            spinner.setMaxHeight(48);
-            iconPane.getChildren().add(spinner);
+        VBox whiteContent = new VBox(22);
+        whiteContent.setPadding(new Insets(20, 40, 40, 40));
+        whiteContent.setStyle("-fx-background-color: #ffffff;");
+        whiteContent.setMaxWidth(Double.MAX_VALUE);
+        whiteContent.setFillWidth(true);
 
-            if (potionIconUrl != null) {
-                javafx.scene.image.Image img = new javafx.scene.image.Image(
-                        potionIconUrl, ICON_SIZE, ICON_SIZE, true, true, true);
-                img.progressProperty().addListener((obs, ov, nv) -> {
-                    if (nv.doubleValue() >= 1.0) {
-                        javafx.application.Platform.runLater(() -> {
-                            iconPane.getChildren().clear();
-                            if (!img.isError()) {
-                                javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(img);
-                                iv.setFitWidth(ICON_SIZE);
-                                iv.setFitHeight(ICON_SIZE);
-                                iv.setPreserveRatio(true);
-                                iconPane.getChildren().add(iv);
-                            }
-                        });
+        HBox configSection = new HBox(30);
+        configSection.setAlignment(Pos.TOP_LEFT);
+        configSection.setFillHeight(false);
+        configSection.setMaxWidth(Double.MAX_VALUE);
+
+        VBox cfgLeft = new VBox(12);
+        cfgLeft.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(cfgLeft, Priority.ALWAYS);
+
+        TextField searchBar = new TextField();
+        searchBar.setPromptText("Search ingredients...");
+        searchBar.setStyle("-fx-font-size: 14px;");
+        searchBar.setMaxWidth(Double.MAX_VALUE);
+
+        StackPane iconPane = buildPotionIcon(itemName, onBack);
+
+        RequirementsCalculatorPanel reqPanel = RequirementsCalculatorPanel.forPotion(recipe);
+        cfgLeft.getChildren().addAll(searchBar, iconPane, reqPanel);
+
+        VBox cfgCenter = new VBox(8);
+        cfgCenter.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(cfgCenter, Priority.ALWAYS);
+
+        Label quantityLbl = new Label("Quantity:");
+        quantityLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        TextField quantity = new TextField("200");
+        quantity.setStyle("-fx-font-size: 14px;");
+        quantity.setMinWidth(120);
+        quantity.setPrefWidth(120);
+        quantity.setMaxWidth(120);
+
+        Label stationFeeLbl = new Label("Station Fee:");
+        stationFeeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        TextField stationFee = new TextField("999");
+        stationFee.setStyle("-fx-font-size: 14px;");
+        stationFee.setMinWidth(120);
+        stationFee.setPrefWidth(120);
+        stationFee.setMaxWidth(120);
+
+        Label demandTypeLbl = new Label("Demand Type:");
+        demandTypeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        ComboBox<String> demandType = new ComboBox<>();
+        demandType.getItems().addAll("24h", "7d", "4w");
+        demandType.setValue("24h");
+        lockPotionCombo(demandType);
+
+        CheckBox craftingFocus = new CheckBox("Crafting Focus");
+        craftingFocus.setStyle("-fx-font-size: 13px;");
+
+        
+        CheckBox dailyBonus = new CheckBox("Daily Bonus");
+        dailyBonus.setStyle("-fx-font-size: 13px;");
+
+        ComboBox<String> dailyBonusValue = new ComboBox<>();
+        dailyBonusValue.getItems().addAll("10%", "20%");
+        dailyBonusValue.setValue("10%");
+        dailyBonusValue.setMinWidth(82);
+        dailyBonusValue.setPrefWidth(82);
+        dailyBonusValue.setMaxWidth(82);
+        dailyBonusValue.setDisable(true);
+
+        dailyBonus.selectedProperty().addListener((obs, wasSelected, isSelected) ->
+                dailyBonusValue.setDisable(!isSelected)
+        );
+
+        HBox dailyBonusRow = new HBox(8, dailyBonus, dailyBonusValue);
+        dailyBonusRow.setAlignment(Pos.CENTER_LEFT);
+Label bonusCraftLbl = new Label("Bonus Craft:");
+        bonusCraftLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        ComboBox<String> bonusCraft = new ComboBox<>();
+        bonusCraft.getItems().addAll("Royal Island", "Royal City", "Royal City + Bonus", "HO");
+        bonusCraft.setValue("Royal City");
+        lockPotionCombo(bonusCraft);
+
+        VBox hoSection = new VBox(6);
+        hoSection.setVisible(false);
+        hoSection.setManaged(false);
+
+        Label hoQualityLbl = new Label("Hideout Quality:");
+        hoQualityLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        ComboBox<String> hoQuality = new ComboBox<>();
+        hoQuality.getItems().addAll("Q1", "Q2", "Q3", "Q4", "Q5", "Q6");
+        hoQuality.setValue("Q5");
+        lockPotionCombo(hoQuality);
+
+        Label hoPowerLbl = new Label("Hideout Power Level:");
+        hoPowerLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        ComboBox<Integer> hoPower = new ComboBox<>();
+        hoPower.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        hoPower.setValue(5);
+        lockPotionCombo(hoPower);
+
+        hoSection.getChildren().addAll(hoQualityLbl, hoQuality, hoPowerLbl, hoPower);
+
+        bonusCraft.setOnAction(e -> {
+            boolean isHO = "HO".equals(bonusCraft.getValue());
+            hoSection.setVisible(isHO);
+            hoSection.setManaged(isHO);
+        });
+
+        cfgCenter.getChildren().addAll(
+                quantityLbl, quantity,
+                stationFeeLbl, stationFee,
+                demandTypeLbl, demandType,
+                craftingFocus,
+                dailyBonusRow,
+                bonusCraftLbl, bonusCraft,
+                reqPanel.getRrrLabel(),
+                hoSection
+        );
+
+        VBox cfgRight = new VBox(8);
+        cfgRight.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(cfgRight, Priority.ALWAYS);
+
+        Label buyLbl = new Label("Potion Materials:");
+        buyLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        ComboBox<String> buyLocation = createPotionCityCombo();
+        lockPotionCombo(buyLocation);
+
+        Label sellLbl = new Label("Sell Location:");
+        sellLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+        ComboBox<String> sellLocation = createPotionCityCombo();
+        sellLocation.setValue("Caerleon");
+        lockPotionCombo(sellLocation);
+
+        Label note = new Label("Result table uses cheapest entered material price and highest entered sell price.");
+        note.setWrapText(true);
+        note.setStyle("-fx-font-size: 12px; -fx-text-fill: #64748b;");
+
+        cfgRight.getChildren().addAll(buyLbl, buyLocation, sellLbl, sellLocation, note);
+
+        configSection.getChildren().addAll(cfgLeft, cfgCenter, cfgRight);
+
+        List<List<PricePair>> ingredientPrices = new ArrayList<>();
+        List<PricePair> trackingPrices = new ArrayList<>();
+        List<List<PricePair>> extractPrices = new ArrayList<>();
+        List<PricePair> sellPrices = new ArrayList<>();
+        List<ResultRow> resultRows = new ArrayList<>();
+
+        VBox ingredientPriceTable = buildPotionPriceTable(recipe, ingredientPrices, trackingPrices, extractPrices, sellPrices);
+        VBox resultTable = buildPotionResultTable(resultRows);
+
+        Runnable updateResults = () -> updatePotionResults(
+                recipe,
+                quantity,
+                specsPanel,
+                category,
+                bonusCraft,
+                craftingFocus,
+                dailyBonus,
+                dailyBonusValue,
+                hoQuality,
+                hoPower,
+                ingredientPrices,
+                trackingPrices,
+                extractPrices,
+                sellPrices,
+                resultRows
+        );
+
+        quantity.textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+
+        craftingFocus.selectedProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        bonusCraft.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        dailyBonus.selectedProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        dailyBonusValue.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        hoQuality.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        hoPower.valueProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+
+        for (List<PricePair> materialPairs : ingredientPrices) {
+            for (PricePair pair : materialPairs) {
+                pair.api().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+                pair.manual().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+            }
+        }
+
+        for (PricePair pair : trackingPrices) {
+            pair.api().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+            pair.manual().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        }
+
+        for (List<PricePair> extractPairs : extractPrices) {
+            for (PricePair pair : extractPairs) {
+                pair.api().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+                pair.manual().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+            }
+        }
+
+        for (PricePair pair : sellPrices) {
+            pair.api().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+            pair.manual().textProperty().addListener((obs, oldVal, newVal) -> updateResults.run());
+        }
+
+        whiteContent.getChildren().addAll(configSection, ingredientPriceTable, resultTable);
+
+        reqPanel.bindControls(quantity, bonusCraft, craftingFocus, dailyBonus, dailyBonusValue, hoQuality, hoPower);
+
+        int totalPerBatch = 0;
+        for (Object ingObj : recipe.ingredients()) {
+            PotionRecipeData.Ingredient ingredient = (PotionRecipeData.Ingredient) ingObj;
+            totalPerBatch += ingredient.quantity();
+        }
+
+        if (recipe.hasTrackingIngredient()) {
+            totalPerBatch += 1;
+        }
+
+        int approxMatsPerItem = (int) Math.ceil(totalPerBatch / (double) Math.max(1, recipe.batchSize()));
+
+        reqPanel.setFocusContext(
+                recipe.tier(),
+                approxMatsPerItem,
+                () -> specsPanel != null ? CraftPanel.lookupPotionSpec(specsPanel, category) : 0
+        );
+
+        updateResults.run();
+
+        ScrollPane contentScroll = new ScrollPane(whiteContent);
+        contentScroll.setFitToWidth(true);
+        contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        contentScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        contentScroll.setStyle("-fx-background-color: white;");
+
+        VBox.setVgrow(contentScroll, Priority.ALWAYS);
+
+        getChildren().addAll(redHeader, contentScroll);
+    }
+
+    private VBox buildPotionPriceTable(
+            PotionRecipeData.PotionRecipe recipe,
+            List<List<PricePair>> ingredientPrices,
+            List<PricePair> trackingPrices,
+            List<List<PricePair>> extractPrices,
+            List<PricePair> sellPrices
+    ) {
+        Label title = new Label("Potion ingredient prices");
+        title.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
+
+        GridPane grid = new GridPane();
+        grid.setMaxWidth(Double.MAX_VALUE);
+        grid.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 8;");
+        grid.setVgap(4);
+        grid.setHgap(0);
+
+        int ingredientCount = recipe.ingredients().size();
+        int trackingCols = recipe.hasTrackingIngredient() ? 2 : 0;
+        int totalCols = 1 + (ingredientCount * 2) + trackingCols + (ARCANE_EXTRACTS.size() * 2) + 2;
+        double colPct = 100.0 / totalCols;
+
+        for (int i = 0; i < totalCols; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(colPct);
+            cc.setHalignment(HPos.CENTER);
+            cc.setFillWidth(true);
+            grid.getColumnConstraints().add(cc);
+        }
+
+        int col = 0;
+
+        grid.add(makePotionHeader("City"), col++, 0);
+
+        for (Object ingObj : recipe.ingredients()) {
+            PotionRecipeData.Ingredient ingredient = (PotionRecipeData.Ingredient) ingObj;
+
+            Label header = makePotionHeader(ingredient.name() + " x" + ingredient.quantity());
+            GridPane.setColumnSpan(header, 2);
+            grid.add(header, col, 0);
+            col += 2;
+
+            ingredientPrices.add(new ArrayList<>());
+        }
+
+        if (recipe.hasTrackingIngredient()) {
+            Label header = makePotionHeader(recipe.resolvedTrackingIngredient() + " x1");
+            GridPane.setColumnSpan(header, 2);
+            grid.add(header, col, 0);
+            col += 2;
+        }
+
+        for (String extract : ARCANE_EXTRACTS) {
+            Label header = makePotionHeader(extract + " x" + PotionRecipeData.getArcaneExtractQuantityPerBatch(recipe));
+            GridPane.setColumnSpan(header, 2);
+            grid.add(header, col, 0);
+            col += 2;
+
+            extractPrices.add(new ArrayList<>());
+        }
+
+        Label sellHeader = makePotionHeader("Sell Price");
+        GridPane.setColumnSpan(sellHeader, 2);
+        grid.add(sellHeader, col, 0);
+
+        col = 1;
+
+        for (int i = 0; i < ingredientCount; i++) {
+            grid.add(makePotionSubHeader("API"), col++, 1);
+            grid.add(makePotionSubHeader("Manual"), col++, 1);
+        }
+
+        if (recipe.hasTrackingIngredient()) {
+            grid.add(makePotionSubHeader("API"), col++, 1);
+            grid.add(makePotionSubHeader("Manual"), col++, 1);
+        }
+
+        for (int i = 0; i < ARCANE_EXTRACTS.size(); i++) {
+            grid.add(makePotionSubHeader("API"), col++, 1);
+            grid.add(makePotionSubHeader("Manual"), col++, 1);
+        }
+
+        grid.add(makePotionSubHeader("API"), col++, 1);
+        grid.add(makePotionSubHeader("Manual"), col, 1);
+
+        int row = 2;
+
+        for (String city : CITIES) {
+            col = 0;
+
+            Label cityLabel = makePotionData(city);
+            cityLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #334155;");
+            grid.add(cityLabel, col++, row);
+
+            for (int i = 0; i < ingredientCount; i++) {
+                PricePair pair = createPotionPricePair();
+                ingredientPrices.get(i).add(pair);
+
+                grid.add(pair.api(), col++, row);
+                grid.add(pair.manual(), col++, row);
+            }
+
+            if (recipe.hasTrackingIngredient()) {
+                PricePair pair = createPotionPricePair();
+                trackingPrices.add(pair);
+
+                grid.add(pair.api(), col++, row);
+                grid.add(pair.manual(), col++, row);
+            }
+
+            for (int i = 0; i < ARCANE_EXTRACTS.size(); i++) {
+                PricePair pair = createPotionPricePair();
+                extractPrices.get(i).add(pair);
+
+                grid.add(pair.api(), col++, row);
+                grid.add(pair.manual(), col++, row);
+            }
+
+            PricePair sellPair = createPotionPricePair();
+            sellPrices.add(sellPair);
+
+            grid.add(sellPair.api(), col++, row);
+            grid.add(sellPair.manual(), col, row);
+
+            row++;
+        }
+
+        VBox wrapper = new VBox(6, title, grid);
+        wrapper.setMaxWidth(Double.MAX_VALUE);
+        wrapper.setFillWidth(true);
+
+        return wrapper;
+    }
+
+    private VBox buildPotionResultTable(List<ResultRow> resultRows) {
+        Label title = new Label("Potion result by enchant");
+        title.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
+
+        GridPane grid = new GridPane();
+        grid.setMaxWidth(720);
+        grid.setStyle(
+                "-fx-background-color: #17243a;" +
+                "-fx-border-color: #eab308;" +
+                "-fx-border-width: 1;" +
+                "-fx-padding: 0;"
+        );
+        grid.setVgap(0);
+        grid.setHgap(0);
+
+        String[] headers = {"Enchant", "Demand", "Profit", "SPF", "Gain", "Cost", "Focus Cost"};
+
+        for (int i = 0; i < headers.length; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100.0 / headers.length);
+            cc.setHalignment(HPos.CENTER);
+            cc.setFillWidth(true);
+            grid.getColumnConstraints().add(cc);
+
+            Label header = makeDarkHeader(headers[i]);
+            grid.add(header, i, 0);
+        }
+
+        for (int enchant = 0; enchant <= 3; enchant++) {
+            int row = enchant + 1;
+
+            Label enchantLabel = makeDarkData("." + enchant);
+            TextField demandField = makeDarkInput();
+
+            Label profitLabel = makeDarkData("-");
+            Label spfLabel = makeDarkData("-");
+            Label gainLabel = makeDarkData("-");
+            Label costLabel = makeDarkData("-");
+            Label focusLabel = makeDarkData("-");
+
+            focusLabel.setStyle(darkCellStyle() + "-fx-text-fill: #ffffff; -fx-font-weight: bold;");
+
+            grid.add(enchantLabel, 0, row);
+            grid.add(demandField, 1, row);
+            grid.add(profitLabel, 2, row);
+            grid.add(spfLabel, 3, row);
+            grid.add(gainLabel, 4, row);
+            grid.add(costLabel, 5, row);
+            grid.add(focusLabel, 6, row);
+
+            resultRows.add(new ResultRow(enchant, demandField, profitLabel, spfLabel, gainLabel, costLabel, focusLabel));
+        }
+
+        VBox wrapper = new VBox(6, title, grid);
+        wrapper.setMaxWidth(Double.MAX_VALUE);
+        wrapper.setFillWidth(true);
+
+        return wrapper;
+    }
+
+    private void updatePotionResults(
+            PotionRecipeData.PotionRecipe recipe,
+            TextField quantityField,
+            SpecsPanel specsPanel,
+            String category,
+            ComboBox<String> bonusCraft,
+            CheckBox craftingFocus,
+            CheckBox dailyBonus,
+            ComboBox<String> dailyBonusValue,
+            ComboBox<String> hoQuality,
+            ComboBox<Integer> hoPower,
+            List<List<PricePair>> ingredientPrices,
+            List<PricePair> trackingPrices,
+            List<List<PricePair>> extractPrices,
+            List<PricePair> sellPrices,
+            List<ResultRow> resultRows
+    ) {
+        long quantity = parseLong(quantityField.getText(), 1);
+        int spec = specsPanel != null ? CraftPanel.lookupPotionSpec(specsPanel, category) : 0;
+        int batchSize = Math.max(1, recipe.batchSize());
+
+        double lpb = computePotionDailyLpb(
+                bonusCraft,
+                craftingFocus,
+                dailyBonus,
+                dailyBonusValue,
+                hoQuality,
+                hoPower
+        );
+
+        double rrr = lpb / (100.0 + lpb);
+        double netCostMultiplier = 1.0 - rrr;
+
+        double baseCostPerItem = 0.0;
+
+        for (int i = 0; i < recipe.ingredients().size(); i++) {
+            PotionRecipeData.Ingredient ingredient = (PotionRecipeData.Ingredient) recipe.ingredients().get(i);
+            double bestPrice = bestBuyPrice(ingredientPrices.get(i));
+
+            baseCostPerItem += bestPrice * (ingredient.quantity() / (double) batchSize);
+        }
+
+        if (recipe.hasTrackingIngredient()) {
+            baseCostPerItem += bestBuyPrice(trackingPrices) / batchSize;
+        }
+
+        double bestSell = bestSellPrice(sellPrices);
+
+        for (ResultRow row : resultRows) {
+            double costPerItem = baseCostPerItem;
+
+            if (row.enchant() > 0) {
+                int extractIndex = row.enchant() - 1;
+
+                if (extractIndex >= 0 && extractIndex < extractPrices.size()) {
+                    costPerItem += bestBuyPrice(extractPrices.get(extractIndex)) * PotionRecipeData.getArcaneExtractQuantityPerItem(recipe);
+                }
+            }
+
+            double totalCost = costPerItem * netCostMultiplier * quantity;
+            double totalGain = bestSell * quantity;
+            double totalProfit = totalGain - totalCost;
+
+            long focusPerItem = com.albionservant.data.FocusCostCalculator.forPotion(recipe, row.enchant(), spec);
+            long totalFocus = focusPerItem * quantity;
+
+            row.cost().setText(formatSilver(totalCost));
+            row.gain().setText(formatSilver(totalGain));
+            row.profit().setText(formatSilver(totalProfit));
+            row.focus().setText(String.format("%,d", totalFocus));
+
+            if (totalFocus > 0) {
+                row.spf().setText(String.format("%.2f", totalProfit / totalFocus));
+            } else {
+                row.spf().setText("-");
+            }
+
+            if (totalProfit > 0) {
+                row.profit().setStyle(darkCellStyle() + "-fx-text-fill: #4ade80; -fx-font-weight: bold;");
+            } else if (totalProfit < 0) {
+                row.profit().setStyle(darkCellStyle() + "-fx-text-fill: #f87171; -fx-font-weight: bold;");
+            } else {
+                row.profit().setStyle(darkCellStyle());
+            }
+        }
+    }
+
+
+    private double computePotionDailyLpb(
+            ComboBox<String> bonusCraft,
+            CheckBox craftingFocus,
+            CheckBox dailyBonus,
+            ComboBox<String> dailyBonusValue,
+            ComboBox<String> hoQuality,
+            ComboBox<Integer> hoPower
+    ) {
+        double lpb;
+
+        String loc = bonusCraft != null && bonusCraft.getValue() != null
+                ? bonusCraft.getValue()
+                : "Royal City";
+
+        switch (loc) {
+            case "Royal Island" -> lpb = 0.0;
+            case "Royal City" -> lpb = 18.0;
+            case "Royal City + Bonus" -> lpb = 33.0;
+            case "HO" -> {
+                int zq = parsePotionHoQuality(hoQuality);
+                int pl = parsePotionHoPower(hoPower);
+
+                lpb = 18.0
+                        + (pl - 1)
+                        + (2.0 + zq) * 5.0
+                        + (pl - 1) * 2.0;
+            }
+            default -> lpb = 18.0;
+        }
+
+        if (craftingFocus != null && craftingFocus.isSelected()) {
+            lpb += 59.0;
+        }
+
+        if (dailyBonus != null && dailyBonus.isSelected()) {
+            lpb += parsePotionDailyBonus(dailyBonusValue);
+        }
+
+        return lpb;
+    }
+
+    private double parsePotionDailyBonus(ComboBox<String> dailyBonusValue) {
+        if (dailyBonusValue == null || dailyBonusValue.getValue() == null) {
+            return 10.0;
+        }
+
+        String digits = dailyBonusValue.getValue().replaceAll("[^0-9]", "");
+
+        if (digits.isEmpty()) {
+            return 10.0;
+        }
+
+        try {
+            return Double.parseDouble(digits);
+        } catch (NumberFormatException ignored) {
+            return 10.0;
+        }
+    }
+
+    private int parsePotionHoQuality(ComboBox<String> hoQuality) {
+        if (hoQuality == null || hoQuality.getValue() == null) {
+            return 1;
+        }
+
+        try {
+            return Integer.parseInt(hoQuality.getValue().replace("Q", "").trim());
+        } catch (NumberFormatException ignored) {
+            return 1;
+        }
+    }
+
+    private int parsePotionHoPower(ComboBox<Integer> hoPower) {
+        if (hoPower == null || hoPower.getValue() == null) {
+            return 1;
+        }
+
+        return hoPower.getValue();
+    }
+
+    private StackPane buildPotionIcon(String itemName, Runnable onBack) {
+        int iconSize = 128;
+
+        StackPane iconPane = new StackPane();
+        iconPane.setPrefSize(iconSize, iconSize);
+        iconPane.setMinSize(iconSize, iconSize);
+        iconPane.setMaxSize(iconSize, iconSize);
+        iconPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 8; -fx-cursor: hand;");
+        iconPane.setOnMouseClicked(e -> onBack.run());
+
+        ProgressIndicator spinner = new ProgressIndicator();
+        spinner.setMaxWidth(48);
+        spinner.setMaxHeight(48);
+        iconPane.getChildren().add(spinner);
+
+        String potionIconUrl = com.albionservant.data.ItemRenderData.getPotionImageUrl(itemName);
+
+        if (potionIconUrl == null) {
+            iconPane.getChildren().clear();
+
+            Label fallback = new Label(itemName.substring(0, Math.min(2, itemName.length())).toUpperCase());
+            fallback.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
+
+            iconPane.getChildren().add(fallback);
+            return iconPane;
+        }
+
+        Image img = new Image(potionIconUrl, iconSize, iconSize, true, true, true);
+
+        img.progressProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.doubleValue() >= 1.0) {
+                javafx.application.Platform.runLater(() -> {
+                    iconPane.getChildren().clear();
+
+                    if (img.isError()) {
+                        Label fallback = new Label(itemName.substring(0, Math.min(2, itemName.length())).toUpperCase());
+                        fallback.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ef4444;");
+                        iconPane.getChildren().add(fallback);
+                    } else {
+                        ImageView iv = new ImageView(img);
+                        iv.setFitWidth(iconSize);
+                        iv.setFitHeight(iconSize);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iconPane.getChildren().add(iv);
                     }
                 });
             }
-            cfgLeft.getChildren().addAll(searchBar, iconPane, reqPanel);
+        });
 
-            // CENTER: quantity, station fee, demand type, crafting focus, bonus craft, HO
-            VBox cfgCenter = new VBox(8);
-            cfgCenter.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(cfgCenter, Priority.ALWAYS);
+        return iconPane;
+    }
 
-            Label qtyLbl2 = new Label("Quantity:");
-            qtyLbl2.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            TextField qtyField = new TextField("5");
-            qtyField.setStyle("-fx-font-size: 14px;");
-            qtyField.setMaxWidth(Double.MAX_VALUE);
+    private static PricePair createPotionPricePair() {
+        TextField api = new TextField("0");
+        api.setEditable(false);
+        api.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: #f0f0f0;");
+        api.setMaxWidth(Double.MAX_VALUE);
 
-            Label feeLbl = new Label("Station Fee:");
-            feeLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            TextField feeField = new TextField("0");
-            feeField.setStyle("-fx-font-size: 14px;");
-            feeField.setMaxWidth(Double.MAX_VALUE);
+        TextField manual = new TextField("");
+        manual.setPromptText("manual");
+        manual.setStyle("-fx-font-size: 12px; -fx-alignment: center;");
+        manual.setMaxWidth(Double.MAX_VALUE);
 
-            Label demandLbl = new Label("Demand Type:");
-            demandLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            ComboBox<String> demandType = new ComboBox<>();
-            demandType.getItems().addAll("24h", "7d", "4w");
-            demandType.setValue("24h");
-            lockComboBoxWidth(demandType);
+        return new PricePair(api, manual);
+    }
 
-            CheckBox focusBox = new CheckBox("Crafting Focus");
-            focusBox.setStyle("-fx-font-size: 13px;");
+    private static ComboBox<String> createPotionCityCombo() {
+        ComboBox<String> cb = new ComboBox<>();
+        cb.getItems().addAll(CITIES);
+        cb.setValue("Martlock");
+        return cb;
+    }
 
-            Label bonusLbl = new Label("Bonus Craft:");
-            bonusLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            ComboBox<String> bonusCraft = new ComboBox<>();
-            bonusCraft.getItems().addAll("Royal Island", "Royal City", "Royal City + Bonus", "HO");
-            bonusCraft.setValue("Royal City");
-            lockComboBoxWidth(bonusCraft);
+    private static void lockPotionCombo(ComboBox<?> comboBox) {
+        comboBox.setMinWidth(POTION_CONTROL_WIDTH);
+        comboBox.setPrefWidth(POTION_CONTROL_WIDTH);
+        comboBox.setMaxWidth(POTION_CONTROL_WIDTH);
+    }
 
-            VBox hoSect = new VBox(6);
-            hoSect.setVisible(false);
-            hoSect.setManaged(false);
-            Label hoQlbl = new Label("Hideout Quality:");
-            hoQlbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            ComboBox<String> hoQ = new ComboBox<>();
-            hoQ.getItems().addAll("Q1","Q2","Q3","Q4","Q5","Q6");
-            hoQ.setValue("Q5");
-            hoQ.setMaxWidth(Double.MAX_VALUE);
-            Label hoPLbl = new Label("Hideout Power Level:");
-            hoPLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            ComboBox<Integer> hoPL = new ComboBox<>();
-            hoPL.getItems().addAll(1,2,3,4,5,6,7,8,9);
-            hoPL.setValue(5);
-            hoPL.setMaxWidth(Double.MAX_VALUE);
-            hoSect.getChildren().addAll(hoQlbl, hoQ, hoPLbl, hoPL);
-            bonusCraft.setOnAction(e -> {
-                boolean isHO = "HO".equals(bonusCraft.getValue());
-                hoSect.setVisible(isHO);
-                hoSect.setManaged(isHO);
-            });
+    private static Label makePotionHeader(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 12px;");
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
 
-            cfgCenter.getChildren().addAll(
-                    qtyLbl2, qtyField, feeLbl, feeField,
-                    demandLbl, demandType, focusBox,
-                    bonusLbl, bonusCraft,
-                    reqPanel.getRrrLabel(),
-                    hoSect
-            );
-            // RIGHT: ingredient buy locations + sell location
-            VBox cfgRight = new VBox(8);
-            cfgRight.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(cfgRight, Priority.ALWAYS);
+    private static Label makePotionSubHeader(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-font-weight: bold; -fx-text-fill: #64748b; -fx-font-size: 11px;");
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
 
-            String[] buyLabels = {"Ingredient-Buy1:", "Ingredient-Buy2:", "Ingredient-Buy3:", "Ingredient-Buy4:"};
-            boolean[] withMedian = {false, false, true, true};
-            for (int i = 0; i < buyLabels.length; i++) {
-                Label bl = new Label(buyLabels[i]);
-                bl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-                ComboBox<String> bc = new ComboBox<>();
-                bc.getItems().addAll("Bridgewatch","Martlock","Thetford","Fort Sterling","Lymhurst","Caerleon","Brecilien");
-                if (withMedian[i]) bc.getItems().add("Median");
-                bc.setValue("Martlock");
-                bc.setMaxWidth(Double.MAX_VALUE);
-                cfgRight.getChildren().addAll(bl, bc);
+    private static Label makePotionData(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-font-size: 12px;");
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    private static Label makeDarkHeader(String text) {
+        Label label = new Label(text);
+        label.setStyle(
+                "-fx-font-size: 12px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-text-fill: #ffffff;" +
+                "-fx-alignment: center;" +
+                "-fx-padding: 4 6 4 6;" +
+                "-fx-border-color: #eab308;" +
+                "-fx-border-width: 0 1 1 0;"
+        );
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    private static Label makeDarkData(String text) {
+        Label label = new Label(text);
+        label.setStyle(darkCellStyle());
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    private static TextField makeDarkInput() {
+        TextField field = new TextField("");
+        field.setStyle(
+                "-fx-font-size: 12px;" +
+                "-fx-text-fill: #ffffff;" +
+                "-fx-prompt-text-fill: #94a3b8;" +
+                "-fx-background-color: #17243a;" +
+                "-fx-alignment: center;" +
+                "-fx-border-color: #eab308;" +
+                "-fx-border-width: 0 1 1 0;"
+        );
+        field.setMaxWidth(Double.MAX_VALUE);
+        return field;
+    }
+
+    private static String darkCellStyle() {
+        return "-fx-font-size: 12px;" +
+                "-fx-text-fill: #ffffff;" +
+                "-fx-alignment: center;" +
+                "-fx-padding: 4 6 4 6;" +
+                "-fx-border-color: #eab308;" +
+                "-fx-border-width: 0 1 1 0;";
+    }
+
+    private static double bestBuyPrice(List<PricePair> pairs) {
+        double best = 0.0;
+
+        for (PricePair pair : pairs) {
+            double price = effectivePrice(pair);
+
+            if (price > 0 && (best == 0.0 || price < best)) {
+                best = price;
             }
-            Label sellLbl2 = new Label("Sell-Location:");
-            sellLbl2.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
-            ComboBox<String> sellLoc = new ComboBox<>();
-            sellLoc.getItems().addAll("Bridgewatch","Martlock","Thetford","Fort Sterling","Lymhurst","Caerleon","Brecilien");
-            sellLoc.setValue("Martlock");
-            sellLoc.setMaxWidth(Double.MAX_VALUE);
-            cfgRight.getChildren().addAll(sellLbl2, sellLoc);
-
-            configSection.getChildren().addAll(cfgLeft, cfgCenter, cfgRight);
-
-            reqPanel.bindControls(qtyField, bonusCraft, focusBox, hoQ, hoPL);
-
-            if (recipe != null) {
-                int potionTotal = recipe.ingredients().stream()
-                        .mapToInt(com.albionservant.data.PotionRecipeData.Ingredient::quantity)
-                        .sum() / recipe.batchSize();
-                reqPanel.setFocusContext(recipe.tier(), potionTotal,
-                        () -> specsPanel != null ? lookupPotionSpec(specsPanel, category) : 0);
-            }
-            VBox whiteContent = new VBox(0);
-            whiteContent.setFillWidth(true);
-            whiteContent.setStyle("-fx-background-color: #ffffff;");
-
-            if (recipe == null) {
-                whiteContent.getChildren().add(new Label("Recipe not found: " + itemName));
-            } else {
-                whiteContent.getChildren().addAll(
-                        buildPriceGrid(recipe),
-                        new Separator(),
-                        buildArcaneExtractSection(recipe),
-                        new Separator(),
-                        buildSummarySection()
-                );
-            }
-
-            ScrollPane scroll = new ScrollPane(whiteContent);
-            scroll.setFitToWidth(true);
-            scroll.setStyle("-fx-background-color: white;");
-            VBox.setVgrow(scroll, Priority.ALWAYS);
-
-            getChildren().addAll(redHeader, configSection, scroll);
         }
 
-        // ── Config bar ────────────────────────────────────────────────────────
+        return best;
+    }
 
-        private HBox buildConfigBar(PotionRecipeData.PotionRecipe recipe) {
-            HBox bar = new HBox(30);
-            bar.setPadding(new Insets(18, 28, 18, 28));
-            bar.setAlignment(Pos.CENTER_LEFT);
-            bar.setStyle("-fx-background-color: #f8fafc;");
+    private static double bestSellPrice(List<PricePair> pairs) {
+        double best = 0.0;
 
-            VBox nameBox = new VBox(2);
-            Label nameLabel = new Label(recipe.name());
-            nameLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
-            Label batchLabel = new Label("Tier " + recipe.tier() + "   •   Batch: " + recipe.batchSize() + " potions");
-            batchLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #64748b;");
-            nameBox.getChildren().addAll(nameLabel, batchLabel);
-            HBox.setHgrow(nameBox, Priority.ALWAYS);
+        for (PricePair pair : pairs) {
+            double price = effectivePrice(pair);
 
-            bar.getChildren().addAll(
-                    nameBox,
-                    labeledField("Quantity", "5"),
-                    labeledField("Station Fee", "0"),
-                    labeledCombo("Sell At", CITIES),
-                    labeledCombo("Bonus Craft", List.of("Royal City", "Royal Island", "Royal City + Bonus", "HO"))
-            );
-            return bar;
+            if (price > best) {
+                best = price;
+            }
         }
 
-        // ── Price grid ────────────────────────────────────────────────────────
-        //
-        // Columns:
-        //   col 0      : City
-        //   col 1..N   : one col per herb/ingredient (API price at top, manual per city)
-        //   col N+1    : tracking ingredient (only for 7 new potions, else greyed N/A)
-        //   last cols  : Demand | Profit | SPF | Cost | Focus Cost
+        return best;
+    }
 
-        private VBox buildPriceGrid(PotionRecipeData.PotionRecipe recipe) {
-            List<PotionRecipeData.Ingredient> ingredients = recipe.ingredients();
-            boolean hasTracking = recipe.hasTrackingIngredient();
-            int ingCols    = ingredients.size();
-            int trackCols  = 1; // always present, greyed out if not applicable
-            int resultCols = 5; // Demand, Profit, SPF, Cost, Focus Cost
-            int totalCols  = 1 + ingCols + trackCols + resultCols;
-            double colPct  = 100.0 / totalCols;
+    private static double effectivePrice(PricePair pair) {
+        String manual = pair.manual().getText();
 
-            GridPane grid = new GridPane();
-            grid.setMaxWidth(Double.MAX_VALUE);
-            grid.setVgap(0);
-            grid.setHgap(0);
-            grid.setStyle("-fx-background-color: #ffffff;");
+        if (manual != null && !manual.trim().isEmpty()) {
+            return parseDouble(manual, 0.0);
+        }
 
-            for (int i = 0; i < totalCols; i++) {
-                ColumnConstraints cc = new ColumnConstraints();
-                cc.setPercentWidth(colPct);
-                cc.setHalignment(HPos.CENTER);
-                cc.setFillWidth(true);
-                grid.getColumnConstraints().add(cc);
+        return parseDouble(pair.api().getText(), 0.0);
+    }
+
+    private static long parseLong(String value, long fallback) {
+        if (value == null) {
+            return fallback;
+        }
+
+        try {
+            String cleaned = value.trim().replace(" ", "").replace(",", "");
+            if (cleaned.isEmpty()) {
+                return fallback;
             }
 
-            String[] resultHeaders = {"Demand", "Profit", "SPF", "Cost", "Focus Cost"};
-            int trackCol    = 1 + ingCols;
-            int resultStart = trackCol + 1;
-
-            // ── Row 0: column headers ─────────────────────────────────────────
-            grid.add(hdrCell(""), 0, 0);
-            int col = 1;
-            for (PotionRecipeData.Ingredient ing : ingredients) {
-                Label lbl = new Label(ing.name() + " ×" + ing.quantity());
-                lbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #7c3aed; -fx-font-size: 12px;");
-                lbl.setMaxWidth(Double.MAX_VALUE);
-                lbl.setAlignment(Pos.CENTER);
-                lbl.setPadding(new Insets(6, 4, 6, 4));
-                lbl.setWrapText(true);
-                grid.add(lbl, col++, 0);
-            }
-            // Tracking ingredient header
-            if (hasTracking) {
-                Label trackHdr = new Label("🦴 " + recipe.resolvedTrackingIngredient());
-                trackHdr.setStyle("-fx-font-weight: bold; -fx-text-fill: #b45309; -fx-font-size: 12px;");
-                trackHdr.setMaxWidth(Double.MAX_VALUE);
-                trackHdr.setAlignment(Pos.CENTER);
-                trackHdr.setPadding(new Insets(6, 4, 6, 4));
-                trackHdr.setWrapText(true);
-                grid.add(trackHdr, trackCol, 0);
-            } else {
-                grid.add(naCell("N/A"), trackCol, 0);
-            }
-            for (String h : resultHeaders) grid.add(hdrCell(h), resultStart + Arrays.asList(resultHeaders).indexOf(h), 0);
-
-            // ── Row 1: "API Price" row ────────────────────────────────────────
-            grid.add(boldCell("API Price", "#334155"), 0, 1);
-            col = 1;
-            for (int i = 0; i < ingCols; i++) grid.add(apiField(), col++, 1);
-            grid.add(hasTracking ? apiField() : naField(), trackCol, 1);
-            for (int i = 0; i < resultCols; i++) grid.add(calcCell("—", "#ffffff"), resultStart + i, 1);
-
-            // ── Rows 2–8: city rows ───────────────────────────────────────────
-            int gridRow = 2;
-            for (int c = 0; c < CITIES.size(); c++) {
-                String rowBg = (c % 2 == 0) ? "#f8fafc" : "#ffffff";
-                Label cityLbl = new Label(CITIES.get(c));
-                cityLbl.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;"
-                        + "-fx-text-fill: #1e293b; -fx-padding: 6 8 6 8;"
-                        + "-fx-background-color: " + rowBg + ";");
-                cityLbl.setMaxWidth(Double.MAX_VALUE);
-                grid.add(cityLbl, 0, gridRow);
-
-                col = 1;
-                for (int i = 0; i < ingCols; i++) grid.add(manualField(rowBg), col++, gridRow);
-                grid.add(hasTracking ? manualField(rowBg) : naField(), trackCol, gridRow);
-                // Demand editable, rest calculated
-                grid.add(manualField(rowBg), resultStart, gridRow);
-                for (int i = 1; i < resultCols; i++) grid.add(calcCell("—", rowBg), resultStart + i, gridRow);
-                gridRow++;
-            }
-
-            VBox wrapper = new VBox(grid);
-            wrapper.setFillWidth(true);
-            wrapper.setMaxWidth(Double.MAX_VALUE);
-            wrapper.setPadding(new Insets(20, 28, 20, 28));
-            return wrapper;
-        }
-
-        // ── Arcane Extract enchanting section ─────────────────────────────────
-        // Similar to Fish Sauce for food — shows sell prices per city per enchant level
-
-        private VBox buildArcaneExtractSection(PotionRecipeData.PotionRecipe recipe) {
-            VBox box = new VBox(8);
-            box.setPadding(new Insets(16, 28, 0, 28));
-            box.setStyle("-fx-background-color: #ffffff;");
-
-            Label title = new Label("✨ Arcane Extract Enchanting  —  optional, shown per city");
-            title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #7c3aed;");
-            box.getChildren().add(title);
-
-            Label note = new Label("Extract tier must match potion tier (T" + recipe.tier()
-                    + " potion → T" + recipe.tier() + " extract)");
-            note.setStyle("-fx-font-size: 11px; -fx-text-fill: #94a3b8;");
-            box.getChildren().add(note);
-
-            // Grid: city | sell price .1 | sell price .2 | sell price .3 | Demand | Profit | ROI | Focus Cost
-            int totalCols = 1 + 3 + 4; // city + 3 enchant sell prices + results
-            double colPct = 100.0 / totalCols;
-
-            GridPane grid = new GridPane();
-            grid.setMaxWidth(Double.MAX_VALUE);
-            grid.setVgap(0);
-            grid.setHgap(0);
-
-            for (int i = 0; i < totalCols; i++) {
-                ColumnConstraints cc = new ColumnConstraints();
-                cc.setPercentWidth(colPct);
-                cc.setHalignment(HPos.CENTER);
-                cc.setFillWidth(true);
-                grid.getColumnConstraints().add(cc);
-            }
-
-            // Header row
-            grid.add(hdrCell("City"), 0, 0);
-            String[] enchantLabels = {"Sell Price .1 (Basic)", "Sell Price .2 (Refined)", "Sell Price .3 (Pure)"};
-            for (int i = 0; i < enchantLabels.length; i++) {
-                Label lbl = new Label(enchantLabels[i]);
-                lbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #7c3aed; -fx-font-size: 11px;");
-                lbl.setMaxWidth(Double.MAX_VALUE);
-                lbl.setAlignment(Pos.CENTER);
-                lbl.setPadding(new Insets(6, 4, 6, 4));
-                lbl.setWrapText(true);
-                grid.add(lbl, i + 1, 0);
-            }
-            String[] resultHdrs = {"Demand", "Profit", "ROI", "Focus Cost"};
-            for (int i = 0; i < resultHdrs.length; i++) {
-                grid.add(hdrCell(resultHdrs[i]), 4 + i, 0);
-            }
-
-            // City rows
-            for (int c = 0; c < CITIES.size(); c++) {
-                String rowBg = (c % 2 == 0) ? "#faf5ff" : "#ede9fe";
-                Label cityLbl = new Label(CITIES.get(c));
-                cityLbl.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;"
-                        + "-fx-text-fill: #1e293b; -fx-padding: 6 8 6 8;"
-                        + "-fx-background-color: " + rowBg + ";");
-                cityLbl.setMaxWidth(Double.MAX_VALUE);
-                grid.add(cityLbl, 0, c + 1);
-                for (int i = 0; i < 3; i++) grid.add(manualField(rowBg), i + 1, c + 1);
-                for (int i = 0; i < resultHdrs.length; i++) grid.add(calcCell("—", rowBg), 4 + i, c + 1);
-            }
-
-            box.getChildren().add(grid);
-            return box;
-        }
-
-        // ── Summary section ───────────────────────────────────────────────────
-
-        private VBox buildSummarySection() {
-            VBox box = new VBox(10);
-            box.setPadding(new Insets(20, 28, 30, 28));
-            box.setStyle("-fx-background-color: #f8fafc;");
-            Label lbl = new Label("Calculation results / summary will appear here once prices are entered");
-            lbl.setStyle("-fx-font-size: 14px; -fx-text-fill: #94a3b8;");
-            box.getChildren().add(lbl);
-            return box;
-        }
-
-        // ── Cell factory helpers ──────────────────────────────────────────────
-
-        private Label naCell(String text) {
-            Label l = new Label(text);
-            l.setStyle("-fx-font-size: 12px; -fx-text-fill: #bbbbbb; -fx-padding: 6 4 6 4;");
-            l.setMaxWidth(Double.MAX_VALUE);
-            l.setAlignment(Pos.CENTER);
-            return l;
-        }
-
-        private TextField naField() {
-            TextField tf = new TextField("—");
-            tf.setEditable(false);
-            tf.setDisable(true);
-            tf.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: #e8e8e8; -fx-text-fill: #aaaaaa;");
-            tf.setMaxWidth(Double.MAX_VALUE);
-            return tf;
-        }
-
-        private Label hdrCell(String text) {
-            Label l = new Label(text);
-            l.setStyle("-fx-font-weight: bold; -fx-text-fill: #7c3aed; -fx-font-size: 12px; -fx-padding: 6 4 6 4;");
-            l.setMaxWidth(Double.MAX_VALUE);
-            l.setAlignment(Pos.CENTER);
-            return l;
-        }
-
-        private Label boldCell(String text, String color) {
-            Label l = new Label(text);
-            l.setStyle("-fx-font-weight: bold; -fx-text-fill: " + color + "; -fx-font-size: 12px; -fx-padding: 6 8 6 8;");
-            l.setMaxWidth(Double.MAX_VALUE);
-            return l;
-        }
-
-        private Label calcCell(String text, String bgColor) {
-            Label l = new Label(text);
-            l.setStyle("-fx-font-size: 12px; -fx-text-fill: #475569; -fx-padding: 4 4 4 4; -fx-background-color: " + bgColor + ";");
-            l.setMaxWidth(Double.MAX_VALUE);
-            l.setAlignment(Pos.CENTER);
-            return l;
-        }
-
-        private TextField apiField() {
-            TextField tf = new TextField("0");
-            tf.setEditable(false);
-            tf.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: #f0f0f0;");
-            tf.setMaxWidth(Double.MAX_VALUE);
-            return tf;
-        }
-
-        private TextField manualField(String bgColor) {
-            TextField tf = new TextField("");
-            tf.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: " + bgColor + ";");
-            tf.setMaxWidth(Double.MAX_VALUE);
-            return tf;
-        }
-
-        private VBox labeledField(String label, String defaultVal) {
-            Label lbl = new Label(label);
-            lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #64748b;");
-            TextField tf = new TextField(defaultVal);
-            tf.setStyle("-fx-font-size: 13px;");
-            tf.setPrefWidth(90);
-            return new VBox(3, lbl, tf);
-        }
-
-        private VBox labeledCombo(String label, List<String> opts) {
-            Label lbl = new Label(label);
-            lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #64748b;");
-            ComboBox<String> cb = new ComboBox<>();
-            cb.getItems().addAll(opts);
-            cb.setValue(opts.get(0));
-            cb.setPrefWidth(150);
-            return new VBox(3, lbl, cb);
+            return Math.max(1L, Long.parseLong(cleaned));
+        } catch (NumberFormatException ignored) {
+            return fallback;
         }
     }
+
+    private static double parseDouble(String value, double fallback) {
+        if (value == null) {
+            return fallback;
+        }
+
+        try {
+            String cleaned = value.trim().replace(" ", "").replace(",", "").replace("_", "");
+            if (cleaned.isEmpty()) {
+                return fallback;
+            }
+
+            return Double.parseDouble(cleaned);
+        } catch (NumberFormatException ignored) {
+            return fallback;
+        }
+    }
+
+    private static String formatSilver(double value) {
+        if (Math.abs(value) < 0.5) {
+            return "0";
+        }
+
+        return String.format("%,.0f", value);
+    }
+}
+
 }

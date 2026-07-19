@@ -59,8 +59,7 @@ public class FoodRecipeData {
         recipe("Carrot Soup",            1, ing("Carrot", 16));
         recipe1("Greenmoor Clam Soup",    1, ing("Carrot", 2), ing("Greenmoor Clam", 1));
         recipe("Wheat Soup",             3, ing("Sheaf of Wheat", 48));
-        recipe1("Murkwater Clam Soup",    3, ing("Raw Chicken", 1), ing("Murkwater Clam", 1),
-                ing("Sheaf of Wheat", 2), ing("Brightleaf Comfrey", 2));
+        recipe1("Murkwater Clam Soup", 3, ing("Raw Chicken", 2), ing("Murkwater Clam", 1), ing("Sheaf of Wheat", 2), ing("Brightleaf Comfrey", 2));
         recipe("Cabbage Soup",           5, ing("Cabbage", 144));
         recipe1("Blackbog Clam Soup",     5, ing("Cabbage", 6), ing("Raw Goose", 6),
                 ing("Blackbog Clam", 1), ing("Dragon Teasel", 6));
@@ -80,7 +79,7 @@ public class FoodRecipeData {
         recipe("Turnip Salad",              4, ing("Sheaf of Wheat", 24), ing("Turnip", 24));
         recipe1("Midwater Octopus Salad",    4, ing("Turnip", 2), ing("Raw Goat", 2),
                 ing("Crenellated Burdock", 2), ing("Midwater Octopus", 1));
-        recipe("Potato Salad",              6, ing("Potato", 24), ing("Cabbage", 24));
+        recipe("Potato Salad", 6, ing("Potato", 72), ing("Cabbage", 72));
         recipe1("Deepwater Kraken Salad",    6, ing("Potato", 2), ing("Deepwater Kraken", 1),
                 ing("Elusive Foxglove", 2), ing("Raw Mutton", 2));
 
@@ -130,8 +129,7 @@ public class FoodRecipeData {
                 ing("Hen Eggs", 1));
         recipe("Goose Pie",              5, ing("Cabbage", 6), ing("Raw Goose", 24),
                 ing("Goat's Milk", 6), ing("Flour", 12));
-        recipe1("Mountain Blindeye Pie",  5, ing("Cabbage", 26), ing("Mountain Blindeye", 1),
-                ing("Dragon Teasel", 2), ing("Goose Eggs", 2));
+        recipe1("Mountain Blindeye Pie", 5, ing("Cabbage", 2), ing("Mountain Blindeye", 1), ing("Dragon Teasel", 2), ing("Goose Eggs", 2));
         recipe("Pork Pie",               7, ing("Bundle of Corn", 18), ing("Raw Pork", 72),
                 ing("Flour", 36), ing("Sheep's Milk", 18));
         recipe1("Frostpeak Deadeye Pie",  7, ing("Bundle of Corn", 6), ing("Raw Pork", 6),
@@ -177,18 +175,13 @@ public class FoodRecipeData {
                 "Roast Pork",
                 "Roasted Puremist Snapper"
         ));
-        recipe("Roast Chicken",             3, ing("Raw Chicken", 8), ing("Sheaf of Wheat", 4),
-                ing("Brightleaf Comfrey", 2), ing("Goat's Milk", 2));
+        recipe("Roast Chicken", 3, ing("Raw Chicken", 8), ing("Bean", 4), ing("Goat's Milk", 4));
         recipe1("Roasted Whitefog Snapper",  3, ing("Whitefog Snapper", 1), ing("Sheaf of Wheat", 2),
                 ing("Brightleaf Comfrey", 1), ing("Goat's Milk", 1));
-        recipe("Roast Goose",               5, ing("Raw Goose", 24), ing("Cabbage", 12),
-                ing("Dragon Teasel", 6), ing("Goat's Milk", 6));
-        recipe1("Roasted Clearhaze Snapper", 5, ing("Clearhaze Snapper", 1), ing("Cabbage", 2),
-                ing("Dragon Teasel", 1), ing("Goat's Milk", 1));
-        recipe("Roast Pork",                7, ing("Raw Pork", 72), ing("Bundle of Corn", 36),
-                ing("Firetouched Mullein", 18), ing("Sheep's Milk", 18));
-        recipe1("Roasted Puremist Snapper",  7, ing("Puremist Snapper", 1), ing("Bundle of Corn", 6),
-                ing("Firetouched Mullein", 3), ing("Sheep's Milk", 3));
+        recipe("Roast Goose", 5, ing("Raw Goose", 24), ing("Cabbage", 12), ing("Sheep's Milk", 12));
+        recipe1("Roasted Clearhaze Snapper", 5, ing("Clearhaze Snapper", 1), ing("Cabbage", 2), ing("Dragon Teasel", 2), ing("Sheep's Milk", 2));
+        recipe("Roast Pork", 7, ing("Raw Pork", 72), ing("Bundle of Corn", 36), ing("Cow's Milk", 36));
+        recipe1("Roasted Puremist Snapper", 7, ing("Puremist Snapper", 1), ing("Bundle of Corn", 6), ing("Firetouched Mullein", 6), ing("Cow's Milk", 6));
 
         // ── SANDWICHES ───────────────────────────────────────────────────────
         CATEGORY_CHILDREN.put("Sandwiches", List.of(
@@ -233,16 +226,63 @@ public class FoodRecipeData {
         ));
         recipe1("Grilled Fish",       1, ing("Chopped Fish", 10));
         recipe1("Seaweed Salad",      1, ing("Seaweed", 10));
-        recipe1("Basic Fish Sauce",   1, ing("Chopped Fish", 1), ing("Seaweed", 1));
-        recipe1("Fancy Fish Sauce",   1, ing("Chopped Fish", 2), ing("Seaweed", 2),
-                ing("Salt Crystal", 1));
-        recipe1("Special Fish Sauce", 1, ing("Chopped Fish", 4), ing("Seaweed", 4),
-                ing("Salt Crystal", 2), ing("Purified Venom", 1));
+        recipe1("Basic Fish Sauce", 1, ing("Chopped Fish", 15), ing("Seaweed", 1));
+        recipe1("Fancy Fish Sauce", 1, ing("Chopped Fish", 45), ing("Seaweed", 3));
+        recipe1("Special Fish Sauce", 1, ing("Chopped Fish", 135), ing("Seaweed", 9));
         recipe("Bread",              4, ing("Flour", 1));
         recipe("Flour",              3, ing("Sheaf of Wheat", 1));
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
+
+    
+    /**
+     * Fish sauce quantity needed per craft for enchanted food.
+     *
+     * Standard food usually crafts in batches of 10:
+     * T1-T4 => 10 sauce, T5-T6 => 30 sauce, T7-T8 => 90 sauce.
+     *
+     * Fish/seafood food usually crafts in batches of 1:
+     * T1-T2 => 3 sauce, T3-T6 => 9 sauce, T7-T8 => 27 sauce.
+     */
+    public static int getFishSauceQuantityPerBatch(Recipe recipe) {
+        if (recipe == null) {
+            return 0;
+        }
+
+        int tier = recipe.tier();
+        int batchSize = Math.max(1, recipe.batchSize());
+
+        if (batchSize >= 10) {
+            if (tier <= 4) {
+                return 10;
+            }
+
+            if (tier <= 6) {
+                return 30;
+            }
+
+            return 90;
+        }
+
+        if (tier <= 2) {
+            return 3;
+        }
+
+        if (tier <= 6) {
+            return 9;
+        }
+
+        return 27;
+    }
+
+    public static double getFishSauceQuantityPerItem(Recipe recipe) {
+        if (recipe == null) {
+            return 0.0;
+        }
+
+        return getFishSauceQuantityPerBatch(recipe) / (double) Math.max(1, recipe.batchSize());
+    }
 
     private static Ingredient ing(String name, int qty) {
         return new Ingredient(name, qty);
