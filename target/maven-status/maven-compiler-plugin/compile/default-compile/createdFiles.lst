@@ -14,6 +14,7 @@ com\albionservant\MainApp.class
 com\albionservant\integration\config\SqliteDataSourceConfiguration.class
 com\albionservant\integration\local\LocalIntegrationStatus$State.class
 com\albionservant\integration\aodp\PermanentMessageException.class
+com\albionservant\integration\process\AodpProcessLauncher$NatsEndpoint.class
 com\albionservant\data\ArtifactData$ArtifactType.class
 com\albionservant\gui\HotInvestmentsPanel.class
 com\albionservant\gui\CraftPanel$FoodDetailSubPanel$ResultRow.class
@@ -30,6 +31,7 @@ com\albionservant\elements\CraftCategory.class
 com\albionservant\gui\CraftPanel$FoodDetailSubPanel$PricePair.class
 com\albionservant\integration\config\LocalIntegrationConfiguration.class
 com\albionservant\data\ArtifactData.class
+com\albionservant\integration\market\GearMarketItemData.class
 com\albionservant\integration\aodp\RawEventService.class
 com\albionservant\integration\aodp\MarketOrderIngestionService$PriceAccumulator.class
 com\albionservant\gui\RequirementsCalculatorPanel.class
@@ -42,6 +44,7 @@ com\albionservant\data\CraftMaterialData$Materials.class
 com\albionservant\integration\aodp\AodpSubjects.class
 com\albionservant\market\model\MarketOrderDocument.class
 com\albionservant\integration\aodp\dto\AodpMarketUpload.class
+com\albionservant\integration\process\AodpProcessLauncher.class
 com\albionservant\gui\CraftPanel$PotionDetailSubPanel$PricePair.class
 com\albionservant\data\RefineData.class
 com\albionservant\GreetingService.class
@@ -58,6 +61,7 @@ com\albionservant\integration\aodp\MarketOrderIngestionService$PriceKey.class
 com\albionservant\integration\config\LocalIntegrationProperties$Processes.class
 com\albionservant\data\CraftMaterialData.class
 com\albionservant\gui\FoodPanel.class
+com\albionservant\integration\market\LocalMarketPriceService.class
 com\albionservant\data\FoodRecipeData$Ingredient.class
 com\albionservant\integration\local\LocalIntegrationStatus.class
 com\albionservant\integration\aodp\AodpMessageRouter.class

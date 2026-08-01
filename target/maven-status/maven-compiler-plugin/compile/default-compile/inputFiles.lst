@@ -36,10 +36,13 @@ C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\FoodPa
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\elements\CraftCategory.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\market\model\MarketOrderDocument.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\local\LocalIntegrationCoordinator.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\process\AodpProcessLauncher.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\aodp\AodpSubjects.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\ArtifactData.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\aodp\PermanentMessageException.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\PotionRecipeData.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\market\GearMarketItemData.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\market\LocalMarketPriceService.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\MainApp.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\RefineData.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\config\LocalEndpointGuard.java

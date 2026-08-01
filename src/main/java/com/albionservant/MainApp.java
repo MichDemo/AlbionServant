@@ -53,7 +53,6 @@ public class MainApp extends Application {
         CraftPanel craftPanel = new CraftPanel();
         RefinePanel refinePanel = new RefinePanel();
         SpecsPanel specsPanel = new SpecsPanel();
-
         // Sample data
         InvestmentData item1 = new InvestmentData(
                 "Master's Battleaxe",
@@ -152,6 +151,7 @@ public class MainApp extends Application {
             VBox.setVgrow(contentArea, Priority.ALWAYS);
             topBar.setVisible(true);
         });
+
 
         Scene scene = new Scene(root, width, height);
 

@@ -5,88 +5,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c948696-3eba-4c4d-a1f1-46722c58b0fc" name="Changes" comment="sync with data">
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/local-market-20260717-092759/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/local-market-20260717-092759/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/runtime/mongodb/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/GoldPriceIngestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/MarketHistoryIngestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/MarketOrderIngestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/RawEventService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/config/LocalEndpointGuard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/config/LocalIntegrationProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/local/LocalIntegrationCoordinator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/local/LocalProcessManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/GoldPriceDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/MarketHistoryDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/MarketOrderDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/MarketPriceDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/RawMarketEventDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/repository/MarketPriceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/service/MarketMongoIndexInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/service/MongoMarketPriceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/runtime/aodp/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/runtime/nats/nats-server.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/AodpMessageRouter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/AodpSubjects.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/GoldPriceIngestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/MarketHistoryIngestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/MarketOrderIngestionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/PermanentMessageException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/RawEventService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/dto/AodpGoldPricesUpload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/dto/AodpMarketHistoriesUpload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/dto/AodpMarketHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/dto/AodpMarketOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/aodp/dto/AodpMarketUpload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/config/LocalEndpointGuard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/config/LocalIntegrationConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/config/LocalIntegrationProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/config/SqliteDataSourceConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/local/LocalIntegrationCoordinator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/local/LocalIntegrationStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/local/LocalProcessManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/nats/NatsIngestionRuntime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/event/MarketPricesUpdatedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/model/GoldPriceDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/model/MarketHistoryDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/model/MarketOrderDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/model/MarketPriceDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/model/RawMarketEventDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/service/MarketPriceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/service/MarketPriceView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/service/SqliteMarketPriceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/sqlite/SqliteMarketStore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/market/sqlite/SqliteSchemaInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/runtime/nats/nats-server.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/integration/process/AodpProcessLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/local-market-20260717-092759/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/local-market-20260717-092759/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/runtime/mongodb/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/GoldPriceIngestionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/MarketHistoryIngestionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/MarketOrderIngestionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/aodp/RawEventService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/config/LocalEndpointGuard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/config/LocalIntegrationProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/local/LocalIntegrationCoordinator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/integration/local/LocalProcessManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/GoldPriceDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/MarketHistoryDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/MarketOrderDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/MarketPriceDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/model/RawMarketEventDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/repository/MarketPriceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/service/MarketMongoIndexInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/java/com/albionservant/market/service/MongoMarketPriceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.albionservant-backups/mongodb-to-sqlite-20260719-100455/src/main/resources/application.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/aodp/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/nats/nats-server.conf" beforeDir="false" afterPath="$PROJECT_DIR$/runtime/nats/nats-server.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FocusCostCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FocusCostCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FoodRecipeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/FoodRecipeData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ItemRenderData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/ItemRenderData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/data/PotionRecipeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/data/PotionRecipeData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/CraftPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RefinePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RefinePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RequirementsCalculatorPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/RequirementsCalculatorPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/TopNavigationBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/albionservant/gui/TopNavigationBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/MainApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/FocusCostCalculator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/FocusCostCalculator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/FoodRecipeData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/FoodRecipeData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/ItemRenderData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/ItemRenderData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/data/PotionRecipeData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/data/PotionRecipeData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel$Material.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$CraftDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel$PricePair.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel$PricePair.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel$ResultRow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel$ResultRow.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$FoodDetailSubPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel$PricePair.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel$PricePair.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel$ResultRow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel$ResultRow.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel$PotionDetailSubPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/CraftPanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RefinePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RefinePanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel$MaterialLine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel$MaterialLine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/RequirementsCalculatorPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/albionservant/gui/TopNavigationBar.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
@@ -144,6 +105,11 @@
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\micha\Pictures\AlbionServant\runtime\nats" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="AlbionServant" />
@@ -229,7 +195,23 @@
       <option name="project" value="LOCAL" />
       <updated>1783517423061</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="sync with data">
+      <option name="closed" value="true" />
+      <created>1784448719378</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1784448719379</updated>
+    </task>
+    <task id="LOCAL-00010" summary="sync with data">
+      <option name="closed" value="true" />
+      <created>1784448739416</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1784448739416</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

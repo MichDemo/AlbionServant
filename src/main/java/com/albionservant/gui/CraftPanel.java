@@ -8,6 +8,9 @@ import com.albionservant.data.FoodRecipeData.Ingredient;
 import com.albionservant.data.PotionRecipeData;
 import com.albionservant.data.ItemRenderData;
 import com.albionservant.AppConfig;
+import com.albionservant.integration.market.LocalMarketPriceService;
+// ALBIONSERVANT_LOCAL_PRICE_PATCH
+// ALBIONSERVANT_GEAR_QUALITY_PRICE_PATCH
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -434,6 +437,20 @@ Label bonusCraftLbl = new Label("Bonus Craft:");
             ComboBox<String> buy4 = createCityCombo(true);
             lockComboBoxWidth(buy4);
 
+            Label sellQualityLbl = new Label("Sell-Quality:");
+            sellQualityLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+
+            ComboBox<String> sellQuality = new ComboBox<>();
+            sellQuality.getItems().addAll(
+                    "Normal (Q1)",
+                    "Good (Q2)",
+                    "Outstanding (Q3)",
+                    "Excellent (Q4)",
+                    "Masterpiece (Q5)"
+            );
+            sellQuality.setValue("Normal (Q1)");
+            lockComboBoxWidth(sellQuality);
+
             Label sellLbl = new Label("Sell-Location:");
             sellLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
             ComboBox<String> sellLocation = createSellCombo();
@@ -448,6 +465,8 @@ Label bonusCraftLbl = new Label("Bonus Craft:");
                     buy3,
                     buy4Lbl,
                     buy4,
+                    sellQualityLbl,
+                    sellQuality,
                     sellLbl,
                     sellLocation
             );
@@ -472,7 +491,7 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
             bottomTitle.setStyle("-fx-font-size: 16px; -fx-text-fill: #888888;");
             bottom.getChildren().add(bottomTitle);
 
-            whiteContent.getChildren().addAll(topSection, buildTable(itemName, reqPanel, quantity), bottom);
+            whiteContent.getChildren().addAll(topSection, buildTable(itemName, reqPanel, quantity, buy1, buy2, buy3, sellLocation, sellQuality), bottom);
 
             reqPanel.bindControls(quantity, bonusCraft, craftingFocus, dailyBonus, dailyBonusValue, hoQuality, hoPower);
 
@@ -493,8 +512,16 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
             getChildren().addAll(redHeader, contentScroll);
         }
 
-        private VBox buildTable(String itemName, RequirementsCalculatorPanel reqPanel,
-                                TextField quantityField) {
+        private VBox buildTable(
+                String itemName,
+                RequirementsCalculatorPanel reqPanel,
+                TextField quantityField,
+                ComboBox<String> buy1,
+                ComboBox<String> buy2,
+                ComboBox<String> buy3,
+                ComboBox<String> sellLocation,
+                ComboBox<String> sellQuality
+        ) {
             ArtifactData.ArtifactType artifactType = ArtifactData.getArtifactType(itemName);
             boolean hasArtifact = artifactType != null;
             boolean isAvalonEnergy = hasArtifact && artifactType == ArtifactData.ArtifactType.AVALON_ENERGY;
@@ -513,9 +540,9 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
             // col 1,2     : Material 1 → API | Manual
             // col 3,4     : Material 2 → API | Manual
             // col 5,6     : Material 3 → API | Manual  (only if hasArtifact; spans 5 rows per major tier)
-            // col 7..14   : Demand, Costs, Focus Costs, Books, Fame, SPF, Profit, ROI
+            // col 7..14   : Demand, Costs, Sell Price, Focus Costs, Books, Fame, SPF, Profit, ROI
             int mat3Cols   = hasArtifact ? 2 : 0;
-            int totalCols  = 1 + (MATERIALS.size() * 2) + mat3Cols + 8;
+            int totalCols  = 1 + (MATERIALS.size() * 2) + mat3Cols + 9;
             double colPct  = 100.0 / totalCols;
 
             // Column index where result headers start
@@ -523,7 +550,7 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
             // Column index where mat3 starts
             int mat3StartCol   = 1 + (MATERIALS.size() * 2);
 
-            String[] resultHeaders = {"Demand", "Costs", "Focus Costs", "Books", "Fame", "SPF", "Profit", "ROI"};
+            String[] resultHeaders = {"Demand", "Costs", "Sell Price", "Focus Costs", "Books", "Fame", "SPF", "Profit", "ROI"};
 
             GridPane grid = new GridPane();
             grid.setMaxWidth(Double.MAX_VALUE);
@@ -561,7 +588,7 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
             }
             for (int i = 0; i < resultHeaders.length; i++) {
                 Label hdr = makeHeaderLabel(resultHeaders[i]);
-                if (i == 2) {
+                if (i == 3) {
                     // Focus Costs header only — row values are calculated separately
                     VBox focusHdrBox = new VBox(1, hdr);
                     focusHdrBox.setAlignment(Pos.CENTER);
@@ -602,6 +629,9 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
             // Colours for mat3 fields
             String mat3FieldBg = isAvalonEnergy ? "#e0f2fe" : "#ffe4e4";
 
+            TextField majorArtifactApi = null;
+            TextField majorArtifactManual = null;
+
             int gridRow = 2;
             for (int t = 0; t < allTiers.length; t++) {
                 String tier = allTiers[t];
@@ -631,123 +661,470 @@ topSection.getChildren().addAll(left, center, right, reqColumn);
                 tierLbl.setStyle("-fx-font-size: 13px; -fx-background-color: " + rowBg + ";");
                 grid.add(tierLbl, 0, gridRow);
 
-                // Material 1 & 2 — every row
+                // Material 1 & 2 - exact local SQLite prices for this row.
+                int tierNum = Character.getNumericValue(tier.charAt(0));
+                int enchantNum = tier.contains(".")
+                        ? Integer.parseInt(tier.substring(tier.indexOf('.') + 1))
+                        : 0;
+
+                List<TextField> rowApiFields = new ArrayList<>();
+                List<TextField> rowManualFields = new ArrayList<>();
+                List<Integer> rowMaterialQuantities = new ArrayList<>();
+
                 matCol = 1;
+                int materialIndex = 0;
+
                 for (Material mat : MATERIALS) {
                     boolean isNA = CraftMaterialData.NA.equals(mat.name());
 
-                    TextField apiField = new TextField(isNA ? "—" : "120");
+                    TextField apiField =
+                            new TextField(isNA ? "\u2014" : "...");
+
                     apiField.setEditable(false);
-                    apiField.setStyle("-fx-font-size: 12px; -fx-alignment: center; -fx-background-color: "
-                            + (isNA ? "#e8e8e8; -fx-text-fill: #aaaaaa;" : "#f0f0f0;"));
+                    apiField.setStyle(
+                            "-fx-font-size: 12px;"
+                                    + "-fx-alignment: center;"
+                                    + "-fx-background-color: "
+                                    + (isNA
+                                    ? "#e8e8e8; -fx-text-fill: #aaaaaa;"
+                                    : "#f0f0f0;")
+                    );
                     apiField.setMaxWidth(Double.MAX_VALUE);
                     apiField.setDisable(isNA);
 
                     TextField manualField = new TextField("");
-                    manualField.setStyle("-fx-font-size: 12px; -fx-alignment: center;"
-                            + (isNA ? " -fx-background-color: #e8e8e8;" : ""));
+                    manualField.setPromptText("manual");
+                    manualField.setStyle(
+                            "-fx-font-size: 12px;"
+                                    + "-fx-alignment: center;"
+                                    + (isNA
+                                    ? " -fx-background-color: #e8e8e8;"
+                                    : "")
+                    );
                     manualField.setMaxWidth(Double.MAX_VALUE);
                     manualField.setDisable(isNA);
-                    if (!isNA) {
-                        manualField.textProperty().addListener((obs, old, newVal) -> {
-                            if (newVal != null && !newVal.trim().isEmpty()) apiField.setText(newVal);
-                        });
-                    }
-                    grid.add(apiField,    matCol,     gridRow);
-                    grid.add(manualField, matCol + 1, gridRow);
-                    matCol += 2;
-                }
 
+                    if (!isNA) {
+                        int materialQuantity = materialIndex == 0
+                                ? qty.mat1()
+                                : qty.mat2();
+
+                        ComboBox<String> materialCity = materialIndex == 0
+                                ? buy1
+                                : buy2;
+
+                        String materialItemId =
+                                LocalMarketPriceService.refinedMaterialItemId(
+                                        mat.name(),
+                                        tierNum,
+                                        enchantNum
+                                );
+
+                        LocalMarketPriceService.bindMinSell(
+                                apiField,
+                                materialCity,
+                                materialItemId
+                        );
+
+                        rowApiFields.add(apiField);
+                        rowManualFields.add(manualField);
+                        rowMaterialQuantities.add(materialQuantity);
+                    }
+
+                    grid.add(apiField, matCol, gridRow);
+                    grid.add(manualField, matCol + 1, gridRow);
+
+                    matCol += 2;
+                    materialIndex++;
+                }
                 // Material 3 — only on the .0 row, spanning 5 rows vertically.
                 // Each field is wrapped in a StackPane that fills the span height,
                 // so the TextField stays at its natural height and centres visually.
                 if (hasArtifact && isMajorTierRow) {
-                    TextField mat3Api = new TextField("0");
+                    TextField mat3Api = new TextField("\u2014");
                     mat3Api.setEditable(false);
                     mat3Api.setStyle(
-                            "-fx-font-size: 12px; -fx-alignment: center;" +
-                                    "-fx-background-color: " + mat3FieldBg + ";"
+                            "-fx-font-size: 12px;"
+                                    + "-fx-alignment: center;"
+                                    + "-fx-background-color: "
+                                    + mat3FieldBg
+                                    + ";"
                     );
                     mat3Api.setMaxWidth(Double.MAX_VALUE);
 
                     TextField mat3Manual = new TextField("");
+                    mat3Manual.setPromptText("manual");
                     mat3Manual.setStyle(
-                            "-fx-font-size: 12px; -fx-alignment: center;" +
-                                    "-fx-background-color: " + mat3FieldBg + ";"
+                            "-fx-font-size: 12px;"
+                                    + "-fx-alignment: center;"
+                                    + "-fx-background-color: "
+                                    + mat3FieldBg
+                                    + ";"
                     );
                     mat3Manual.setMaxWidth(Double.MAX_VALUE);
-                    mat3Manual.textProperty().addListener((obs, old, newVal) -> {
-                        if (newVal != null && !newVal.trim().isEmpty()) mat3Api.setText(newVal);
-                    });
 
-                    // Wrap in StackPanes so the span fills naturally and the field is centred
+                    String artifactItemId =
+                            LocalMarketPriceService.artifactItemId(
+                                    artifactType.name(),
+                                    tierNum
+                            );
+
+                    if (artifactItemId != null) {
+                        LocalMarketPriceService.bindMinSell(
+                                mat3Api,
+                                buy3,
+                                artifactItemId
+                        );
+                    } else {
+                        mat3Api.setTooltip(new Tooltip(
+                                "Exact artifact item ID is not mapped yet. "
+                                        + "Use the Manual field."
+                        ));
+                    }
+
+                    majorArtifactApi = mat3Api;
+                    majorArtifactManual = mat3Manual;
+
                     StackPane apiPane = new StackPane(mat3Api);
                     apiPane.setAlignment(Pos.CENTER);
                     apiPane.setMaxWidth(Double.MAX_VALUE);
                     apiPane.setMaxHeight(Double.MAX_VALUE);
-                    apiPane.setStyle("-fx-background-color: " + mat3FieldBg + ";");
+                    apiPane.setStyle(
+                            "-fx-background-color: " + mat3FieldBg + ";"
+                    );
 
-                    StackPane manualPane = new StackPane(mat3Manual);
+                    StackPane manualPane =
+                            new StackPane(mat3Manual);
                     manualPane.setAlignment(Pos.CENTER);
                     manualPane.setMaxWidth(Double.MAX_VALUE);
                     manualPane.setMaxHeight(Double.MAX_VALUE);
-                    manualPane.setStyle("-fx-background-color: " + mat3FieldBg + ";");
+                    manualPane.setStyle(
+                            "-fx-background-color: " + mat3FieldBg + ";"
+                    );
 
-                    GridPane.setRowSpan(apiPane,    5);
+                    GridPane.setRowSpan(apiPane, 5);
                     GridPane.setRowSpan(manualPane, 5);
-                    GridPane.setFillHeight(apiPane,    true);
+                    GridPane.setFillHeight(apiPane, true);
                     GridPane.setFillHeight(manualPane, true);
-                    GridPane.setValignment(apiPane,    javafx.geometry.VPos.CENTER);
-                    GridPane.setValignment(manualPane, javafx.geometry.VPos.CENTER);
+                    GridPane.setValignment(
+                            apiPane,
+                            javafx.geometry.VPos.CENTER
+                    );
+                    GridPane.setValignment(
+                            manualPane,
+                            javafx.geometry.VPos.CENTER
+                    );
 
-                    grid.add(apiPane,    mat3StartCol,     gridRow);
+                    grid.add(apiPane, mat3StartCol, gridRow);
                     grid.add(manualPane, mat3StartCol + 1, gridRow);
                 }
 
-                // Result value columns — Focus Costs × quantity, updates live
-                int tierNum    = Character.getNumericValue(tier.charAt(0));
-                int enchantNum = tier.contains(".") ? Integer.parseInt(tier.substring(tier.indexOf('.') + 1)) : 0;
+                if (hasArtifact && majorArtifactApi != null) {
+                    rowApiFields.add(majorArtifactApi);
+                    rowManualFields.add(majorArtifactManual);
+                    rowMaterialQuantities.add(1);
+                }
 
+
+                // Result value columns — Focus Costs × quantity, updates live
                 String[] resultValues = {
-                        "—", "—", "", "—", "—", "—", "—", "—"
+                        "\u2014", "\u2014", "", "", "\u2014",
+                        "\u2014", "\u2014", "\u2014", "\u2014"
                 };
 
+                javafx.beans.property.DoubleProperty rowBatchCost =
+                        new javafx.beans.property.SimpleDoubleProperty(
+                                Double.NaN
+                        );
+
+                java.util.function.LongSupplier requestedCrafts = () -> {
+                    try {
+                        return Math.max(
+                                1L,
+                                Long.parseLong(
+                                        quantityField
+                                                .getText()
+                                                .trim()
+                                                .replace(",", "")
+                                                .replace("_", "")
+                                )
+                        );
+                    } catch (NumberFormatException ignored) {
+                        return 1L;
+                    }
+                };
+
+                Label costCell = makeDataLabel("\u2014");
+                costCell.setStyle(
+                        "-fx-font-size: 13px;"
+                                + "-fx-text-fill: #0f766e;"
+                                + "-fx-font-weight: bold;"
+                );
+
+                TextField sellPriceApi = new TextField("...");
+                sellPriceApi.setEditable(false);
+                sellPriceApi.setMaxWidth(Double.MAX_VALUE);
+                sellPriceApi.setStyle(
+                        "-fx-font-size: 12px;"
+                                + "-fx-alignment: center;"
+                                + "-fx-background-color: #eef2ff;"
+                                + "-fx-text-fill: #3730a3;"
+                                + "-fx-font-weight: bold;"
+                );
+
+                String craftedItemId =
+                        LocalMarketPriceService.gearItemId(
+                                itemName,
+                                tierNum,
+                                enchantNum
+                        );
+
+                if (craftedItemId == null) {
+                    sellPriceApi.setText("\u2014");
+                    sellPriceApi.setTooltip(new Tooltip(
+                            "No market item ID mapping for " + itemName
+                    ));
+                } else {
+                    LocalMarketPriceService.bindMinSell(
+                            sellPriceApi,
+                            sellLocation,
+                            sellQuality,
+                            craftedItemId
+                    );
+                }
+
+                Label profitCell = makeDataLabel("\u2014");
+                Label roiCell = makeDataLabel("\u2014");
+
+                Runnable updateCostCell = () -> {
+                    double costPerCraft = 0.0;
+                    boolean hasEveryPrice = true;
+
+                    for (int priceIndex = 0;
+                         priceIndex < rowApiFields.size();
+                         priceIndex++) {
+
+                        TextField api =
+                                rowApiFields.get(priceIndex);
+                        TextField manual =
+                                rowManualFields.get(priceIndex);
+
+                        if (!LocalMarketPriceService.hasEffectivePrice(
+                                api,
+                                manual
+                        )) {
+                            hasEveryPrice = false;
+                            break;
+                        }
+
+                        costPerCraft +=
+                                LocalMarketPriceService
+                                        .effectiveDisplayedPrice(
+                                                api,
+                                                manual
+                                        )
+                                        * rowMaterialQuantities.get(
+                                                priceIndex
+                                        );
+                    }
+
+                    if (!hasEveryPrice || rowApiFields.isEmpty()) {
+                        costCell.setText("\u2014");
+                        rowBatchCost.set(Double.NaN);
+                        return;
+                    }
+
+                    double batchCost =
+                            costPerCraft * requestedCrafts.getAsLong();
+
+                    rowBatchCost.set(batchCost);
+                    costCell.setText(
+                            LocalMarketPriceService.formatSilver(
+                                    batchCost
+                            )
+                    );
+                };
+
+                Runnable updateProfitCells = () -> {
+                    double batchCost = rowBatchCost.get();
+
+                    if (!Double.isFinite(batchCost)
+                            || !LocalMarketPriceService
+                            .hasEffectivePrice(
+                                    sellPriceApi,
+                                    null
+                            )) {
+
+                        profitCell.setText("\u2014");
+                        roiCell.setText("\u2014");
+                        return;
+                    }
+
+                    double sellPricePerItem =
+                            LocalMarketPriceService
+                                    .effectiveDisplayedPrice(
+                                            sellPriceApi,
+                                            null
+                                    );
+
+                    double revenue =
+                            sellPricePerItem
+                                    * requestedCrafts.getAsLong();
+
+                    double profit = revenue - batchCost;
+
+                    profitCell.setText(
+                            LocalMarketPriceService.formatSilver(
+                                    profit
+                            )
+                    );
+
+                    profitCell.setStyle(
+                            "-fx-font-size: 13px;"
+                                    + "-fx-font-weight: bold;"
+                                    + "-fx-text-fill: "
+                                    + (profit >= 0.0
+                                    ? "#15803d;"
+                                    : "#dc2626;")
+                    );
+
+                    if (batchCost <= 0.0) {
+                        roiCell.setText("\u2014");
+                    } else {
+                        roiCell.setText(
+                                String.format(
+                                        java.util.Locale.US,
+                                        "%.1f%%",
+                                        profit / batchCost * 100.0
+                                )
+                        );
+                    }
+                };
+
+                for (TextField api : rowApiFields) {
+                    api.textProperty().addListener(
+                            (observable, oldValue, newValue) ->
+                                    updateCostCell.run()
+                    );
+                }
+
+                for (TextField manual : rowManualFields) {
+                    manual.textProperty().addListener(
+                            (observable, oldValue, newValue) ->
+                                    updateCostCell.run()
+                    );
+                }
+
+                quantityField.textProperty().addListener(
+                        (observable, oldValue, newValue) -> {
+                            updateCostCell.run();
+                            updateProfitCells.run();
+                        }
+                );
+
+                sellPriceApi.textProperty().addListener(
+                        (observable, oldValue, newValue) ->
+                                updateProfitCells.run()
+                );
+
+                rowBatchCost.addListener(
+                        (observable, oldValue, newValue) ->
+                                updateProfitCells.run()
+                );
+
+                updateCostCell.run();
+                updateProfitCells.run();
+
                 for (int i = 0; i < resultValues.length; i++) {
-                    if (i == 2) {
-                        Label focusCell = new Label("—");
-                        focusCell.setStyle("-fx-font-size: 13px; -fx-text-fill: #818cf8;"
-                                + "-fx-font-weight: bold;");
+                    if (i == 1) {
+                        grid.add(
+                                costCell,
+                                resultStartCol + i,
+                                gridRow
+                        );
+
+                    } else if (i == 2) {
+                        grid.add(
+                                sellPriceApi,
+                                resultStartCol + i,
+                                gridRow
+                        );
+
+                    } else if (i == 3) {
+                        Label focusCell = new Label("\u2014");
+                        focusCell.setStyle(
+                                "-fx-font-size: 13px;"
+                                        + "-fx-text-fill: #818cf8;"
+                                        + "-fx-font-weight: bold;"
+                        );
                         focusCell.setMaxWidth(Double.MAX_VALUE);
                         focusCell.setAlignment(Pos.CENTER);
 
-                        final int   fTierNum    = tierNum;
-                        final int   fEnchantNum = enchantNum;
-                        final int   fTotalMats  = totalMats;
+                        final int fTierNum = tierNum;
+                        final int fEnchantNum = enchantNum;
+                        final int fTotalMats = totalMats;
 
-                        // Helper: compute focus for current spec + qty
                         Runnable updateFocusCell = () -> {
-                            int    liveSpec = specsPanel != null
-                                    ? lookupGearSpec(specsPanel, itemName) : 0;
-                            long   livePerItem = com.albionservant.data.FocusCostCalculator
-                                    .compute(fTierNum, fEnchantNum, fTotalMats, liveSpec);
-                            try {
-                                long qty1 = Math.max(1, Long.parseLong(
-                                        quantityField.getText().trim()));
-                                focusCell.setText(String.format("%,d", livePerItem * qty1));
-                            } catch (NumberFormatException ignored) {
-                                focusCell.setText(String.format("%,d", livePerItem));
-                            }
+                            int liveSpec = specsPanel != null
+                                    ? lookupGearSpec(
+                                    specsPanel,
+                                    itemName
+                            )
+                                    : 0;
+
+                            long livePerItem =
+                                    com.albionservant.data
+                                            .FocusCostCalculator
+                                            .compute(
+                                                    fTierNum,
+                                                    fEnchantNum,
+                                                    fTotalMats,
+                                                    liveSpec
+                                            );
+
+                            focusCell.setText(
+                                    String.format(
+                                            "%,d",
+                                            livePerItem
+                                                    * requestedCrafts
+                                                    .getAsLong()
+                                    )
+                            );
                         };
 
-                        // Initial value
                         updateFocusCell.run();
 
-                        // Update on quantity change
                         quantityField.textProperty().addListener(
-                                (obs, ov, nv) -> updateFocusCell.run());
-                        grid.add(focusCell, resultStartCol + i, gridRow);
+                                (observable, oldValue, newValue) ->
+                                        updateFocusCell.run()
+                        );
+
+                        grid.add(
+                                focusCell,
+                                resultStartCol + i,
+                                gridRow
+                        );
+
+                    } else if (i == 7) {
+                        grid.add(
+                                profitCell,
+                                resultStartCol + i,
+                                gridRow
+                        );
+
+                    } else if (i == 8) {
+                        grid.add(
+                                roiCell,
+                                resultStartCol + i,
+                                gridRow
+                        );
+
                     } else {
-                        grid.add(makeDataLabel(resultValues[i]), resultStartCol + i, gridRow);
+                        grid.add(
+                                makeDataLabel(resultValues[i]),
+                                resultStartCol + i,
+                                gridRow
+                        );
                     }
                 }
                 gridRow++;
