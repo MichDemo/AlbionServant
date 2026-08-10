@@ -1,6 +1,5 @@
 package com.albionservant.gui;
 
-import com.albionservant.AppConfig;
 import com.albionservant.data.RefineData;
 import com.albionservant.data.RefineData.MaterialFamily;
 import com.albionservant.integration.market.LocalMarketPriceService;
@@ -40,7 +39,7 @@ public class RefinePanel extends VBox {
     public RefinePanel() {
         setAlignment(Pos.TOP_CENTER);
         setPadding(new Insets(0));
-        setStyle("-fx-background-color: #ef4444;");
+        setStyle("-fx-background-color: #4b5058;");
 
         // ── Top bar ──────────────────────────────────────────────────────────
         Label breadcrumb = new Label("Refine");
@@ -48,9 +47,7 @@ public class RefinePanel extends VBox {
         HBox.setHgrow(breadcrumb, Priority.ALWAYS);
 
         Button backBtn = new Button("← Back");
-        backBtn.setStyle(AppConfig.BTN_PRIMARY);
-        backBtn.setOnMouseEntered(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY_HOVER));
-        backBtn.setOnMouseExited(e  -> backBtn.setStyle(AppConfig.BTN_PRIMARY));
+        backBtn.getStyleClass().add("button-primary");
         backBtn.setOnAction(e -> goBack());
 
         Region spacer = new Region();
@@ -58,7 +55,7 @@ public class RefinePanel extends VBox {
         topBar.getChildren().addAll(breadcrumb, spacer, backBtn);
         topBar.setPadding(new Insets(14, 28, 14, 28));
         topBar.setAlignment(Pos.CENTER_LEFT);
-        topBar.setStyle("-fx-background-color: #ef4444;");
+        topBar.setStyle("-fx-background-color: #4b5058;");
 
         contentArea.setFillWidth(true);
         VBox.setVgrow(contentArea, Priority.ALWAYS);
@@ -103,7 +100,7 @@ public class RefinePanel extends VBox {
         VBox centerBox = new VBox(24);
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setPadding(new Insets(60, 40, 60, 40));
-        centerBox.setStyle("-fx-background-color: #f1f5f9;");
+        centerBox.setStyle("-fx-background-color: #f0f1f3;");
         VBox.setVgrow(centerBox, Priority.ALWAYS);
 
         Label prompt = new Label("Choose a material to refine");
@@ -116,9 +113,7 @@ public class RefinePanel extends VBox {
             Button btn = new Button(family.displayName());
             btn.setPrefWidth(200);
             btn.setPrefHeight(70);
-            btn.setStyle(AppConfig.BTN_ROOT);
-            btn.setOnMouseEntered(e -> btn.setStyle(AppConfig.BTN_ROOT_HOVER));
-            btn.setOnMouseExited(e  -> btn.setStyle(AppConfig.BTN_ROOT));
+            btn.getStyleClass().add("button-root");
             btn.setOnAction(e -> selectMaterial(family));
             btnRow.getChildren().add(btn);
         }
@@ -139,16 +134,14 @@ public class RefinePanel extends VBox {
         // ── Red header ───────────────────────────────────────────────────────
         HBox redHeader = new HBox(15);
         redHeader.setPadding(new Insets(15, 40, 15, 40));
-        redHeader.setStyle("-fx-background-color: #ef4444;");
+        redHeader.setStyle("-fx-background-color: #4b5058;");
         redHeader.setAlignment(Pos.CENTER_LEFT);
         Label headerLbl = new Label("Refine  ►  " + family.displayName());
         headerLbl.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
         Region hSpacer = new Region();
         HBox.setHgrow(hSpacer, Priority.ALWAYS);
         Button backBtn = new Button("← Back");
-        backBtn.setStyle(AppConfig.BTN_PRIMARY);
-        backBtn.setOnMouseEntered(e -> backBtn.setStyle(AppConfig.BTN_PRIMARY_HOVER));
-        backBtn.setOnMouseExited(e  -> backBtn.setStyle(AppConfig.BTN_PRIMARY));
+        backBtn.getStyleClass().add("button-primary");
         backBtn.setOnAction(e -> goBack());
         redHeader.getChildren().addAll(headerLbl, hSpacer, backBtn);
 
@@ -167,7 +160,7 @@ public class RefinePanel extends VBox {
 
         ScrollPane contentScroll = new ScrollPane(mainArea);
         contentScroll.setFitToWidth(true);
-        contentScroll.setStyle("-fx-background-color: #ffffff;");
+        contentScroll.setStyle("-fx-background-color: #f6f7f8;");
         VBox.setVgrow(contentScroll, Priority.ALWAYS);
 
         detail.getChildren().addAll(redHeader, configSection, contentScroll);
@@ -181,7 +174,7 @@ public class RefinePanel extends VBox {
         section.setPadding(new Insets(20, 40, 20, 40));
         section.setAlignment(Pos.TOP_LEFT);
         section.setMaxWidth(Double.MAX_VALUE);
-        section.setStyle("-fx-background-color: #ffffff;");
+        section.setStyle("-fx-background-color: #f6f7f8;");
 
         // LEFT: material icon
         VBox left = new VBox(10);
@@ -216,7 +209,7 @@ public class RefinePanel extends VBox {
         }
 
         Label matLabel = new Label(family.rawLabel() + "  →  " + family.displayName());
-        matLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #64748b;");
+        matLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #707782;");
         left.getChildren().addAll(iconPane, matLabel);
 
         // CENTER: quantity, station fee, focus, bonus city
@@ -293,7 +286,7 @@ public class RefinePanel extends VBox {
         grid.setMaxWidth(Double.MAX_VALUE);
         grid.setVgap(4);
         grid.setHgap(0);
-        grid.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 20 40 20 40;");
+        grid.setStyle("-fx-background-color: #f4f5f6; -fx-padding: 20 40 20 40;");
 
         double colPct = 100.0 / totalCols;
         for (int i = 0; i < totalCols; i++) {
@@ -306,8 +299,8 @@ public class RefinePanel extends VBox {
 
         // ── Header row 0: group labels ──────────────────────────────────────
         grid.add(gridHdr("Tier", null),           0, 0);
-        addSpanHeader(grid, family.rawLabel(),     1, 0, 2, "#ef4444");
-        addSpanHeader(grid, "Prev. Refined",       3, 0, 2, "#64748b");
+        addSpanHeader(grid, family.rawLabel(),     1, 0, 2, "#4b5058");
+        addSpanHeader(grid, "Prev. Refined",       3, 0, 2, "#707782");
         addSpanHeader(grid, "Refined Output",      5, 0, 2, "#4ade80");
         int rc = 7;
         for (String h : resultHeaders) grid.add(gridHdr(h, null), rc++, 0);
@@ -329,7 +322,7 @@ public class RefinePanel extends VBox {
             StackPane iconPane = new StackPane();
             iconPane.setPrefSize(40, 40);
             iconPane.setMaxSize(40, 40);
-            iconPane.setStyle("-fx-background-color: #e2e8f0; -fx-background-radius: 4;");
+            iconPane.setStyle("-fx-background-color: #e6e8eb; -fx-background-radius: 4;");
 
             if (iconId != null) {
                 Image img = new Image(
@@ -348,7 +341,7 @@ public class RefinePanel extends VBox {
             }
 
             Label tierLbl = new Label("T" + tier);
-            tierLbl.setStyle("-fx-font-size: 11px; -fx-text-fill: #64748b;");
+            tierLbl.setStyle("-fx-font-size: 11px; -fx-text-fill: #707782;");
 
             VBox iconBox = new VBox(2, iconPane, tierLbl);
             iconBox.setAlignment(Pos.CENTER);
@@ -394,7 +387,7 @@ public class RefinePanel extends VBox {
                 };
 
                 Label encLbl = new Label(tierLabel);
-                encLbl.setStyle("-fx-font-size: 11px; -fx-text-fill: #94a3b8; -fx-padding: 1 4;");
+                encLbl.setStyle("-fx-font-size: 11px; -fx-text-fill: #9ca2ab; -fx-padding: 1 4;");
 
                 TextField rawApi = apiInput(bg);
                 TextField rawManual = editInput(bg);
@@ -560,7 +553,7 @@ public class RefinePanel extends VBox {
                                     + "-fx-text-fill: "
                                     + (profit >= 0.0
                                     ? "#15803d;"
-                                    : "#dc2626;")
+                                    : "#5d636d;")
                     );
                 };
 
@@ -603,12 +596,12 @@ public class RefinePanel extends VBox {
         HBox bar = new HBox(0);
         bar.setFillHeight(true);
         bar.setMaxWidth(Double.MAX_VALUE);
-        bar.setStyle("-fx-background-color: #1e293b; -fx-padding: 14 40 14 40;");
+        bar.setStyle("-fx-background-color: #202328; -fx-padding: 14 40 14 40;");
         bar.setAlignment(Pos.CENTER_LEFT);
 
         // Title cell on the left
         Label title = new Label("Quantity\nNeeded");
-        title.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #94a3b8;"
+        title.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #9ca2ab;"
                 + "-fx-text-alignment: center; -fx-alignment: center;");
         title.setPrefWidth(80);
         title.setMinWidth(80);
@@ -631,7 +624,7 @@ public class RefinePanel extends VBox {
                 case 6 -> "#BE6A2A";   // orange — Master
                 case 7 -> "#C8A940";   // yellow — Grandmaster
                 case 8 -> "#5a5a5a";   // silver — Elder
-                default -> "#1e293b";
+                default -> "#202328";
             };
 
             VBox cell = new VBox(6);
@@ -643,7 +636,7 @@ public class RefinePanel extends VBox {
 
             // Tier label
             Label tierLbl = new Label("T" + tier);
-            tierLbl.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #e2e8f0;");
+            tierLbl.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #e6e8eb;");
 
             // Icons row
             HBox iconsRow = new HBox(6);
@@ -651,7 +644,7 @@ public class RefinePanel extends VBox {
 
             StackPane rawIcon = tinyIcon(rawIconId);
             Label arrow = new Label("→");
-            arrow.setStyle("-fx-text-fill: #64748b; -fx-font-size: 14px;");
+            arrow.setStyle("-fx-text-fill: #707782; -fx-font-size: 14px;");
             StackPane refIcon = tinyIcon(refinedIconId);
 
             iconsRow.getChildren().addAll(rawIcon, arrow, refIcon);
@@ -660,9 +653,9 @@ public class RefinePanel extends VBox {
             HBox qtyRow = new HBox(8);
             qtyRow.setAlignment(Pos.CENTER);
             Label rawQty = new Label("0");
-            rawQty.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #e2e8f0;");
+            rawQty.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #e6e8eb;");
             Label slash = new Label("/");
-            slash.setStyle("-fx-text-fill: #475569; -fx-font-size: 14px;");
+            slash.setStyle("-fx-text-fill: #41464e; -fx-font-size: 14px;");
             Label refQty = new Label("0");
             refQty.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4ade80;");
             qtyRow.getChildren().addAll(rawQty, slash, refQty);
@@ -691,7 +684,7 @@ public class RefinePanel extends VBox {
 
     private String resultCellStyle(String bg) {
         return "-fx-font-size: 12px;"
-                + "-fx-text-fill: #475569;"
+                + "-fx-text-fill: #41464e;"
                 + "-fx-alignment: center;"
                 + "-fx-background-color: "
                 + bg
@@ -712,7 +705,7 @@ public class RefinePanel extends VBox {
     private Label gridHdr(String text, String color) {
         Label l = new Label(text);
         l.setStyle("-fx-font-weight: bold; -fx-text-fill: "
-                + (color != null ? color : "#ef4444")
+                + (color != null ? color : "#4b5058")
                 + "; -fx-font-size: 12px; -fx-padding: 6 4;");
         l.setMaxWidth(Double.MAX_VALUE);
         l.setAlignment(Pos.CENTER);
@@ -731,7 +724,7 @@ public class RefinePanel extends VBox {
 
     private Label subHdr(String text) {
         Label l = new Label(text);
-        l.setStyle("-fx-font-size: 11px; -fx-text-fill: #94a3b8; -fx-padding: 2 4;");
+        l.setStyle("-fx-font-size: 11px; -fx-text-fill: #9ca2ab; -fx-padding: 2 4;");
         l.setMaxWidth(Double.MAX_VALUE);
         l.setAlignment(Pos.CENTER);
         return l;
@@ -763,7 +756,7 @@ public class RefinePanel extends VBox {
         tf.setEditable(false);
         tf.setDisable(true);
         tf.setStyle("-fx-font-size: 12px; -fx-alignment: center;"
-                + "-fx-background-color: #e8e8e8; -fx-text-fill: #aaaaaa;");
+                + "-fx-background-color: #e4e6e9; -fx-text-fill: #9ba0a8;");
         tf.setMaxWidth(Double.MAX_VALUE);
         return tf;
     }
@@ -793,7 +786,7 @@ public class RefinePanel extends VBox {
 
     private Label cfgLabel(String text) {
         Label l = new Label(text);
-        l.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+        l.setStyle("-fx-font-size: 13px; -fx-text-fill: #2d3136;");
         return l;
     }
 

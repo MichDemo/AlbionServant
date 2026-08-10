@@ -1,0 +1,39 @@
+# item display name	crafted tier	secondary item id	secondary display name	count	returnable
+# Exact per-recipe Shapeshifter mapping generated from items.xml.
+# Secondary tiers are T3/T5/T7 and are intentionally independent from crafted tier.
+# Progression: T4->T3x2, T5->T5x1, T6->T5x2, T7->T7x1, T8->T7x2.
+Bloodmoon Staff	4	T3_ALCHEMY_RARE_WEREWOLF	Rugged Werewolf Fangs	2	false
+Bloodmoon Staff	5	T5_ALCHEMY_RARE_WEREWOLF	Fine Werewolf Fangs	1	false
+Bloodmoon Staff	6	T5_ALCHEMY_RARE_WEREWOLF	Fine Werewolf Fangs	2	false
+Bloodmoon Staff	7	T7_ALCHEMY_RARE_WEREWOLF	Excellent Werewolf Fangs	1	false
+Bloodmoon Staff	8	T7_ALCHEMY_RARE_WEREWOLF	Excellent Werewolf Fangs	2	false
+Earthrune Staff	4	T3_ALCHEMY_RARE_ELEMENTAL	Rugged Runestone Tooth	2	false
+Earthrune Staff	5	T5_ALCHEMY_RARE_ELEMENTAL	Fine Runestone Tooth	1	false
+Earthrune Staff	6	T5_ALCHEMY_RARE_ELEMENTAL	Fine Runestone Tooth	2	false
+Earthrune Staff	7	T7_ALCHEMY_RARE_ELEMENTAL	Excellent Runestone Tooth	1	false
+Earthrune Staff	8	T7_ALCHEMY_RARE_ELEMENTAL	Excellent Runestone Tooth	2	false
+Hellspawn Staff	4	T3_ALCHEMY_RARE_IMP	Rugged Imp's Horn	2	false
+Hellspawn Staff	5	T5_ALCHEMY_RARE_IMP	Fine Imp's Horn	1	false
+Hellspawn Staff	6	T5_ALCHEMY_RARE_IMP	Fine Imp's Horn	2	false
+Hellspawn Staff	7	T7_ALCHEMY_RARE_IMP	Excellent Imp's Horn	1	false
+Hellspawn Staff	8	T7_ALCHEMY_RARE_IMP	Excellent Imp's Horn	2	false
+Lightcaller	4	T3_ALCHEMY_RARE_EAGLE	Rugged Dawnfeather	2	false
+Lightcaller	5	T5_ALCHEMY_RARE_EAGLE	Fine Dawnfeather	1	false
+Lightcaller	6	T5_ALCHEMY_RARE_EAGLE	Fine Dawnfeather	2	false
+Lightcaller	7	T7_ALCHEMY_RARE_EAGLE	Excellent Dawnfeather	1	false
+Lightcaller	8	T7_ALCHEMY_RARE_EAGLE	Excellent Dawnfeather	2	false
+Primal Staff	4	T3_ALCHEMY_RARE_DIREBEAR	Rugged Spirit Paws	2	false
+Primal Staff	5	T5_ALCHEMY_RARE_DIREBEAR	Fine Spirit Paws	1	false
+Primal Staff	6	T5_ALCHEMY_RARE_DIREBEAR	Fine Spirit Paws	2	false
+Primal Staff	7	T7_ALCHEMY_RARE_DIREBEAR	Excellent Spirit Paws	1	false
+Primal Staff	8	T7_ALCHEMY_RARE_DIREBEAR	Excellent Spirit Paws	2	false
+Prowling Staff	4	T3_ALCHEMY_RARE_PANTHER	Rugged Shadow Claws	2	false
+Prowling Staff	5	T5_ALCHEMY_RARE_PANTHER	Fine Shadow Claws	1	false
+Prowling Staff	6	T5_ALCHEMY_RARE_PANTHER	Fine Shadow Claws	2	false
+Prowling Staff	7	T7_ALCHEMY_RARE_PANTHER	Excellent Shadow Claws	1	false
+Prowling Staff	8	T7_ALCHEMY_RARE_PANTHER	Excellent Shadow Claws	2	false
+Rootbound Staff	4	T3_ALCHEMY_RARE_ENT	Rugged Sylvian Root	2	false
+Rootbound Staff	5	T5_ALCHEMY_RARE_ENT	Fine Sylvian Root	1	false
+Rootbound Staff	6	T5_ALCHEMY_RARE_ENT	Fine Sylvian Root	2	false
+Rootbound Staff	7	T7_ALCHEMY_RARE_ENT	Excellent Sylvian Root	1	false
+Rootbound Staff	8	T7_ALCHEMY_RARE_ENT	Excellent Sylvian Root	2	false

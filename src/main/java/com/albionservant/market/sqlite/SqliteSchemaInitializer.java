@@ -115,6 +115,7 @@ public class SqliteSchemaInitializer {
         jdbc.execute("CREATE INDEX IF NOT EXISTS idx_orders_item ON market_orders(server, item_id, location_id, quality_level, enchantment_level)");
         jdbc.execute("CREATE INDEX IF NOT EXISTS idx_prices_item ON market_prices_latest(server, item_id)");
         jdbc.execute("CREATE INDEX IF NOT EXISTS idx_history_item ON market_history(server, albion_id, location_id, quality_level, timescale, timestamp)");
+        jdbc.execute("CREATE INDEX IF NOT EXISTS idx_history_demand ON market_history(server, albion_id, location_id, quality_level, timescale, observed_at)");
         jdbc.execute("CREATE INDEX IF NOT EXISTS idx_gold_timestamp ON gold_prices(server, timestamp)");
 
         long cutoff = Instant.now()

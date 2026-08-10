@@ -22,12 +22,14 @@ C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\market\ser
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\aodp\dto\AodpMarketOrder.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\CraftQuantityData.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\aodp\MarketHistoryIngestionService.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\CraftingJournalData.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\config\LocalIntegrationProperties.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\aodp\dto\AodpMarketUpload.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\FocusCostCalculator.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\market\model\RawMarketEventDocument.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\market\service\MarketPriceView.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\integration\aodp\AodpMessageRouter.java
+C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\data\CraftingNutritionData.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\TopNavigationBar.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\RefinePanel.java
 C:\Users\micha\Pictures\AlbionServant\src\main\java\com\albionservant\gui\RequirementsCalculatorPanel.java

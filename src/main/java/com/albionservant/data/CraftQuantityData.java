@@ -3,6 +3,7 @@ package com.albionservant.data;
 import java.util.HashMap;
 import java.util.Map;
 
+// ALBIONSERVANT_BOW_RECIPE_32_PLANKS_PATCH_V1
 public class CraftQuantityData {
 
             public record Quantities(int mat1, int mat2) {
@@ -17,7 +18,8 @@ public class CraftQuantityData {
 
             // Special cases
             private static final Quantities Q_4_4   = new Quantities(4,  4);   // Tome of Spells (offhand)
-            private static final Quantities Q_28_0  = new Quantities(28, 0);   // Bow (2H single-mat, planks only)
+            private static final Quantities Q_28_0  = new Quantities(28, 0);   // 2H single-mat fallback, planks only
+            private static final Quantities Q_32_0  = new Quantities(32, 0);   // Bows (2H, planks only)
             private static final Quantities Q_24_8  = new Quantities(24, 8);   // Spear/Crossbow (2H mixed)
             private static final Quantities Q_8_8   = new Quantities(8,  8);   // Salads, some foods
 
@@ -153,14 +155,14 @@ public class CraftQuantityData {
                 // ══════════════════════════════════════════════════════════════════════
                 //  HUNTER — Bows (2H, Planks only)
                 // ══════════════════════════════════════════════════════════════════════
-                put("Bow",                 Q_28_0);   // 28 Planks (confirmed from forum: Adept's Bow = 28 T4 wood)
-                put("Warbow",              Q_28_0);
-                put("Longbow",             Q_28_0);
-                put("Whispering Bow",      Q_28_0);
-                put("Wailing Bow",         Q_28_0);
-                put("Bow of Badon",        Q_28_0);
-                put("Mistpiercer",         Q_28_0);
-                put("Skystrider Bow",      Q_28_0);
+                put("Bow",                 Q_32_0);   // 32 Planks
+                put("Warbow",                 Q_32_0);   // 32 Planks
+                put("Longbow",                 Q_32_0);   // 32 Planks
+                put("Whispering Bow",                 Q_32_0);   // 32 Planks
+                put("Wailing Bow",                 Q_32_0);   // 32 Planks
+                put("Bow of Badon",                 Q_32_0);   // 32 Planks
+                put("Mistpiercer",                 Q_32_0);   // 32 Planks
+                put("Skystrider Bow",                 Q_32_0);   // 32 Planks
 
                 // ══════════════════════════════════════════════════════════════════════
                 //  HUNTER — Daggers (1H: 16 Metal + 8 Leather; pair/claws 2H: 20+12)

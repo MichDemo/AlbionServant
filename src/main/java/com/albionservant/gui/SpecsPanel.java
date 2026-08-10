@@ -1,6 +1,5 @@
 package com.albionservant.gui;
 
-import com.albionservant.AppConfig;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -129,7 +128,7 @@ public class SpecsPanel extends VBox {
     private String selectedGroup   = "Swords";
 
     public SpecsPanel() {
-        setStyle("-fx-background-color: #f1f5f9;");
+        setStyle("-fx-background-color: #f0f1f3;");
         setFillWidth(true);
         VBox.setVgrow(this, Priority.ALWAYS);
 
@@ -174,19 +173,19 @@ public class SpecsPanel extends VBox {
 
     private VBox buildLeftNav() {
         VBox nav = new VBox(0);
-        nav.setStyle("-fx-background-color: #1e293b;");
+        nav.setStyle("-fx-background-color: #202328;");
         nav.setFillWidth(true);
 
         Label title = new Label("Destiny Board");
-        title.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #e2e8f0;"
-                + "-fx-padding: 18 16 14 16; -fx-background-color: #0f172a;");
+        title.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #e6e8eb;"
+                + "-fx-padding: 18 16 14 16; -fx-background-color: #17191d;");
         title.setMaxWidth(Double.MAX_VALUE);
         nav.getChildren().add(title);
 
         for (String sectionName : TREE.keySet()) {
             Label sectionLbl = new Label(sectionName.toUpperCase());
             sectionLbl.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;"
-                    + "-fx-text-fill: #64748b; -fx-padding: 12 16 4 16;");
+                    + "-fx-text-fill: #707782; -fx-padding: 12 16 4 16;");
             sectionLbl.setMaxWidth(Double.MAX_VALUE);
             nav.getChildren().add(sectionLbl);
 
@@ -209,13 +208,13 @@ public class SpecsPanel extends VBox {
         ScrollPane scroll = new ScrollPane(nav);
         scroll.setFitToWidth(true);
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scroll.setStyle("-fx-background-color: #1e293b;");
+        scroll.setStyle("-fx-background-color: #202328;");
         VBox.setVgrow(scroll, Priority.ALWAYS);
 
         VBox wrapper = new VBox(scroll);
         wrapper.setFillWidth(true);
         VBox.setVgrow(wrapper, Priority.ALWAYS);
-        wrapper.setStyle("-fx-background-color: #1e293b;");
+        wrapper.setStyle("-fx-background-color: #202328;");
         wrapper.setPrefWidth(220);
         return wrapper;
     }
@@ -226,7 +225,7 @@ public class SpecsPanel extends VBox {
         VBox right = new VBox(0);
         right.setFillWidth(true);
         VBox.setVgrow(right, Priority.ALWAYS);
-        right.setStyle("-fx-background-color: #f8fafc;");
+        right.setStyle("-fx-background-color: #f7f8f9;");
 
         List<String> items = TREE.getOrDefault(selectedSection, new LinkedHashMap<>())
                 .getOrDefault(selectedGroup, List.of());
@@ -235,25 +234,23 @@ public class SpecsPanel extends VBox {
         HBox header = new HBox(10);
         header.setPadding(new Insets(20, 32, 16, 32));
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setStyle("-fx-background-color: #1e293b;");
+        header.setStyle("-fx-background-color: #202328;");
 
         Label sectionLbl = new Label(selectedSection + "  \u25ba  ");
-        sectionLbl.setStyle("-fx-font-size: 14px; -fx-text-fill: #64748b;");
+        sectionLbl.setStyle("-fx-font-size: 14px; -fx-text-fill: #707782;");
         Label groupLbl = new Label(selectedGroup);
         groupLbl.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ffffff;");
         Region hSpacer = new Region();
         HBox.setHgrow(hSpacer, Priority.ALWAYS);
 
         Button resetBtn = new Button("Reset Group");
-        resetBtn.setStyle(AppConfig.BTN_SECONDARY);
-        resetBtn.setOnMouseEntered(e -> resetBtn.setStyle(AppConfig.BTN_SECONDARY_HOVER));
-        resetBtn.setOnMouseExited(e  -> resetBtn.setStyle(AppConfig.BTN_SECONDARY));
+        resetBtn.getStyleClass().add("button-secondary");
         resetBtn.setOnAction(e -> resetGroup());
         header.getChildren().addAll(sectionLbl, groupLbl, hSpacer, resetBtn);
 
         ScrollPane itemScroll = new ScrollPane(buildItemGrid(items));
         itemScroll.setFitToWidth(true);
-        itemScroll.setStyle("-fx-background-color: #f8fafc;");
+        itemScroll.setStyle("-fx-background-color: #f7f8f9;");
         VBox.setVgrow(itemScroll, Priority.ALWAYS);
 
         right.getChildren().addAll(header, itemScroll);
@@ -270,13 +267,13 @@ public class SpecsPanel extends VBox {
         // Column headers
         HBox headerRow = new HBox(0);
         headerRow.setPadding(new Insets(0, 0, 4, 0));
-        Label itemHdr = styledLabel("Item",                   360, "#64748b", true);
-        Label specHdr = styledLabel("Spec Level  (0 - 100)", 200, "#64748b", true);
+        Label itemHdr = styledLabel("Item",                   360, "#707782", true);
+        Label specHdr = styledLabel("Spec Level  (0 - 100)", 200, "#707782", true);
         headerRow.getChildren().addAll(itemHdr, specHdr);
         grid.getChildren().add(headerRow);
 
         Separator sep = new Separator();
-        sep.setStyle("-fx-background-color: #e2e8f0;");
+        sep.setStyle("-fx-background-color: #e6e8eb;");
         grid.getChildren().add(sep);
 
         Map<String, Integer> groupVals = specValues
@@ -286,14 +283,14 @@ public class SpecsPanel extends VBox {
         for (int i = 0; i < items.size(); i++) {
             String item = items.get(i);
             int    spec = groupVals.getOrDefault(item, 0);
-            String bg   = (i % 2 == 0) ? "#ffffff" : "#f8fafc";
+            String bg   = (i % 2 == 0) ? "#ffffff" : "#f7f8f9";
 
             HBox row = new HBox(0);
             row.setAlignment(Pos.CENTER_LEFT);
             row.setMaxWidth(Double.MAX_VALUE);
             row.setStyle("-fx-background-color: " + bg + "; -fx-padding: 6 8;");
 
-            Label nameLbl = styledLabel(item, 360, "#1e293b", false);
+            Label nameLbl = styledLabel(item, 360, "#202328", false);
 
             Slider slider = new Slider(0, 100, spec);
             slider.setPrefWidth(160);
@@ -338,13 +335,13 @@ public class SpecsPanel extends VBox {
     }
 
     private String specColour(int spec) {
-        if (spec == 0)   return "#64748b";
+        if (spec == 0)   return "#707782";
         if (spec <= 20)  return "#22c55e";
         if (spec <= 40)  return "#3b82f6";
         if (spec <= 60)  return "#a855f7";
         if (spec <= 80)  return "#f97316";
-        if (spec < 100)  return "#eab308";
-        return "#ef4444";
+        if (spec < 100)  return "#50565f";
+        return "#4b5058";
     }
 
     private void applyNavStyle(Button btn, boolean selected) {

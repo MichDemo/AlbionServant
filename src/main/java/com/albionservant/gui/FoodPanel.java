@@ -1,6 +1,5 @@
 package com.albionservant.gui;
 
-import com.albionservant.AppConfig;
 import com.albionservant.data.FoodRecipeData;
 import com.albionservant.data.FoodRecipeData.Ingredient;
 import com.albionservant.data.FoodRecipeData.Recipe;
@@ -30,7 +29,7 @@ public class FoodPanel extends VBox {
     public FoodPanel() {
         setAlignment(Pos.TOP_CENTER);
         setPadding(new Insets(0));
-        setStyle("-fx-background-color: #ef4444;");
+        setStyle("-fx-background-color: #4b5058;");
 
         // ── Top bar (breadcrumb + back) ──────────────────────────────────────
         Label breadcrumbLabel = new Label("Food Categories");
@@ -38,9 +37,7 @@ public class FoodPanel extends VBox {
         HBox.setHgrow(breadcrumbLabel, Priority.ALWAYS);
 
         Button backButton = new Button("← Back");
-        backButton.setStyle(AppConfig.BTN_PRIMARY);
-        backButton.setOnMouseEntered(e -> backButton.setStyle(AppConfig.BTN_PRIMARY_HOVER));
-        backButton.setOnMouseExited(e  -> backButton.setStyle(AppConfig.BTN_PRIMARY));
+        backButton.getStyleClass().add("button-primary");
         backButton.setOnAction(e -> goBack());
 
         Region spacer = new Region();
@@ -49,7 +46,7 @@ public class FoodPanel extends VBox {
         internalTopBar.getChildren().addAll(breadcrumbLabel, spacer, backButton);
         internalTopBar.setPadding(new Insets(14, 28, 14, 28));
         internalTopBar.setAlignment(Pos.CENTER_LEFT);
-        internalTopBar.setStyle("-fx-background-color: #ef4444;");
+        internalTopBar.setStyle("-fx-background-color: #4b5058;");
 
         contentArea.setFillWidth(true);
         VBox.setVgrow(contentArea, Priority.ALWAYS);
@@ -118,7 +115,7 @@ public class FoodPanel extends VBox {
         VBox center = new VBox(24);
         center.setAlignment(Pos.CENTER);
         center.setPadding(new Insets(50, 40, 50, 40));
-        center.setStyle("-fx-background-color: #f1f5f9;");
+        center.setStyle("-fx-background-color: #f0f1f3;");
         VBox.setVgrow(center, Priority.ALWAYS);
 
         Label prompt = new Label("Choose a food category");
@@ -143,9 +140,7 @@ public class FoodPanel extends VBox {
             Button btn = new Button(cat);
             btn.setPrefWidth(195);
             btn.setPrefHeight(65);
-            btn.setStyle(AppConfig.BTN_ROOT);
-            btn.setOnMouseEntered(e -> btn.setStyle(AppConfig.BTN_ROOT_HOVER));
-            btn.setOnMouseExited(e  -> btn.setStyle(AppConfig.BTN_ROOT));
+            btn.getStyleClass().add("button-root");
             btn.setOnAction(e -> navigate(cat));
             row.getChildren().add(btn);
         }
@@ -157,11 +152,11 @@ public class FoodPanel extends VBox {
     private void showItemList(String category) {
         VBox page = new VBox(10);
         page.setPadding(new Insets(24, 28, 24, 28));
-        page.setStyle("-fx-background-color: #f1f5f9;");
+        page.setStyle("-fx-background-color: #f0f1f3;");
         VBox.setVgrow(page, Priority.ALWAYS);
 
         Label header = new Label(category);
-        header.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
+        header.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #202328;");
         page.getChildren().add(header);
 
         List<String> items = FoodRecipeData.getCategoryChildren(category);
@@ -169,9 +164,7 @@ public class FoodPanel extends VBox {
             Button btn = new Button(item);
             btn.setPrefWidth(230);
             btn.setPrefHeight(54);
-            btn.setStyle(AppConfig.BTN_ACTIVE);
-            btn.setOnMouseEntered(e -> btn.setStyle(AppConfig.BTN_ACTIVE_HOVER));
-            btn.setOnMouseExited(e  -> btn.setStyle(AppConfig.BTN_ACTIVE));
+            btn.getStyleClass().add("button-active");
             btn.setOnAction(e -> navigate(item));
         }
 
@@ -182,9 +175,7 @@ public class FoodPanel extends VBox {
             Button btn = new Button(item);
             btn.setPrefWidth(230);
             btn.setPrefHeight(54);
-            btn.setStyle(AppConfig.BTN_ACTIVE);
-            btn.setOnMouseEntered(e -> btn.setStyle(AppConfig.BTN_ACTIVE_HOVER));
-            btn.setOnMouseExited(e  -> btn.setStyle(AppConfig.BTN_ACTIVE));
+            btn.getStyleClass().add("button-active");
             btn.setOnAction(e -> navigate(item));
             flow.getChildren().add(btn);
         }
@@ -203,7 +194,7 @@ public class FoodPanel extends VBox {
 
         VBox page = new VBox(0);
         page.setFillWidth(true);
-        page.setStyle("-fx-background-color: #ffffff;");
+        page.setStyle("-fx-background-color: #f6f7f8;");
         VBox.setVgrow(page, Priority.ALWAYS);
 
         // ── Section A: top config bar ────────────────────────────────────────
@@ -211,7 +202,7 @@ public class FoodPanel extends VBox {
         page.getChildren().add(configBar);
 
         Separator sep1 = new Separator();
-        sep1.setStyle("-fx-background-color: #e2e8f0;");
+        sep1.setStyle("-fx-background-color: #e6e8eb;");
         page.getChildren().add(sep1);
 
         // ── Section B: main price grid ───────────────────────────────────────
@@ -219,7 +210,7 @@ public class FoodPanel extends VBox {
         page.getChildren().add(gridSection);
 
         Separator sep2 = new Separator();
-        sep2.setStyle("-fx-background-color: #e2e8f0;");
+        sep2.setStyle("-fx-background-color: #e6e8eb;");
         page.getChildren().add(sep2);
 
         // ── Section C: fish sauce enchant grid ───────────────────────────────
@@ -239,15 +230,15 @@ public class FoodPanel extends VBox {
         HBox bar = new HBox(30);
         bar.setPadding(new Insets(18, 28, 18, 28));
         bar.setAlignment(Pos.CENTER_LEFT);
-        bar.setStyle("-fx-background-color: #f8fafc;");
+        bar.setStyle("-fx-background-color: #f7f8f9;");
 
         // Item info
         VBox nameBox = new VBox(2);
         Label nameLabel = new Label(recipe.name());
-        nameLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
+        nameLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #202328;");
         Label tierLabel = new Label("Tier " + recipe.tier()
                 + "   •   Batch: 10 items");
-        tierLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #64748b;");
+        tierLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #707782;");
         nameBox.getChildren().addAll(nameLabel, tierLabel);
         HBox.setHgrow(nameBox, Priority.ALWAYS);
 
@@ -292,7 +283,7 @@ public class FoodPanel extends VBox {
         grid.setMaxWidth(Double.MAX_VALUE);
         grid.setVgap(0);
         grid.setHgap(0);
-        grid.setStyle("-fx-background-color: #ffffff;");
+        grid.setStyle("-fx-background-color: #f6f7f8;");
 
         for (int i = 0; i < totalCols; i++) {
             ColumnConstraints cc = new ColumnConstraints();
@@ -309,7 +300,7 @@ public class FoodPanel extends VBox {
         int col = 1;
         for (Ingredient ing : ingredients) {
             Label lbl = new Label(ing.name() + " ×" + ing.quantity());
-            lbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 12px;");
+            lbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #4b5058; -fx-font-size: 12px;");
             lbl.setMaxWidth(Double.MAX_VALUE);
             lbl.setAlignment(Pos.CENTER);
             lbl.setPadding(new Insets(6, 4, 6, 4));
@@ -343,7 +334,7 @@ public class FoodPanel extends VBox {
         }
 
         // ── Row 2: "API Price" row (global best price from API) ───────────────
-        grid.add(boldCell("API Price", "#334155"), 0, 2);
+        grid.add(boldCell("API Price", "#2b2f35"), 0, 2);
         col = 1;
         for (int i = 0; i < ingCols + sauceCols; i++) {
             grid.add(apiField(), col++, 2);
@@ -356,11 +347,11 @@ public class FoodPanel extends VBox {
         int gridRow = 3;
         for (int c = 0; c < CITIES.size(); c++) {
             String city = CITIES.get(c);
-            String rowBg = (c % 2 == 0) ? "#f8fafc" : "#ffffff";
+            String rowBg = (c % 2 == 0) ? "#f7f8f9" : "#ffffff";
 
             Label cityLbl = new Label(city);
             cityLbl.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;"
-                    + "-fx-text-fill: #1e293b; -fx-padding: 6 8 6 8;"
+                    + "-fx-text-fill: #202328; -fx-padding: 6 8 6 8;"
                     + "-fx-background-color: " + rowBg + ";");
             cityLbl.setMaxWidth(Double.MAX_VALUE);
             grid.add(cityLbl, 0, gridRow);
@@ -391,7 +382,7 @@ public class FoodPanel extends VBox {
     private VBox buildFishSauceSection() {
         VBox box = new VBox(8);
         box.setPadding(new Insets(16, 28, 0, 28));
-        box.setStyle("-fx-background-color: #ffffff;");
+        box.setStyle("-fx-background-color: #f6f7f8;");
 
         Label title = new Label("🐟 Fish Sauce Enchanting  —  optional, shown per city");
         title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0ea5e9;");
@@ -438,7 +429,7 @@ public class FoodPanel extends VBox {
             String rowBg = (c % 2 == 0) ? "#f0f9ff" : "#e0f2fe";
             Label cityLbl = new Label(city);
             cityLbl.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;"
-                    + "-fx-text-fill: #1e293b; -fx-padding: 6 8 6 8;"
+                    + "-fx-text-fill: #202328; -fx-padding: 6 8 6 8;"
                     + "-fx-background-color: " + rowBg + ";");
             cityLbl.setMaxWidth(Double.MAX_VALUE);
             grid.add(cityLbl, 0, c + 1);
@@ -459,10 +450,10 @@ public class FoodPanel extends VBox {
     private VBox buildDemandSection() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(20, 28, 30, 28));
-        box.setStyle("-fx-background-color: #f8fafc;");
+        box.setStyle("-fx-background-color: #f7f8f9;");
 
         Label title = new Label("Calculation results / summary will appear here once prices are entered");
-        title.setStyle("-fx-font-size: 14px; -fx-text-fill: #94a3b8;");
+        title.setStyle("-fx-font-size: 14px; -fx-text-fill: #9ca2ab;");
         box.getChildren().add(title);
         return box;
     }
@@ -471,7 +462,7 @@ public class FoodPanel extends VBox {
 
     private Label headerCell(String text) {
         Label l = new Label(text);
-        l.setStyle("-fx-font-weight: bold; -fx-text-fill: #ef4444; -fx-font-size: 12px;"
+        l.setStyle("-fx-font-weight: bold; -fx-text-fill: #4b5058; -fx-font-size: 12px;"
                 + "-fx-padding: 6 4 6 4;");
         l.setMaxWidth(Double.MAX_VALUE);
         l.setAlignment(Pos.CENTER);
@@ -480,7 +471,7 @@ public class FoodPanel extends VBox {
 
     private Label subHeaderCell(String text) {
         Label l = new Label(text);
-        l.setStyle("-fx-font-size: 11px; -fx-text-fill: #94a3b8; -fx-padding: 3 4 3 4;");
+        l.setStyle("-fx-font-size: 11px; -fx-text-fill: #9ca2ab; -fx-padding: 3 4 3 4;");
         l.setMaxWidth(Double.MAX_VALUE);
         l.setAlignment(Pos.CENTER);
         return l;
@@ -496,7 +487,7 @@ public class FoodPanel extends VBox {
 
     private Label resultCell(String text) {
         Label l = new Label(text);
-        l.setStyle("-fx-font-size: 12px; -fx-text-fill: #64748b; -fx-padding: 4 4 4 4;");
+        l.setStyle("-fx-font-size: 12px; -fx-text-fill: #707782; -fx-padding: 4 4 4 4;");
         l.setMaxWidth(Double.MAX_VALUE);
         l.setAlignment(Pos.CENTER);
         return l;
@@ -504,7 +495,7 @@ public class FoodPanel extends VBox {
 
     private Label calcCell(String text, String bgColor) {
         Label l = new Label(text);
-        l.setStyle("-fx-font-size: 12px; -fx-text-fill: #475569; -fx-padding: 4 4 4 4;"
+        l.setStyle("-fx-font-size: 12px; -fx-text-fill: #41464e; -fx-padding: 4 4 4 4;"
                 + "-fx-background-color: " + bgColor + ";");
         l.setMaxWidth(Double.MAX_VALUE);
         l.setAlignment(Pos.CENTER);
@@ -529,7 +520,7 @@ public class FoodPanel extends VBox {
 
     private VBox labeledField(String label, String defaultVal) {
         Label lbl = new Label(label);
-        lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #64748b;");
+        lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #707782;");
         TextField tf = new TextField(defaultVal);
         tf.setStyle("-fx-font-size: 13px;");
         tf.setPrefWidth(90);
@@ -539,7 +530,7 @@ public class FoodPanel extends VBox {
 
     private VBox labeledCombo(String label, List<String> options) {
         Label lbl = new Label(label);
-        lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #64748b;");
+        lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #707782;");
         ComboBox<String> cb = new ComboBox<>();
         cb.getItems().addAll(options);
         cb.setValue(options.get(0));

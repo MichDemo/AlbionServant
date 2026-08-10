@@ -1,0 +1,516 @@
+/* ALBIONSERVANT_GRAY_MINIMAL_THEME_V1
+ * Graphite / minimal visual system.
+ * Inline tier and enchantment colours remain authoritative by design.
+ */
+
+.albion-minimal-root {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-background-color: #15171a;
+    -fx-focus-color: #a9afb8;
+    -fx-faint-focus-color: rgba(169, 175, 184, 0.18);
+    -fx-accent: #666d77;
+}
+
+/* Surfaces */
+.albion-minimal-root .scroll-pane,
+.albion-minimal-root .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.albion-minimal-root .separator .line {
+    -fx-border-color: #d7dade;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* Buttons keep their role-specific inline fills, while geometry and depth
+   become consistent throughout the application. */
+.albion-minimal-root .button {
+    -fx-background-insets: 0;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.16), 5, 0.08, 0, 1);
+}
+
+.albion-minimal-root .button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.23), 8, 0.10, 0, 2);
+}
+
+.albion-minimal-root .button:pressed {
+    -fx-translate-y: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 3, 0.04, 0, 0);
+}
+
+.albion-minimal-root .button:disabled {
+    -fx-opacity: 0.48;
+    -fx-effect: none;
+}
+
+/* Inputs */
+.albion-minimal-root .text-field,
+.albion-minimal-root .combo-box-base,
+.albion-minimal-root .choice-box,
+.albion-minimal-root .spinner {
+    -fx-background-color: #eef0f2;
+    -fx-text-fill: #25292e;
+    -fx-prompt-text-fill: #8a9099;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-border-color: #cfd3d8;
+    -fx-border-width: 1;
+    -fx-padding: 4 8;
+    -fx-highlight-fill: #737a84;
+    -fx-highlight-text-fill: #ffffff;
+}
+
+.albion-minimal-root .text-field:hover,
+.albion-minimal-root .combo-box-base:hover,
+.albion-minimal-root .choice-box:hover,
+.albion-minimal-root .spinner:hover {
+    -fx-border-color: #aeb4bc;
+}
+
+.albion-minimal-root .text-field:focused,
+.albion-minimal-root .combo-box-base:focused,
+.albion-minimal-root .choice-box:focused,
+.albion-minimal-root .spinner:focused {
+    -fx-background-color: #f7f8f9;
+    -fx-border-color: #777e88;
+    -fx-effect: dropshadow(gaussian, rgba(74, 80, 88, 0.18), 6, 0.05, 0, 0);
+}
+
+.albion-minimal-root .combo-box-base .arrow,
+.albion-minimal-root .choice-box .open-button .arrow {
+    -fx-background-color: #646b75;
+}
+
+.albion-minimal-root .combo-box-popup .list-view,
+.albion-minimal-root .context-menu {
+    -fx-background-color: #f7f8f9;
+    -fx-border-color: #c9cdd2;
+    -fx-border-radius: 7;
+    -fx-background-radius: 7;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 14, 0.10, 0, 4);
+}
+
+.albion-minimal-root .combo-box-popup .list-cell,
+.albion-minimal-root .menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #25292e;
+    -fx-padding: 7 10;
+}
+
+.albion-minimal-root .combo-box-popup .list-cell:hover,
+.albion-minimal-root .combo-box-popup .list-cell:selected,
+.albion-minimal-root .menu-item:focused {
+    -fx-background-color: #e2e5e8;
+    -fx-text-fill: #17191d;
+}
+
+/* Check boxes */
+.albion-minimal-root .check-box {
+    -fx-text-fill: #34383e;
+}
+
+.albion-minimal-root .check-box .box {
+    -fx-background-color: #eef0f2;
+    -fx-border-color: #b9bec5;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.albion-minimal-root .check-box:selected .box {
+    -fx-background-color: #555b64;
+    -fx-border-color: #555b64;
+}
+
+.albion-minimal-root .check-box:selected .mark {
+    -fx-background-color: #ffffff;
+}
+
+/* Scrollbars */
+.albion-minimal-root .scroll-bar:vertical,
+.albion-minimal-root .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-padding: 2;
+}
+
+.albion-minimal-root .scroll-bar .track {
+    -fx-background-color: #e6e8eb;
+    -fx-background-radius: 6;
+}
+
+.albion-minimal-root .scroll-bar .thumb {
+    -fx-background-color: #a4aab2;
+    -fx-background-radius: 6;
+}
+
+.albion-minimal-root .scroll-bar .thumb:hover {
+    -fx-background-color: #858c96;
+}
+
+.albion-minimal-root .scroll-bar .increment-button,
+.albion-minimal-root .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.albion-minimal-root .scroll-bar .increment-arrow,
+.albion-minimal-root .scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+/* Tooltips */
+.tooltip {
+    -fx-background-color: #202328;
+    -fx-text-fill: #eff1f4;
+    -fx-background-radius: 6;
+    -fx-padding: 7 10;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 10, 0.10, 0, 3);
+}
+/* ALBIONSERVANT_CSS_ARCHITECTURE_V1
+ * Shared visuals are defined here. Java selects semantic roles and states;
+ * it does not carry colour, font, border, hover or background values.
+ */
+
+.albion-minimal-root,
+.app-root {
+    -fx-background-color: #15171a;
+}
+
+/* Shared semantic text */
+.text-primary {
+    -fx-text-fill: #ebedf0;
+}
+
+.text-secondary {
+    -fx-text-fill: #9ea4ae;
+}
+
+.text-enchantment {
+    -fx-text-fill: #50c8ff;
+}
+
+.metric-positive {
+    -fx-text-fill: #22c55e;
+}
+
+.metric-negative {
+    -fx-text-fill: #ef5350;
+}
+
+/* Reusable button roles formerly stored in AppConfig */
+.button-primary,
+.button-secondary,
+.button-active,
+.button-traversed,
+.button-selected,
+.button-root,
+.nav-tree-button {
+    -fx-text-fill: #e6e8eb;
+    -fx-font-weight: bold;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+}
+
+.button-primary,
+.button-secondary {
+    -fx-background-color: #202328;
+    -fx-font-size: 13px;
+    -fx-padding: 9 22;
+    -fx-border-color: #41464e;
+    -fx-border-width: 1;
+}
+
+.button-primary:hover,
+.button-secondary:hover {
+    -fx-background-color: #2b2f35;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #707782;
+}
+
+.button-root {
+    -fx-background-color: #4b5058;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-padding: 18 32;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.button-root:hover {
+    -fx-background-color: #5d636d;
+}
+
+.button-active,
+.nav-tree-button-active {
+    -fx-background-color: #202328;
+    -fx-text-fill: #e6e8eb;
+    -fx-font-size: 13px;
+    -fx-padding: 10 18;
+}
+
+.button-active:hover,
+.nav-tree-button-active:hover,
+.nav-tree-button-traversed:hover {
+    -fx-background-color: #4b5058;
+    -fx-text-fill: #ffffff;
+}
+
+.button-traversed,
+.nav-tree-button-traversed {
+    -fx-background-color: #2b2f35;
+    -fx-text-fill: #9ca2ab;
+    -fx-font-size: 13px;
+    -fx-font-weight: normal;
+    -fx-padding: 10 18;
+}
+
+.button-selected,
+.nav-tree-button-selected {
+    -fx-background-color: #4b5058;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-padding: 10 18;
+}
+
+.nav-tree-button {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+/* Top navigation */
+.top-navigation {
+    -fx-min-height: 96;
+    -fx-pref-height: 96;
+    -fx-max-height: 96;
+    -fx-padding: 12 20 12 20;
+    -fx-spacing: 8;
+    -fx-background-color: #181b1f;
+}
+
+.top-navigation-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9ea4ae;
+    -fx-padding: 0 0 4 2;
+}
+
+.top-navigation-tabs {
+    -fx-spacing: 10;
+    -fx-padding: 0 4 0 4;
+    -fx-min-height: 26;
+    -fx-pref-height: 26;
+    -fx-max-height: 26;
+}
+
+.top-navigation-button {
+    -fx-min-height: 26;
+    -fx-pref-height: 26;
+    -fx-max-height: 26;
+    -fx-background-color: #2b2f35;
+    -fx-text-fill: #eff1f4;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 20;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.top-navigation-button:hover {
+    -fx-background-color: #5d636d;
+    -fx-text-fill: #ffffff;
+}
+
+.top-navigation-button:selected {
+    -fx-background-color: #4b5058;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: transparent transparent #d9dce1 transparent;
+}
+
+/* Investment rows */
+.investment-item {
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 16;
+}
+
+.investment-icon {
+    -fx-background-color: #24272b;
+    -fx-border-color: #4c5159;
+}
+
+.investment-details {
+    -fx-spacing: 5;
+}
+
+.investment-stats {
+    -fx-spacing: 6;
+}
+
+.investment-name {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ebedf0;
+}
+
+.investment-profit {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.investment-roi {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* ALBIONSERVANT_HOT_INVESTMENTS_STARTUP_THEME_FIX_V1
+ * Hot Investments is CSS-owned from its first rendered frame.
+ */
+.hot-investments-panel {
+    -fx-background-color: #1c1f23;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent #30343a transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.hot-investments-header {
+    -fx-alignment: center;
+}
+
+.hot-investments-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f2f3f5;
+}
+
+.hot-investments-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #9ea4ae;
+}
+
+.hot-investments-items {
+    -fx-spacing: 18;
+}
+
+.hot-investment-row {
+    -fx-background-color: #24282d;
+    -fx-background-radius: 10;
+    -fx-border-color: #363b42;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.14), 7, 0.04, 0, 2);
+}
+
+.hot-investment-row:hover {
+    -fx-background-color: #2a2f35;
+    -fx-border-color: #4b515a;
+}
+
+.hot-investment-name-box {
+    -fx-min-width: 300;
+}
+
+.hot-investment-name {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #eef0f2;
+}
+
+.hot-investment-tier {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.hot-investment-route {
+    -fx-font-size: 14px;
+    -fx-text-fill: #aeb3bb;
+    -fx-alignment: center-right;
+}
+
+.hot-investment-price {
+    -fx-min-width: 92;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #eef0f2;
+    -fx-alignment: center-right;
+}
+
+.hot-investment-profit {
+    -fx-min-width: 92;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+}
+
+.hot-investment-roi {
+    -fx-min-width: 68;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+}
+
+.hot-investments-pagination {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+.hot-investments-page-button {
+    -fx-min-width: 108;
+}
+
+.hot-investments-page-label {
+    -fx-min-width: 56;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #dfe2e6;
+    -fx-alignment: center;
+}
+
+.hot-investments-empty {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8f96a0;
+}
+
+.metric-warning {
+    -fx-text-fill: #e5c45b;
+}
+
+.tier-2-text { -fx-text-fill: #b8bdc5; }
+.tier-3-text { -fx-text-fill: #b98962; }
+.tier-4-text { -fx-text-fill: #62a9ff; }
+.tier-5-text { -fx-text-fill: #ed6666; }
+.tier-6-text { -fx-text-fill: #f0a64b; }
+.tier-7-text { -fx-text-fill: #e7cf62; }
+.tier-8-text { -fx-text-fill: #dce6f2; }
+
+
+/* Manual prices + tier-aware artifact/special materials */
+.albion-manual-price {
+    -fx-font-weight: 700;
+}
+.artifact-material,
+.secondary-material {
+    -fx-font-weight: 700;
+}
+.tier-2 { -fx-text-fill: #b9b9b9; }
+.tier-3 { -fx-text-fill: #68a0c8; }
+.tier-4 { -fx-text-fill: #b7a36b; }
+.tier-5 { -fx-text-fill: #c77bdf; }
+.tier-6 { -fx-text-fill: #e8b44f; }
+.tier-7 { -fx-text-fill: #e16b6b; }
+.tier-8 { -fx-text-fill: #f0f0f0; }
+.artifact-material {
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.10), 2, 0.2, 0, 0);
+}
+.secondary-material {
+    -fx-font-style: italic;
+}
+

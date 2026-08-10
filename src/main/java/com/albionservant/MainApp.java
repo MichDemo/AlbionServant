@@ -15,8 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -110,7 +108,7 @@ public class MainApp extends Application {
         VBox.setVgrow(contentArea, Priority.ALWAYS);
 
         root.getChildren().addAll(topBar, contentArea);
-        root.setBackground(new Background(new BackgroundFill(AppConfig.BACKGROUND_MAIN, null, null)));
+        root.getStyleClass().add("app-root");
 
         // ── Detail mode listeners — hide top bar when in leaf panels ─────────
         craftPanel.setOnDetailModeListener(isDetail -> {
@@ -155,6 +153,16 @@ public class MainApp extends Application {
 
         Scene scene = new Scene(root, width, height);
 
+
+        // ALBIONSERVANT_CSS_ARCHITECTURE_V1
+        root.getStyleClass().add("albion-minimal-root");
+        var applicationStylesheet = MainApp.class.getResource(AppConfig.MAIN_STYLESHEET);
+        if (applicationStylesheet == null) {
+            throw new IllegalStateException(
+                    "Missing application stylesheet: " + AppConfig.MAIN_STYLESHEET
+            );
+        }
+        scene.getStylesheets().add(applicationStylesheet.toExternalForm());
         /*
          * Fix: JavaFX potrafi automatycznie przewinąć ScrollPane, kiedy ComboBox
          * dostaje focus albo otwiera popup. W craftingu powodowało to "skakanie"
@@ -165,8 +173,13 @@ public class MainApp extends Application {
          */
         installComboBoxScrollStabilizer(scene);
 
-        stage.setTitle("AlbionServant");
+        stage.setTitle(AppConfig.APP_TITLE);
         stage.setScene(scene);
+
+        // ALBIONSERVANT_HOT_INVESTMENTS_STARTUP_THEME_FIX_V1
+        // Resolve author CSS before the first visible pulse, avoiding startup colour flashes.
+        root.applyCss();
+        root.layout();
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
         stage.setResizable(true);

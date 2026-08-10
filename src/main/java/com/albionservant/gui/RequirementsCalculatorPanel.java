@@ -8,6 +8,8 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 /**
  * Compact inline material list that lives in the icon column.
  * Shows: Material | Net quantity
@@ -16,6 +18,8 @@ import java.util.List;
  * Reads from existing Quantity TextField, Bonus Craft ComboBox,
  * Focus CheckBox and optional Daily Bonus controls.
  */
+// ALBIONSERVANT_NUTRITION_RRR_PATCH_V5
+// ALBIONSERVANT_CRAFTING_SPREADSHEET_FIXES_PATCH_V1
 public class RequirementsCalculatorPanel extends VBox {
 
     public record MaterialLine(String name, double quantityPerBatch, boolean noRrr) {
@@ -33,6 +37,8 @@ public class RequirementsCalculatorPanel extends VBox {
     private final VBox rowsBox = new VBox(3);
     private final Label rrrLabel = new Label();
 
+    private final ReadOnlyDoubleWrapper rrrFraction =
+            new ReadOnlyDoubleWrapper(0.0);
     private TextField focusTotalField = null;
     private Label focusTotalLabel = null;
 
@@ -61,21 +67,21 @@ public class RequirementsCalculatorPanel extends VBox {
                 "-fx-font-size: 13px;" +
                 "-fx-font-weight: bold;" +
                 "-fx-text-fill: #ffffff;" +
-                "-fx-background-color: #ef4444;" +
+                "-fx-background-color: #4b5058;" +
                 "-fx-background-radius: 4;" +
                 "-fx-padding: 3 8 3 8;"
         );
 
         rowsBox.setFillWidth(true);
         rowsBox.setStyle(
-                "-fx-background-color: #1e293b;" +
+                "-fx-background-color: #202328;" +
                 "-fx-background-radius: 6;" +
                 "-fx-padding: 8 10 8 10;"
         );
 
         rrrLabel.setStyle(
                 "-fx-font-size: 11px;" +
-                "-fx-text-fill: #94a3b8;" +
+                "-fx-text-fill: #9ca2ab;" +
                 "-fx-padding: 2 0 0 2;"
         );
 
@@ -84,6 +90,14 @@ public class RequirementsCalculatorPanel extends VBox {
 
     public Label getRrrLabel() {
         return rrrLabel;
+    }
+
+    public double getRrrFraction() {
+        return rrrFraction.get();
+    }
+
+    public ReadOnlyDoubleProperty rrrFractionProperty() {
+        return rrrFraction.getReadOnlyProperty();
     }
 
     public void setFocusTotalField(TextField field) {
@@ -187,12 +201,13 @@ public class RequirementsCalculatorPanel extends VBox {
 
         double lpb = computeLPB();
         double rrr = lpb / (100.0 + lpb);
+        rrrFraction.set(rrr);
         double batches = Math.ceil((double) quantity / batchSize);
 
         rowsBox.getChildren().clear();
 
         rowsBox.getChildren().add(row(
-                lbl("Material", 0.62, "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #94a3b8;"),
+                lbl("Material", 0.62, "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #9ca2ab;"),
                 lbl("Net", 0.38, "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4ade80;")
         ));
 
@@ -204,7 +219,7 @@ public class RequirementsCalculatorPanel extends VBox {
                     : (long) Math.ceil(gross * (1.0 - rrr));
 
             rowsBox.getChildren().add(row(
-                    lbl(mat.name(), 0.62, "-fx-font-size: 14px; -fx-text-fill: #e2e8f0;"),
+                    lbl(mat.name(), 0.62, "-fx-font-size: 14px; -fx-text-fill: #e6e8eb;"),
                     lbl(
                             fmt(net),
                             0.38,
@@ -331,6 +346,8 @@ public class RequirementsCalculatorPanel extends VBox {
             r.getChildren().add(l);
         }
 
+        r.setMinWidth(320);
+
         return r;
     }
 
@@ -338,11 +355,16 @@ public class RequirementsCalculatorPanel extends VBox {
         Label l = new Label(text);
         l.setStyle(style);
         l.setMaxWidth(Double.MAX_VALUE);
+        l.setTooltip(text == null || text.isBlank() ? null : new Tooltip(text));
 
         if (pct >= 0.5) {
+            l.setMinWidth(220);
+            l.setPrefWidth(260);
             HBox.setHgrow(l, Priority.ALWAYS);
         } else {
-            HBox.setHgrow(l, Priority.SOMETIMES);
+            l.setMinWidth(95);
+            l.setPrefWidth(110);
+            HBox.setHgrow(l, Priority.NEVER);
         }
 
         return l;
@@ -367,7 +389,21 @@ public class RequirementsCalculatorPanel extends VBox {
         var art = com.albionservant.data.ArtifactData.getArtifactType(itemName);
 
         if (art != null) {
-            lines.add(new MaterialLine(art.displayName, 1.0));
+            String artifactName = com.albionservant.integration.market
+                    .LocalMarketPriceService
+                    .artifactColumnDisplayName(itemName, art.displayName);
+            int artifactQuantity = com.albionservant.integration.market
+                    .LocalMarketPriceService
+                    .artifactQuantity(itemName, 4);
+            boolean returnable = com.albionservant.integration.market
+                    .LocalMarketPriceService
+                    .artifactReceivesReturns(itemName, art.name(), 4);
+
+            lines.add(new MaterialLine(
+                    artifactName,
+                    Math.max(1, artifactQuantity),
+                    !returnable
+            ));
         }
 
         return new RequirementsCalculatorPanel(lines, 1);

@@ -1,0 +1,44 @@
+INFO[2026-08-02T23:07:06+02:00] Starting Albion Data Client, version: dev-local 
+INFO[2026-08-02T23:07:06+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+INFO[2026-08-02T23:07:06+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+INFO[2026-08-02T23:07:06+02:00] Watching Albion                              
+INFO[2026-08-02T23:07:14+02:00] Updating player location to 4305.            
+INFO[2026-08-02T23:07:18+02:00] Updating player location to 4305.            
+INFO[2026-08-02T23:07:18+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+INFO[2026-08-02T23:07:18+02:00] Updating player to AndyTheFox.               
+INFO[2026-08-02T23:07:28+02:00] Updating player location to 4301.            
+INFO[2026-08-02T23:07:28+02:00] Updating player ID to .                      
+INFO[2026-08-02T23:07:28+02:00] Updating player to .                         
+INFO[2026-08-02T23:07:31+02:00] Updating player location to 4301.            
+INFO[2026-08-02T23:07:31+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+INFO[2026-08-02T23:07:31+02:00] Updating player to AndyTheFox.               
+INFO[2026-08-02T23:08:34+02:00] Sending 50 live market sell orders to ingest (Identifier: d5995506-d497-41d1-5fa2-1000370a213b) 
+INFO[2026-08-02T23:08:37+02:00] Sending 50 live market sell orders to ingest (Identifier: 035d486a-d73f-4d10-51d4-684f28db326c) 
+INFO[2026-08-02T23:08:37+02:00] Sending 50 live market sell orders to ingest (Identifier: 6e788ea4-c8d7-4802-63b2-48dfb55f6157) 
+INFO[2026-08-02T23:08:38+02:00] Sending 50 live market sell orders to ingest (Identifier: b620c2cd-53b4-47ca-7fe2-e3d87b506747) 
+INFO[2026-08-02T23:08:39+02:00] Sending 11 live market sell orders to ingest (Identifier: 006ff677-4174-44ba-54a0-424006b7e32a) 
+INFO[2026-08-02T23:08:44+02:00] Sending 50 live market sell orders to ingest (Identifier: a89fca15-34dd-4bb3-6752-88ecf5ca87fb) 
+INFO[2026-08-02T23:08:46+02:00] Sending 50 live market sell orders to ingest (Identifier: cd2f8362-89a3-4ccd-55e0-7c48450ad866) 
+INFO[2026-08-02T23:08:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 3b7e2d9b-9c5c-411e-78b4-32793f3cda50) 
+INFO[2026-08-02T23:08:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 1c0d1476-d972-49e7-4344-278144c9a7af) 
+INFO[2026-08-02T23:08:48+02:00] Sending 50 live market sell orders to ingest (Identifier: 8f9bfdf7-fe62-4b4b-7a69-191ba7fe40b9) 
+INFO[2026-08-02T23:08:48+02:00] Sending 50 live market sell orders to ingest (Identifier: dbdeab8f-8d20-4337-4714-0889d6a9247d) 
+INFO[2026-08-02T23:08:49+02:00] Sending 50 live market sell orders to ingest (Identifier: 0c5264c7-0d89-4fe6-5d2a-91e61dc174f0) 
+INFO[2026-08-02T23:08:49+02:00] Sending 50 live market sell orders to ingest (Identifier: 23890478-4ad2-4c08-5e15-c541f6eaf4fe) 
+INFO[2026-08-02T23:08:50+02:00] Sending 50 live market sell orders to ingest (Identifier: 97d7d1ad-fc02-4456-7c2f-95a482d806d5) 
+INFO[2026-08-02T23:08:50+02:00] Sending 50 live market sell orders to ingest (Identifier: c93d297a-b88d-4fc5-609b-1636b18e7461) 
+INFO[2026-08-02T23:08:51+02:00] Sending 43 live market sell orders to ingest (Identifier: dc1e1340-c684-4645-60bd-c222dfc62eb5) 
+INFO[2026-08-02T23:08:58+02:00] Sending 50 live market sell orders to ingest (Identifier: fc8f7c3f-70d5-4b88-6e80-0e5a1dab3d9f) 
+INFO[2026-08-02T23:08:59+02:00] Sending 50 live market sell orders to ingest (Identifier: d3f068be-0993-4d1f-5dcb-0d379e5383d5) 
+INFO[2026-08-02T23:09:00+02:00] Sending 50 live market sell orders to ingest (Identifier: fe8b2973-b3e3-4b9f-6088-e64d5bbe7f02) 
+INFO[2026-08-02T23:09:03+02:00] Sending 50 live market sell orders to ingest (Identifier: 13ce116d-6feb-4392-4d0e-31c6217c599b) 
+INFO[2026-08-02T23:09:04+02:00] Sending 50 live market sell orders to ingest (Identifier: e29a7d56-81f8-4707-4688-5856c879b19d) 
+INFO[2026-08-02T23:09:05+02:00] Sending 50 live market sell orders to ingest (Identifier: 985325fe-8d90-4fc7-713d-c773ac5b5128) 
+INFO[2026-08-02T23:09:06+02:00] Sending 50 live market sell orders to ingest (Identifier: 215d71f1-d743-4e4d-44f9-b555a93e5431) 
+INFO[2026-08-02T23:09:06+02:00] Sending 47 live market sell orders to ingest (Identifier: f5f9a894-20c3-4427-77f7-f04f720f12f9) 
+INFO[2026-08-02T23:09:15+02:00] Sending 50 live market sell orders to ingest (Identifier: 9bf58598-076f-430d-52c7-0e158c2fc528) 
+INFO[2026-08-02T23:09:15+02:00] Sending 50 live market sell orders to ingest (Identifier: 4b6ce237-5533-4d8e-56a2-c32b1fa73155) 
+INFO[2026-08-02T23:09:16+02:00] Sending 50 live market sell orders to ingest (Identifier: 81f313a0-12e9-4f05-5bd4-ccc41394e003) 
+INFO[2026-08-02T23:09:17+02:00] Sending 50 live market sell orders to ingest (Identifier: 5247bea3-9f47-4061-73cd-5ffaf91b37f0) 
+INFO[2026-08-02T23:09:17+02:00] Sending 50 live market sell orders to ingest (Identifier: af731d7b-6625-4e26-64d7-5a108dec759a) 
+INFO[2026-08-02T23:09:18+02:00] Sending 34 live market sell orders to ingest (Identifier: 2f9e32cd-55a0-431c-5241-7fc214da7db6) 

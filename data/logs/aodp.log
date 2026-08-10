@@ -94,3 +94,433 @@
 [36mINFO[0m[2026-08-01T09:31:57+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
 [36mINFO[0m[2026-08-01T09:31:57+02:00] Additional parameters can listed by calling this file with the -h parameter. 
 [36mINFO[0m[2026-08-01T09:31:57+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T02:20:42+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T02:20:42+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T02:20:42+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T02:20:42+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T21:49:25+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T21:49:25+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T21:49:25+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T21:49:25+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T22:09:32+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T22:09:32+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T22:09:32+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T22:09:32+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T22:10:18+02:00] Updating player location to 5000.            
+[36mINFO[0m[2026-08-02T22:10:18+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T22:10:18+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T22:10:35+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T22:10:35+02:00] Updating player ID to .                      
+[36mINFO[0m[2026-08-02T22:10:35+02:00] Updating player to .                         
+[36mINFO[0m[2026-08-02T22:10:38+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T22:10:38+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T22:10:38+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T22:10:53+02:00] Sending 50 live market sell orders to ingest (Identifier: aa236528-f251-4154-6d1c-f6b9f9e9bf2a) 
+[36mINFO[0m[2026-08-02T22:10:55+02:00] Sending 50 live market sell orders to ingest (Identifier: 716e184c-1ee1-484f-57ef-97be75e0ff03) 
+[36mINFO[0m[2026-08-02T22:10:55+02:00] Sending 50 live market sell orders to ingest (Identifier: 4e4b3717-6740-4d8d-4e60-5277cd5086c8) 
+[36mINFO[0m[2026-08-02T22:10:56+02:00] Sending 50 live market sell orders to ingest (Identifier: ddde8355-713c-4112-5eb1-1028476239b5) 
+[36mINFO[0m[2026-08-02T22:10:57+02:00] Sending 50 live market sell orders to ingest (Identifier: d1135dd9-ef8a-425e-599b-082c4004790d) 
+[36mINFO[0m[2026-08-02T22:10:58+02:00] Sending 50 live market sell orders to ingest (Identifier: e0b0b30a-8aea-40b2-4d22-d9131da834f3) 
+[36mINFO[0m[2026-08-02T22:10:58+02:00] Sending 50 live market sell orders to ingest (Identifier: 9ff484bc-14ac-4a73-7344-4092c9f581d4) 
+[36mINFO[0m[2026-08-02T22:11:01+02:00] Sending 50 live market sell orders to ingest (Identifier: e62bde49-4430-4092-4e1d-2434384307c4) 
+[36mINFO[0m[2026-08-02T22:11:01+02:00] Sending 50 live market sell orders to ingest (Identifier: 39b7c519-e334-4c6f-6842-48dc32d0e3c8) 
+[36mINFO[0m[2026-08-02T22:11:02+02:00] Sending 50 live market sell orders to ingest (Identifier: dcdfefd7-18c4-4286-5a30-a99a4c87b023) 
+[36mINFO[0m[2026-08-02T22:11:02+02:00] Sending 50 live market sell orders to ingest (Identifier: 79855af3-57ba-48af-6f8e-4619a79595f5) 
+[36mINFO[0m[2026-08-02T22:11:03+02:00] Sending 50 live market sell orders to ingest (Identifier: 67e6532f-f233-40e8-711f-b852b396362d) 
+[36mINFO[0m[2026-08-02T22:11:03+02:00] Sending 50 live market sell orders to ingest (Identifier: 327351b7-bcd1-40af-6268-d978af813bb7) 
+[36mINFO[0m[2026-08-02T22:11:04+02:00] Sending 50 live market sell orders to ingest (Identifier: b6161628-5fda-4314-69ea-aa0cf87f5d53) 
+[36mINFO[0m[2026-08-02T22:11:04+02:00] Sending 50 live market sell orders to ingest (Identifier: 9e5a7de8-c365-4780-7317-ad5c11a8c1d0) 
+[36mINFO[0m[2026-08-02T22:11:05+02:00] Sending 50 live market sell orders to ingest (Identifier: 48a4bc4d-1b4d-4af3-6797-7c2100093b5f) 
+[36mINFO[0m[2026-08-02T22:11:05+02:00] Sending 50 live market sell orders to ingest (Identifier: 4f757606-69f1-40f2-6932-c1e4f595c973) 
+[36mINFO[0m[2026-08-02T22:11:08+02:00] Sending 50 live market sell orders to ingest (Identifier: 630a13b6-f94b-4733-493a-c031ca2b93ee) 
+[36mINFO[0m[2026-08-02T22:11:09+02:00] Sending 50 live market sell orders to ingest (Identifier: 56d2117d-9ce0-4372-6e50-1c63687013f3) 
+[36mINFO[0m[2026-08-02T22:11:10+02:00] Sending 50 live market sell orders to ingest (Identifier: cfc1669d-f257-4398-6950-0c552fd612f3) 
+[36mINFO[0m[2026-08-02T22:11:11+02:00] Sending 50 live market sell orders to ingest (Identifier: b3bbe0d5-477d-4815-619b-20c2189a7593) 
+[36mINFO[0m[2026-08-02T22:11:11+02:00] Sending 50 live market sell orders to ingest (Identifier: e9c1945f-170e-4560-7edf-bd650f4ecf73) 
+[36mINFO[0m[2026-08-02T22:11:12+02:00] Sending 50 live market sell orders to ingest (Identifier: aa0ae123-14fb-4dcb-781a-9b691f4c6998) 
+[36mINFO[0m[2026-08-02T22:11:12+02:00] Sending 50 live market sell orders to ingest (Identifier: 7f7f08a3-cb8f-41f3-4292-cb68619844ec) 
+[36mINFO[0m[2026-08-02T22:11:13+02:00] Sending 50 live market sell orders to ingest (Identifier: d9ab7973-a475-45a2-7f5a-0614ee798821) 
+[36mINFO[0m[2026-08-02T22:11:14+02:00] Sending 50 live market sell orders to ingest (Identifier: 676ae9d4-e03e-4ff9-5c51-3ca30cb2d012) 
+[36mINFO[0m[2026-08-02T22:11:14+02:00] Sending 50 live market sell orders to ingest (Identifier: 2ac12be3-4feb-4eca-67ca-cde7d7a4ece5) 
+[36mINFO[0m[2026-08-02T22:11:28+02:00] Sending 50 live market sell orders to ingest (Identifier: a5b67e7f-5996-42e0-553e-3a3374f55cd7) 
+[36mINFO[0m[2026-08-02T22:11:29+02:00] Sending 50 live market sell orders to ingest (Identifier: 531cfbff-b71f-475d-6ad6-4e39e3b45c44) 
+[36mINFO[0m[2026-08-02T22:12:12+02:00] Sending 50 live market sell orders to ingest (Identifier: daf7d905-1674-4497-76db-d671bd1cd3c8) 
+[36mINFO[0m[2026-08-02T22:23:48+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T22:23:48+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T22:23:48+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T22:23:48+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T22:36:45+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T22:36:45+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T22:36:45+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T22:36:45+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T22:39:41+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T22:39:41+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T22:39:41+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T22:39:41+02:00] Watching Albion                              
+[31mERRO[0m[2026-08-02T22:43:06+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:06+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:11+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:11+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:12+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:13+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:13+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:14+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:15+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:16+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:16+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:18+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:18+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:20+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:21+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:21+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:22+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:43:26+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[36mINFO[0m[2026-08-02T22:50:10+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T22:50:10+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T22:50:10+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T22:50:10+02:00] Watching Albion                              
+[31mERRO[0m[2026-08-02T22:50:29+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:29+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:42+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:43+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:45+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:46+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:47+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:47+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:48+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:49+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:54+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:55+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:56+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:57+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:58+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:50:59+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:51:00+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:51:00+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:51:01+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:51:01+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[36mINFO[0m[2026-08-02T22:51:27+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:51:31+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:51:31+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T22:51:31+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T22:51:41+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T22:51:41+02:00] Updating player ID to .                      
+[36mINFO[0m[2026-08-02T22:51:41+02:00] Updating player to .                         
+[36mINFO[0m[2026-08-02T22:51:44+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T22:51:44+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T22:51:44+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T22:52:19+02:00] Sending 50 live market sell orders to ingest (Identifier: a188a575-f915-494e-676c-8fdf1bbaad94) 
+[36mINFO[0m[2026-08-02T22:52:22+02:00] Sending 50 live market sell orders to ingest (Identifier: fcaf9c0c-e21b-42bd-7fc0-e2a1d9db8de0) 
+[36mINFO[0m[2026-08-02T22:52:24+02:00] Sending 50 live market sell orders to ingest (Identifier: 22d54432-15e5-4761-5f7e-7f4b3705bebd) 
+[36mINFO[0m[2026-08-02T22:52:25+02:00] Sending 50 live market sell orders to ingest (Identifier: 76773d1e-ad99-4971-498b-0e28a79844e9) 
+[36mINFO[0m[2026-08-02T22:52:25+02:00] Sending 50 live market sell orders to ingest (Identifier: 64665e46-d31f-4245-76e1-8a4f23770056) 
+[36mINFO[0m[2026-08-02T22:52:26+02:00] Sending 50 live market sell orders to ingest (Identifier: 281c2ca7-53a4-44b3-4883-d1409188a276) 
+[36mINFO[0m[2026-08-02T22:52:27+02:00] Sending 50 live market sell orders to ingest (Identifier: 04ee7c1e-23ab-4805-41d8-43c044f27ad4) 
+[36mINFO[0m[2026-08-02T22:52:29+02:00] Sending 50 live market sell orders to ingest (Identifier: 4a6fd762-7940-4c7b-5cc1-4b0b9b45071f) 
+[36mINFO[0m[2026-08-02T22:52:29+02:00] Sending 50 live market sell orders to ingest (Identifier: 06b8c9f1-c17b-4d55-5cdc-03e0c9f615e9) 
+[36mINFO[0m[2026-08-02T22:52:30+02:00] Sending 50 live market sell orders to ingest (Identifier: 27fd0c58-80d6-4c77-64dd-d32c376ecde1) 
+[36mINFO[0m[2026-08-02T22:52:31+02:00] Sending 50 live market sell orders to ingest (Identifier: da399ad7-cf8e-4f03-74cc-c2d32ad1eeeb) 
+[36mINFO[0m[2026-08-02T22:52:37+02:00] Sending 50 live market sell orders to ingest (Identifier: d654ad69-6895-4bef-6ee8-769eb8f39d24) 
+[36mINFO[0m[2026-08-02T22:52:37+02:00] Sending 50 live market sell orders to ingest (Identifier: e2d31d45-b80e-428b-6d6c-1c6f7085df15) 
+[36mINFO[0m[2026-08-02T22:52:39+02:00] Sending 50 live market sell orders to ingest (Identifier: eecb27d2-28ee-45a7-6dfb-a7fc35521680) 
+[36mINFO[0m[2026-08-02T22:52:40+02:00] Sending 50 live market sell orders to ingest (Identifier: 194d00e1-3c7c-41fa-407b-8edf5ad7d71e) 
+[36mINFO[0m[2026-08-02T22:52:40+02:00] Sending 50 live market sell orders to ingest (Identifier: 7017ceb0-b932-4584-454f-fd38f46ee22d) 
+[36mINFO[0m[2026-08-02T22:52:42+02:00] Sending 50 live market sell orders to ingest (Identifier: 673ea2d4-f22e-434b-5df2-43f7982226be) 
+[36mINFO[0m[2026-08-02T22:52:43+02:00] Sending 50 live market sell orders to ingest (Identifier: d84b9056-dfbd-4bbb-60ff-2f15e51de309) 
+[36mINFO[0m[2026-08-02T22:52:43+02:00] Sending 50 live market sell orders to ingest (Identifier: 7750487f-db4d-493c-5226-da4d00e3764a) 
+[36mINFO[0m[2026-08-02T22:58:18+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T22:58:18+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T22:58:18+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T22:58:18+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T22:58:48+02:00] Mail Info is not valid. Please transition zones or click at notification, so the mails can be loaded. 
+[31mERRO[0m[2026-08-02T22:58:57+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:58:57+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:59:00+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:59:14+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[31mERRO[0m[2026-08-02T22:59:14+02:00] The players location has not yet been set. Please transition zones so the location can be identified. 
+[36mINFO[0m[2026-08-02T22:59:22+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:23+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:23+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:24+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:26+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:26+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:26+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T22:59:26+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T22:59:29+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:29+02:00] Updating player ID to .                      
+[36mINFO[0m[2026-08-02T22:59:29+02:00] Updating player to .                         
+[36mINFO[0m[2026-08-02T22:59:32+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:36+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:36+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T22:59:39+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:39+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T22:59:39+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T22:59:39+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T22:59:42+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:42+02:00] Updating player ID to .                      
+[36mINFO[0m[2026-08-02T22:59:42+02:00] Updating player to .                         
+[36mINFO[0m[2026-08-02T22:59:45+02:00] Sending 50 live market sell orders to ingest (Identifier: a8b34b05-d316-49b0-6fc5-190ae4cbd6e9) 
+[36mINFO[0m[2026-08-02T22:59:45+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 6821dc0c-9920-4012-7f0b-9f585d96109c) 
+[36mINFO[0m[2026-08-02T22:59:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 648f4067-14f9-4198-7f54-e9f16d4e861e) 
+[36mINFO[0m[2026-08-02T22:59:48+02:00] Sending 50 live market sell orders to ingest (Identifier: 0f9a4e1f-8cc6-4c82-61ca-4f3e1159a737) 
+[36mINFO[0m[2026-08-02T22:59:48+02:00] Updating player location to 4308.            
+[36mINFO[0m[2026-08-02T22:59:49+02:00] Sending 50 live market sell orders to ingest (Identifier: 0d8af80e-f912-41bf-7342-94f5e0fb8df0) 
+[36mINFO[0m[2026-08-02T22:59:49+02:00] Sending 50 live market sell orders to ingest (Identifier: a471c021-2372-4f36-5835-804e6bf70286) 
+[36mINFO[0m[2026-08-02T22:59:50+02:00] Sending 50 live market sell orders to ingest (Identifier: 285a7056-234c-49a9-7667-e718893bd1aa) 
+[36mINFO[0m[2026-08-02T22:59:51+02:00] Sending 50 live market sell orders to ingest (Identifier: f3792cfa-7438-4fa8-7d44-f0c73f82fc67) 
+[36mINFO[0m[2026-08-02T22:59:51+02:00] Sending 50 live market sell orders to ingest (Identifier: 30e24e8c-b6af-47a4-7024-71d7c2c0929f) 
+[36mINFO[0m[2026-08-02T22:59:55+02:00] Sending 50 live market sell orders to ingest (Identifier: 40485cdd-a960-42fa-5443-1e680ae1f719) 
+[36mINFO[0m[2026-08-02T22:59:56+02:00] Sending 50 live market sell orders to ingest (Identifier: da45524f-177d-4a27-59f8-355fb3f37d47) 
+[36mINFO[0m[2026-08-02T22:59:59+02:00] Sending 50 live market sell orders to ingest (Identifier: 35095afa-8ac3-4e99-5e00-fcdf2e722619) 
+[36mINFO[0m[2026-08-02T22:59:59+02:00] Sending 50 live market sell orders to ingest (Identifier: 8ea9326d-d5a7-40e3-5e24-c1ddb71c931c) 
+[36mINFO[0m[2026-08-02T23:00:00+02:00] Sending 50 live market sell orders to ingest (Identifier: 7f71db8f-344d-493e-7233-f08a090d6299) 
+[36mINFO[0m[2026-08-02T23:00:01+02:00] Sending 50 live market sell orders to ingest (Identifier: 8cbc8e70-226c-42ca-7a1f-ae5c0b3b6125) 
+[36mINFO[0m[2026-08-02T23:01:17+02:00] Sending 50 live market sell orders to ingest (Identifier: 2146471d-1ae0-488e-4482-b311b27e4839) 
+[36mINFO[0m[2026-08-02T23:01:18+02:00] Sending 43 live market sell orders to ingest (Identifier: d29ba731-204e-4a63-5f9f-69d908317cb2) 
+[36mINFO[0m[2026-08-02T23:01:34+02:00] Sending 50 live market sell orders to ingest (Identifier: 264943b6-8239-44f8-62d1-9350dd84227a) 
+[36mINFO[0m[2026-08-02T23:01:37+02:00] Sending 50 live market sell orders to ingest (Identifier: e9c92962-7477-41f5-42dc-1a6af4926da1) 
+[36mINFO[0m[2026-08-02T23:01:39+02:00] Sending 50 live market sell orders to ingest (Identifier: ae991810-dae1-4ce7-5887-50eaa4784a8f) 
+[36mINFO[0m[2026-08-02T23:01:39+02:00] Sending 50 live market sell orders to ingest (Identifier: f0751b1c-ec60-41d7-5c58-943ba20667ff) 
+[36mINFO[0m[2026-08-02T23:01:40+02:00] Sending 50 live market sell orders to ingest (Identifier: 0e8bd670-a495-44c5-47e7-1c7952ffdbf6) 
+[36mINFO[0m[2026-08-02T23:01:40+02:00] Sending 10 live market sell orders to ingest (Identifier: b47ad2c2-2049-4000-468e-1e74e8aab248) 
+[36mINFO[0m[2026-08-02T23:07:06+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-02T23:07:06+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-02T23:07:06+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-02T23:07:06+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-02T23:07:14+02:00] Updating player location to 4305.            
+[36mINFO[0m[2026-08-02T23:07:18+02:00] Updating player location to 4305.            
+[36mINFO[0m[2026-08-02T23:07:18+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T23:07:18+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T23:07:28+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T23:07:28+02:00] Updating player ID to .                      
+[36mINFO[0m[2026-08-02T23:07:28+02:00] Updating player to .                         
+[36mINFO[0m[2026-08-02T23:07:31+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-02T23:07:31+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-02T23:07:31+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-02T23:08:34+02:00] Sending 50 live market sell orders to ingest (Identifier: ec3262e0-8a13-40e4-6ae0-a64b03a741a0) 
+[36mINFO[0m[2026-08-02T23:08:37+02:00] Sending 50 live market sell orders to ingest (Identifier: 10d44585-c62b-464e-4b6d-a15e722ca3a4) 
+[36mINFO[0m[2026-08-02T23:08:37+02:00] Sending 50 live market sell orders to ingest (Identifier: 80ba4fff-8c15-461c-4a0a-8ab78ac9f2d4) 
+[36mINFO[0m[2026-08-02T23:08:38+02:00] Sending 50 live market sell orders to ingest (Identifier: b2a67bfd-50f8-4927-5654-84e4af69c032) 
+[36mINFO[0m[2026-08-02T23:08:39+02:00] Sending 11 live market sell orders to ingest (Identifier: b0e8b0bc-b550-425e-5c4c-1d9aad5ac96d) 
+[36mINFO[0m[2026-08-02T23:08:44+02:00] Sending 50 live market sell orders to ingest (Identifier: d9691bff-f5c8-4f10-6b45-3fe2c5153c1c) 
+[36mINFO[0m[2026-08-02T23:08:46+02:00] Sending 50 live market sell orders to ingest (Identifier: d5ddb6cb-cc58-4932-50f8-39d027bbd369) 
+[36mINFO[0m[2026-08-02T23:08:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 5dcae482-79b6-4d78-7ce2-b36558c2ece8) 
+[36mINFO[0m[2026-08-02T23:08:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 832aff08-48b3-4963-75c9-72aee8a39501) 
+[36mINFO[0m[2026-08-02T23:08:48+02:00] Sending 50 live market sell orders to ingest (Identifier: 281f2616-89a8-411a-66ac-af69f8bdd187) 
+[36mINFO[0m[2026-08-02T23:08:48+02:00] Sending 50 live market sell orders to ingest (Identifier: 6d41c452-ef80-4077-6f27-f2c57506cc03) 
+[36mINFO[0m[2026-08-02T23:08:49+02:00] Sending 50 live market sell orders to ingest (Identifier: 5c4c43ee-4a84-442a-7815-99d20a506191) 
+[36mINFO[0m[2026-08-02T23:08:49+02:00] Sending 50 live market sell orders to ingest (Identifier: 685fa332-d109-4a7d-43ef-f20a6bd29a12) 
+[36mINFO[0m[2026-08-02T23:08:50+02:00] Sending 50 live market sell orders to ingest (Identifier: 7a0c3acb-be7b-471f-5513-baf2bf6686e5) 
+[36mINFO[0m[2026-08-02T23:08:50+02:00] Sending 50 live market sell orders to ingest (Identifier: e97902b4-50cc-4b01-531f-22c83c0b626d) 
+[36mINFO[0m[2026-08-02T23:08:51+02:00] Sending 43 live market sell orders to ingest (Identifier: 2e3f261d-d769-417b-48e6-dcf677880fcc) 
+[36mINFO[0m[2026-08-02T23:08:58+02:00] Sending 50 live market sell orders to ingest (Identifier: 4dba0086-3cd6-4a5d-4749-97e70cf20591) 
+[36mINFO[0m[2026-08-02T23:08:59+02:00] Sending 50 live market sell orders to ingest (Identifier: bd46ab25-7523-4dc4-4e7c-a188b635e9f6) 
+[36mINFO[0m[2026-08-02T23:09:00+02:00] Sending 50 live market sell orders to ingest (Identifier: b479078a-59b7-4d3c-744b-04a58c4bab99) 
+[36mINFO[0m[2026-08-02T23:09:03+02:00] Sending 50 live market sell orders to ingest (Identifier: 170f5fba-5025-4517-7be8-1306bd25cd22) 
+[36mINFO[0m[2026-08-02T23:09:04+02:00] Sending 50 live market sell orders to ingest (Identifier: 47a601c1-90b6-47ee-4121-26c00bb116a4) 
+[36mINFO[0m[2026-08-02T23:09:05+02:00] Sending 50 live market sell orders to ingest (Identifier: 4af44df4-501c-4625-79eb-80a79366342c) 
+[36mINFO[0m[2026-08-02T23:09:06+02:00] Sending 50 live market sell orders to ingest (Identifier: ca376ea0-8561-42a4-72c3-9f39a19fc726) 
+[36mINFO[0m[2026-08-02T23:09:06+02:00] Sending 47 live market sell orders to ingest (Identifier: 802004b2-2072-4585-7fb8-41871e501bce) 
+[36mINFO[0m[2026-08-02T23:09:15+02:00] Sending 50 live market sell orders to ingest (Identifier: 22082db8-02b4-4a66-5108-db555106f06f) 
+[36mINFO[0m[2026-08-02T23:09:15+02:00] Sending 50 live market sell orders to ingest (Identifier: 04329689-4a1b-407f-7ba9-3335c4825ef6) 
+[36mINFO[0m[2026-08-02T23:09:16+02:00] Sending 50 live market sell orders to ingest (Identifier: 5b768bfa-af84-4bf0-47b1-34c86591618b) 
+[36mINFO[0m[2026-08-02T23:09:17+02:00] Sending 50 live market sell orders to ingest (Identifier: 0f2eef6e-d262-4026-52a3-8db7d433aba1) 
+[36mINFO[0m[2026-08-02T23:09:17+02:00] Sending 50 live market sell orders to ingest (Identifier: 50171eca-0368-4298-58b7-72df7ff54604) 
+[36mINFO[0m[2026-08-02T23:09:18+02:00] Sending 34 live market sell orders to ingest (Identifier: 8a39eb6a-a6a9-4a0e-45fa-6235e63603c1) 
+[36mINFO[0m[2026-08-03T16:41:09+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-03T16:41:09+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-03T16:41:09+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-03T16:41:09+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-03T16:41:16+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-03T16:41:20+02:00] Updating player location to 4301.            
+[36mINFO[0m[2026-08-03T16:41:20+02:00] Updating player ID to 75a2bc9a-32f1-4bb1-830f-94de2de1d95b. 
+[36mINFO[0m[2026-08-03T16:41:20+02:00] Updating player to AndyTheFox.               
+[36mINFO[0m[2026-08-03T16:42:32+02:00] Sending 50 live market sell orders to ingest (Identifier: af454d65-8a0d-439d-7a81-adf1ac57b8fd) 
+[36mINFO[0m[2026-08-03T16:42:34+02:00] Sending 50 live market sell orders to ingest (Identifier: 8563dcbb-b4b1-415a-7805-e1829f2419dc) 
+[36mINFO[0m[2026-08-03T16:42:35+02:00] Sending 50 live market sell orders to ingest (Identifier: 5cf4c6fb-c22f-4ba5-4a36-0a99153d63b3) 
+[36mINFO[0m[2026-08-03T16:42:36+02:00] Sending 50 live market sell orders to ingest (Identifier: d49c6472-edf4-4524-7b25-b6713bfa40ff) 
+[36mINFO[0m[2026-08-03T16:42:36+02:00] Sending 50 live market sell orders to ingest (Identifier: 43898556-ed87-4b4e-54c2-b28b871bf7a5) 
+[36mINFO[0m[2026-08-03T16:42:37+02:00] Sending 50 live market sell orders to ingest (Identifier: 2ee213bd-2ec7-4d8b-45c2-fc427ae9c493) 
+[36mINFO[0m[2026-08-03T16:42:37+02:00] Sending 50 live market sell orders to ingest (Identifier: 21042143-9cbe-4900-6a10-2afe551d22a3) 
+[36mINFO[0m[2026-08-03T16:42:38+02:00] Sending 50 live market sell orders to ingest (Identifier: 1fbcead4-af01-42f9-4c3c-90bf84a624c0) 
+[36mINFO[0m[2026-08-03T16:42:38+02:00] Sending 50 live market sell orders to ingest (Identifier: ba920b1b-8e18-486d-717a-a89cbce79cbc) 
+[36mINFO[0m[2026-08-03T16:42:39+02:00] Sending 50 live market sell orders to ingest (Identifier: f4824166-8ccd-495a-447a-bac5d6078f06) 
+[36mINFO[0m[2026-08-03T16:42:39+02:00] Sending 50 live market sell orders to ingest (Identifier: 655d2eef-fad8-45eb-491c-1f3997eec488) 
+[36mINFO[0m[2026-08-03T16:42:40+02:00] Sending 50 live market sell orders to ingest (Identifier: 3ac9bfdb-83bc-4a43-443e-6c68bfea0ab9) 
+[36mINFO[0m[2026-08-03T16:42:40+02:00] Sending 50 live market sell orders to ingest (Identifier: 67fa925c-a92e-4088-496e-1b41f6225fea) 
+[36mINFO[0m[2026-08-03T16:42:41+02:00] Sending 50 live market sell orders to ingest (Identifier: 3aaa8829-70f7-440c-5877-4e65113d35b3) 
+[36mINFO[0m[2026-08-03T16:42:41+02:00] Sending 50 live market sell orders to ingest (Identifier: 647cff0e-8c7d-41a3-50d2-6ae394952def) 
+[36mINFO[0m[2026-08-03T16:42:42+02:00] Sending 50 live market sell orders to ingest (Identifier: 360d5301-67c0-4829-5fac-a606c17fb01b) 
+[36mINFO[0m[2026-08-03T16:42:42+02:00] Sending 50 live market sell orders to ingest (Identifier: 214d8e42-f5f8-4213-4167-81b1d7fc068b) 
+[36mINFO[0m[2026-08-03T16:42:44+02:00] Sending 50 live market sell orders to ingest (Identifier: 21aec0d3-7853-4dee-6ef2-dc08e84c9165) 
+[36mINFO[0m[2026-08-03T16:42:44+02:00] Sending 50 live market sell orders to ingest (Identifier: caf95ce1-4185-468e-6906-bf5e02edcf79) 
+[36mINFO[0m[2026-08-03T16:42:45+02:00] Sending 11 live market sell orders to ingest (Identifier: 12e13fef-ee74-4be5-63ad-68de49762e0a) 
+[36mINFO[0m[2026-08-03T16:42:53+02:00] Sending 50 live market sell orders to ingest (Identifier: 6290c386-4070-4d6d-5a90-9a59fa0107d1) 
+[36mINFO[0m[2026-08-03T16:42:53+02:00] Sending 50 live market sell orders to ingest (Identifier: 1dda9860-0984-4b7f-7a63-9c132587a48d) 
+[36mINFO[0m[2026-08-03T16:42:54+02:00] Sending 50 live market sell orders to ingest (Identifier: 80d1156c-f361-44dc-6b04-e2ab06409381) 
+[36mINFO[0m[2026-08-03T16:42:54+02:00] Sending 50 live market sell orders to ingest (Identifier: e57ff7db-3330-4283-5e9d-3702c94966b6) 
+[36mINFO[0m[2026-08-03T16:42:55+02:00] Sending 50 live market sell orders to ingest (Identifier: 4e115a6e-43d0-4c4d-6b63-367c749be1ed) 
+[36mINFO[0m[2026-08-03T16:42:55+02:00] Sending 50 live market sell orders to ingest (Identifier: c23a165b-86e3-4163-6ba7-51c378e48c1b) 
+[36mINFO[0m[2026-08-03T16:42:56+02:00] Sending 50 live market sell orders to ingest (Identifier: d4c3871f-1620-4c56-64ea-c8e9e63c5cf0) 
+[36mINFO[0m[2026-08-03T16:42:57+02:00] Sending 50 live market sell orders to ingest (Identifier: 67016344-1c6c-4b7b-4ba9-7e79b25f6ef2) 
+[36mINFO[0m[2026-08-03T16:42:57+02:00] Sending 50 live market sell orders to ingest (Identifier: 8b78c4f5-793e-46df-5929-ce8af9486431) 
+[36mINFO[0m[2026-08-03T16:42:58+02:00] Sending 50 live market sell orders to ingest (Identifier: b9a13196-9e58-4159-6aa5-186e71b55ada) 
+[36mINFO[0m[2026-08-03T16:42:58+02:00] Sending 50 live market sell orders to ingest (Identifier: 60db5a6e-3dd3-43b4-523d-f7c74a7310a0) 
+[36mINFO[0m[2026-08-03T16:42:59+02:00] Sending 50 live market sell orders to ingest (Identifier: e8475edc-e1a5-46fa-6406-f73672b7d022) 
+[36mINFO[0m[2026-08-03T16:42:59+02:00] Sending 50 live market sell orders to ingest (Identifier: a3dd03b3-80c2-4a48-44d7-2973a08bb954) 
+[36mINFO[0m[2026-08-03T16:43:00+02:00] Sending 50 live market sell orders to ingest (Identifier: fdff67fc-c683-4256-4bb9-8da8492288a6) 
+[36mINFO[0m[2026-08-03T16:43:00+02:00] Sending 50 live market sell orders to ingest (Identifier: a80e91c3-f0f4-4591-5114-1e68c984b4af) 
+[36mINFO[0m[2026-08-03T16:43:01+02:00] Sending 50 live market sell orders to ingest (Identifier: cef26a0c-e55d-4dad-47e1-bb8308a91d1d) 
+[36mINFO[0m[2026-08-03T16:43:01+02:00] Sending 50 live market sell orders to ingest (Identifier: b8585617-3ef3-407c-5e64-0edbe47352d0) 
+[36mINFO[0m[2026-08-03T16:43:02+02:00] Sending 50 live market sell orders to ingest (Identifier: fcfae197-0522-4449-6b6e-d09d5d97f592) 
+[36mINFO[0m[2026-08-03T16:43:03+02:00] Sending 50 live market sell orders to ingest (Identifier: 2a9c6627-fd62-4d05-58b6-0dcd912bf454) 
+[36mINFO[0m[2026-08-03T16:43:03+02:00] Sending 29 live market sell orders to ingest (Identifier: 937c0b01-6677-4979-6413-9ffeda95b5d7) 
+[36mINFO[0m[2026-08-03T16:43:45+02:00] Sending 50 live market sell orders to ingest (Identifier: fb569d1e-6245-4940-4992-029dd9833e8d) 
+[36mINFO[0m[2026-08-03T16:43:46+02:00] Sending 50 live market sell orders to ingest (Identifier: e53b5bf7-f0af-4ca4-6033-1a8360a2d1b6) 
+[36mINFO[0m[2026-08-03T16:43:47+02:00] Sending 50 live market sell orders to ingest (Identifier: 834a0cde-7083-4f84-6cdb-374a2773f4c4) 
+[36mINFO[0m[2026-08-03T16:43:49+02:00] Sending 50 live market sell orders to ingest (Identifier: f10f654c-cbe1-4c17-7579-d6286ba7a2f1) 
+[36mINFO[0m[2026-08-03T16:43:51+02:00] Sending 50 live market sell orders to ingest (Identifier: ccbcf3aa-da92-4dc3-51d3-b27e6ac17aac) 
+[36mINFO[0m[2026-08-03T16:43:51+02:00] Sending 50 live market sell orders to ingest (Identifier: a24f9a6e-bcc0-486c-6057-f3198c04a4b3) 
+[36mINFO[0m[2026-08-03T16:43:52+02:00] Sending 50 live market sell orders to ingest (Identifier: d553f74a-8e9d-4bcb-59c7-be836ddec6e5) 
+[36mINFO[0m[2026-08-03T16:43:52+02:00] Sending 50 live market sell orders to ingest (Identifier: 298711cc-6ef7-450a-5d5b-d2e21020d3c5) 
+[36mINFO[0m[2026-08-03T16:43:53+02:00] Sending 50 live market sell orders to ingest (Identifier: c8547ab4-4a66-4ae0-490d-640a05203d31) 
+[36mINFO[0m[2026-08-03T16:43:54+02:00] Sending 1 market history item average stats to ingest for albionID 8357 (Identifier: 2a1a2f4f-9429-4797-7071-739849946b75) 
+[36mINFO[0m[2026-08-03T16:43:54+02:00] Sending 11 live market sell orders to ingest (Identifier: b6fa70f4-5052-4109-52cc-c6930bb495d6) 
+[36mINFO[0m[2026-08-03T16:43:54+02:00] Sending 50 live market sell orders to ingest (Identifier: e64501c5-d056-4848-4685-bdadf3a4b50d) 
+[36mINFO[0m[2026-08-03T16:43:56+02:00] Sending 10 market history item average stats to ingest for albionID 8357 (Identifier: 31599330-bdab-4577-4d6d-11305ee9e3df) 
+[36mINFO[0m[2026-08-03T16:43:56+02:00] Sending 53 market history item average stats to ingest for albionID 8357 (Identifier: 5fbd4a45-d540-473e-7896-99a11aa20554) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 81 market history item average stats to ingest for albionID 8356 (Identifier: 09a9b274-08b1-485d-5651-0bb4e64318e5) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 1 live market sell orders to ingest (Identifier: f5a08398-0629-42b5-5f8e-4cc8d3768b82) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 5 live market sell orders to ingest (Identifier: 9ee535bd-000d-49a1-7d8c-f3405a4e7878) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 48 live market sell orders to ingest (Identifier: ebc46a82-d178-4e90-6d05-d6737dc965d0) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 7 live market sell orders to ingest (Identifier: a70f46f1-20e8-4f56-5d18-a56e71474333) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 87 market history item average stats to ingest for albionID 8356 (Identifier: f0596ef8-53c5-4f95-7e96-bc3152eccb12) 
+[36mINFO[0m[2026-08-03T16:44:00+02:00] Sending 42 live market sell orders to ingest (Identifier: 4c4a77cb-3643-400c-6349-9ec3be53a370) 
+[36mINFO[0m[2026-08-03T16:44:02+02:00] Sending 21 market history item average stats to ingest for albionID 8356 (Identifier: 850e991a-596b-4d88-62a4-4dc2bfc8699a) 
+[36mINFO[0m[2026-08-03T16:44:03+02:00] Sending 7 market history item average stats to ingest for albionID 8356 (Identifier: 9593d3f2-7ad1-4771-6e02-2c2b8395c199) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 1 market history item average stats to ingest for albionID 8358 (Identifier: d0491594-c62f-4215-674f-a72c84e40324) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 1 live market sell orders to ingest (Identifier: eec047ac-f369-40e7-5c38-6ae038b33aa5) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 9 live market sell orders to ingest (Identifier: 7f3aed98-ce3c-4f02-59b2-59048c94b862) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 49 live market sell orders to ingest (Identifier: 32278824-eb6d-44d7-6984-48568d776455) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 9 live market sell orders to ingest (Identifier: f4f1c65c-e170-45d6-7c1b-8ebea14f4a5e) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 49 live market sell orders to ingest (Identifier: 08640eec-af0c-484b-50b1-42e95ebf2b86) 
+[36mINFO[0m[2026-08-03T16:44:08+02:00] Sending 1 market history item average stats to ingest for albionID 8358 (Identifier: 43743d0b-69ce-4904-56c6-86cb887116e0) 
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Sending 1 live market sell orders to ingest (Identifier: 50f06026-84df-494d-553e-34ae43f34709) 
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Sending 4 live market sell orders to ingest (Identifier: fe6cfb8d-4324-45e1-4daf-5027dd8bce17) 
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Sending 50 live market sell orders to ingest (Identifier: f8abffd1-51a3-45de-5643-b6ad5ccc252d) 
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Sending 3 market history item average stats to ingest for albionID 8359 (Identifier: c911a745-0f91-4231-4b3a-a6bff57b3abc) 
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Sending 9 live market sell orders to ingest (Identifier: 01bdc15d-5862-455c-5318-56e30faebbba) 
+[36mINFO[0m[2026-08-03T16:44:09+02:00] Sending 47 live market sell orders to ingest (Identifier: a9c67f42-df17-457d-5965-0fa4ff6b5e8b) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 1 market history item average stats to ingest for albionID 8364 (Identifier: d172052f-23f9-44a6-7632-4ee0b8b5161d) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 2 live market sell orders to ingest (Identifier: 8289ab48-6f78-40ef-7248-8618b8ba1680) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 1 live market sell orders to ingest (Identifier: ea0c1ac5-f801-46a2-6c38-8d9381a8c47b) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 15 live market sell orders to ingest (Identifier: c726ef27-a4bb-48fe-5dff-3bdfd337086b) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 2 live market sell orders to ingest (Identifier: 32436362-f82d-4420-442a-4ecc2de2f0b3) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 15 live market sell orders to ingest (Identifier: 6e1f4371-cca6-4002-5e84-721b28563ffa) 
+[36mINFO[0m[2026-08-03T16:44:10+02:00] Sending 1 market history item average stats to ingest for albionID 8364 (Identifier: 7c2ff9c8-96af-4e05-5507-c982c9a904c3) 
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Sending 1 live market sell orders to ingest (Identifier: a6492291-99c8-485d-6495-7d42b44bfb61) 
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Sending 2 live market sell orders to ingest (Identifier: e084e76f-6af1-4c04-5caa-d85fc055c127) 
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Sending 17 live market sell orders to ingest (Identifier: 1185c90b-f6d7-4003-5230-baa724220750) 
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Sending 2 live market sell orders to ingest (Identifier: aa2c57e1-1f04-41b7-4579-21eccffa0f4e) 
+[36mINFO[0m[2026-08-03T16:44:11+02:00] Sending 17 live market sell orders to ingest (Identifier: 74fa74e0-aa34-4705-6e96-ea6314073114) 
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Sending 1 live market sell orders to ingest (Identifier: e4b92fc8-0fde-41ed-7cf7-b06b36116022) 
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Sending 6 live market sell orders to ingest (Identifier: 5a950906-6721-4b2e-50d7-d2fe186be2ca) 
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Sending 18 live market sell orders to ingest (Identifier: e4da1891-f2b3-45dd-5e65-6f5d2eabe6ba) 
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Sending 6 live market sell orders to ingest (Identifier: 7b4f575a-45e1-440c-6021-64a36b30e3e0) 
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Sending 18 live market sell orders to ingest (Identifier: 9ea4684f-d2f8-4e0a-4224-66f3eb0406a1) 
+[36mINFO[0m[2026-08-03T16:44:16+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Sending 1 live market sell orders to ingest (Identifier: 7ef85cf5-35fa-41b2-63fc-1d29be0f0158) 
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Sending 6 live market sell orders to ingest (Identifier: 1c3b9f14-163d-47ef-7f60-d6e4d1cd89b2) 
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Sending 18 live market sell orders to ingest (Identifier: 1e766eba-66e7-4fd1-5bca-fb5d3b7b7e5a) 
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Sending 6 live market sell orders to ingest (Identifier: 66ecb326-d7bf-43e4-57c7-e60fdfb4e13d) 
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Sending 18 live market sell orders to ingest (Identifier: 52338863-956e-4300-6e05-f9a0799eedf2) 
+[36mINFO[0m[2026-08-03T16:44:17+02:00] Auction Stats Response - no history
+         
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 1 market history item average stats to ingest for albionID 8362 (Identifier: c7c97b75-616c-4a51-5dff-72976eee4432) 
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 1 live market sell orders to ingest (Identifier: f87783c6-84d3-41ce-4ea5-b83b49a94bba) 
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 8 live market sell orders to ingest (Identifier: 84142753-1949-4d6e-7e8d-c95b3cf2a874) 
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 50 live market sell orders to ingest (Identifier: ae0fddfc-f43d-4102-4be4-396bf9d88ab2) 
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 2 market history item average stats to ingest for albionID 8362 (Identifier: 2ba30c87-2ab3-4870-652f-90c1292a2258) 
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 10 live market sell orders to ingest (Identifier: c1463d9d-929d-41a4-78ff-50f8e00b1a20) 
+[36mINFO[0m[2026-08-03T16:44:21+02:00] Sending 50 live market sell orders to ingest (Identifier: c2fd0e75-ecae-440f-692b-4ea0c5644260) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 10 live market sell orders to ingest (Identifier: e0e16ea8-591f-461c-59fb-228e3764732d) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 50 live market sell orders to ingest (Identifier: 47ef04d4-f27f-45a9-5134-36a541357800) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 2 market history item average stats to ingest for albionID 8362 (Identifier: 8551be90-411e-4b28-631b-9b6734e8685b) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 1 live market sell orders to ingest (Identifier: bb041490-06a4-4e03-5fb1-f1cce5c035d5) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 10 live market sell orders to ingest (Identifier: b3827d7c-0b91-4bf8-7eb3-e73af551956a) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 50 live market sell orders to ingest (Identifier: ec6aab42-f3f5-4e18-7aac-710797bcb510) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 2 market history item average stats to ingest for albionID 8362 (Identifier: 4e1dc245-8f5e-47c5-6b84-0f8abea06d98) 
+[36mINFO[0m[2026-08-03T16:44:23+02:00] Sending 6 market history item average stats to ingest for albionID 8362 (Identifier: b3af7c3e-dd5d-49e2-7c54-e94c38b2226d) 
+[36mINFO[0m[2026-08-03T16:44:24+02:00] Sending 33 market history item average stats to ingest for albionID 8362 (Identifier: 94a281d3-abd2-4322-781f-e9c7ee4734b7) 
+[36mINFO[0m[2026-08-03T16:44:24+02:00] Sending 2 market history item average stats to ingest for albionID 8362 (Identifier: 0b8276e5-e788-4544-4cea-35243d1d61cc) 
+[36mINFO[0m[2026-08-03T16:44:55+02:00] Sending 50 live market sell orders to ingest (Identifier: 06a2e414-583e-4e8b-5823-c57b0b141786) 
+[36mINFO[0m[2026-08-03T16:44:55+02:00] Sending 50 live market sell orders to ingest (Identifier: 7e41e824-b8f5-4fef-52b7-b66340c15315) 
+[36mINFO[0m[2026-08-03T16:44:56+02:00] Sending 50 live market sell orders to ingest (Identifier: 0644a0ed-ae23-4fbc-5c5c-4688b88c0597) 
+[36mINFO[0m[2026-08-03T16:45:08+02:00] Sending 50 live market sell orders to ingest (Identifier: 42476235-cf36-4a2d-67c0-5d189079f90f) 
+[36mINFO[0m[2026-08-03T16:45:09+02:00] Sending 50 live market sell orders to ingest (Identifier: bbc48ad8-ed54-4805-6b04-c072f869ea1f) 
+[36mINFO[0m[2026-08-03T16:45:10+02:00] Sending 50 live market sell orders to ingest (Identifier: 1b32a425-8a3b-4a89-4eca-1b7c4dae8be5) 
+[36mINFO[0m[2026-08-03T16:45:10+02:00] Sending 22 market history item average stats to ingest for albionID 8276 (Identifier: 7a895853-7e27-456b-76a2-7eae69319f86) 
+[36mINFO[0m[2026-08-03T16:45:10+02:00] Sending 11 live market sell orders to ingest (Identifier: 2f625e3f-1071-40dd-4b36-b834b5094f79) 
+[36mINFO[0m[2026-08-03T16:45:10+02:00] Sending 50 live market sell orders to ingest (Identifier: a4c1b3bc-a3b0-43de-548e-702ab4876bd0) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 18 market history item average stats to ingest for albionID 8277 (Identifier: cfde41df-637a-4cd1-6f68-e8a2992cef40) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 1 live market sell orders to ingest (Identifier: a5936326-0ca8-4448-4148-0984a9886cc6) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 18 live market sell orders to ingest (Identifier: 9a26598c-c3d0-4f5b-61ab-c1efa69c9182) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 50 live market sell orders to ingest (Identifier: cc442c61-429a-4e5b-4cee-5df20c3f40a6) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 22 market history item average stats to ingest for albionID 8277 (Identifier: 0608c2dc-4169-41ca-6f75-ad025b19d1c3) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 34 live market sell orders to ingest (Identifier: 44e64849-1a4d-4ea9-7f9b-122be13c69ab) 
+[36mINFO[0m[2026-08-03T16:45:12+02:00] Sending 50 live market sell orders to ingest (Identifier: 1aa99fdc-d9ab-4e92-5c5b-3cf3dd2170fb) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 20 market history item average stats to ingest for albionID 8278 (Identifier: c11c7e4e-04c1-4290-6580-f4ce10db1953) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 1 live market sell orders to ingest (Identifier: fc25eeb5-34c6-4d5b-6b8c-9f9e7a6b26e0) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 21 live market sell orders to ingest (Identifier: 7db5bad3-26ea-4474-43ab-3a4c5bf9168e) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 50 live market sell orders to ingest (Identifier: db162b83-a8b4-4780-6225-30fd8af620bc) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 21 live market sell orders to ingest (Identifier: 14983d98-46b5-4851-42d9-9726e120b56c) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 50 live market sell orders to ingest (Identifier: 30a90491-aeab-4165-4ac5-f53cfe62c85b) 
+[36mINFO[0m[2026-08-03T16:45:14+02:00] Sending 20 market history item average stats to ingest for albionID 8278 (Identifier: 7993c3ba-add4-43a1-7e39-5a1982a4d32b) 
+[36mINFO[0m[2026-08-04T19:22:10+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-04T19:22:10+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-04T19:22:10+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-04T19:22:10+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-04T19:27:55+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-04T19:27:55+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-04T19:27:55+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-04T19:27:55+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-04T19:40:09+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-04T19:40:09+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-04T19:40:09+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-04T19:40:09+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-04T20:15:46+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-04T20:15:46+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-04T20:15:46+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-04T20:15:46+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-04T20:16:09+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-04T20:16:09+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-04T20:16:09+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-04T20:16:09+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-05T23:29:02+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-05T23:29:02+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-05T23:29:02+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-05T23:29:02+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-06T00:13:12+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-06T00:13:12+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-06T00:13:12+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-06T00:13:12+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-10T20:35:03+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-10T20:35:03+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-10T20:35:03+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-10T20:35:03+02:00] Watching Albion                              
+[36mINFO[0m[2026-08-10T20:36:56+02:00] Starting Albion Data Client, version: dev-local 
+[36mINFO[0m[2026-08-10T20:36:56+02:00] This is a third-party application and is in no way affiliated with Sandbox Interactive or Albion Online. 
+[36mINFO[0m[2026-08-10T20:36:56+02:00] Additional parameters can listed by calling this file with the -h parameter. 
+[36mINFO[0m[2026-08-10T20:36:56+02:00] Watching Albion                              
